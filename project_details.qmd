@@ -1,0 +1,1077 @@
+---
+title: "Projects"
+format: html
+editor: visual
+execute:
+  echo: false
+  warning: false
+---
+
+**Crash Clarity: Data-Driven Insights for Enhancing UK Road Safety using statistical models\
+\
+**![](images/road image.jpg)
+
+**ABSTRACT**
+
+Road accidents and safety remain critical public health concerns worldwide, with significant societal, economic, and emotional impacts. In the United Kingdom, the government provides comprehensive data on road accidents through its Road Accident and Safety Statistics guidance. This academic project leverages these statistics to analyze and interpret the trends, patterns, and contributing factors associated with road accidents in the UK.
+
+The study explores key variables such as accident severity, weather and road conditions, time of day, and demographic factors, providing actionable insights into the circumstances under which accidents are most likely to occur. Utilizing advanced data visualization techniques, including interactive heatmaps and histograms, the project presents complex information in a clear and engaging manner to enhance understanding and foster data-driven decision-making.
+
+The findings emphasize the critical role of environmental and behavioral factors in road safety and aim to support policymakers, researchers, and road users in designing effective interventions to reduce accidents and improve safety measures. This project underscores the importance of leveraging statistical data to promote evidence-based strategies for safer transportation systems.
+
+```{r, echo=FALSE}
+# Load required libraries
+
+suppressWarnings({
+ library(tidyverse)
+library(ggplot2)
+library(plotly)  
+library(maps)
+library(leaflet)
+library(readr)
+
+library(plotly)
+library(dplyr)
+library(viridis) 
+library(rnaturalearth)  # For loading world map data
+
+
+})
+
+```
+
+```{r, echo=FALSE}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(plotly)
+
+# Load the data
+road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Data Cleaning Steps
+# 1. Remove rows with missing or NA values in important columns
+road_casualities <- road_casualities %>%
+  filter(!is.na(accident_severity), 
+         !is.na(weather_conditions), 
+         !is.na(road_surface_conditions))
+
+# 2. Ensure the accident_severity column has valid values (1, 2, 3)
+road_casualities <- road_casualities %>%
+  filter(accident_severity %in% c(1, 2, 3))
+
+# 3. Convert necessary columns to factors
+road_casualities$accident_severity <- factor(road_casualities$accident_severity, 
+                                 levels = c(1, 2, 3),
+                                 labels = c("Life-Threatening", "Significant", "Mild"))
+road_casualities$weather_conditions <- as.factor(road_casualities$weather_conditions)
+road_casualities$road_surface_conditions <- as.factor(road_casualities$road_surface_conditions)
+road_casualities$urban_or_rural_area <- as.factor(road_casualities$urban_or_rural_area)
+
+# 4. Remove duplicates if any
+road_casualities <- road_casualities %>% distinct()
+```
+
+**Visualizing Accident Severity Distribution**
+
+This interactive histogram presents a comprehensive analysis of road accident severity levels categorized as *Life-Threatening,* *Significant*, and *Mild.* Each category is visually distinguished using a specific color palette, with red denoting *Life-Threatening* accidents, orange representing *Significant* accidents, and green for *Mild* cases. The visualization provides an intuitive understanding of the frequency distribution of these severity levels, enabling researchers and policymakers to identify patterns and focus on mitigating the most critical accident types. The interactivity of the graph allows for an in-depth examination of accident counts, enhancing data-driven decision-making and supporting evidence-based road safety interventions.
+
+```{r, echo=FALSE}
+
+
+# Visualization with Cleaned Data
+# Assign updated custom colors for each severity level
+severity_colors <- c("Life-Threatening" = "red", 
+                     "Significant" = "darkorange", 
+                     "Mild" = "darkgreen")
+
+# Create an Interactive Histogram with Updated Colors
+histogram <- ggplot(road_casualities, aes(x = accident_severity, fill = accident_severity)) +
+  geom_bar(alpha = 0.7, color = "black") +
+  scale_fill_manual(values = severity_colors) +
+  labs(title = "Distribution of Accident Severity",
+       x = "Accident Severity",
+       y = "Count") 
+
+# Convert to interactive using plotly
+interactive_histogram <- ggplotly(histogram, tooltip = c("count", "x"))
+
+# Display the interactive histogram
+interactive_histogram
+```
+
+**Temporal Analysis of Road Accidents by Time Bands**
+
+This interactive visualization categorizes road accidents into five time bands: "Night (Midnight to 5 AM)," "Morning Rush Hour," "Daytime," "Evening Rush Hour," and "Night (8 PM to 11 PM)" using STATS20 guidance. The bar plot highlights accident frequencies with a gradient color scheme, showing the highest occurrences during "Daytime" and "Evening Rush Hour".
+
+These insights help identify high-risk periods, enabling policymakers and researchers to develop targeted road safety strategies. The interactive design allows for detailed exploration of accident patterns.
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(plotly)
+
+# Load dataset
+road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Convert time column to a usable format (assuming time is in 24-hour format)
+road_casualities$time_of_day <- as.numeric(substr(road_casualities$time, 1, 2))
+
+# Define time bands based on STATS20 guidance
+road_casualities$time_band <- cut(
+  road_casualities$time_of_day,
+  breaks = c(-1, 5, 9, 15, 19, 23),
+  labels = c("Night (Midnight to 5 AM)", 
+             "Morning Rush Hour", 
+             "Daytime", 
+             "Evening Rush Hour", 
+             "Night (8 PM to 11 PM)")
+)
+
+# Aggregate the data by time bands
+time_band_summary <- road_casualities %>%
+  group_by(time_band) %>%
+  summarise(total_accidents = n()) %>%
+  arrange(desc(total_accidents))
+
+# Create a ggplot object with gradient colors
+time_band_plot <- ggplot(time_band_summary, aes(x = time_band, y = total_accidents, fill = total_accidents)) +
+  geom_bar(stat = "identity", color = "black", alpha = 0.8) +
+  labs(
+    title = "Accidents by Time Bands ",
+    x = "Time Band",
+    y = "Number of Accidents"
+  ) +
+  scale_fill_gradient(low = "pink", high = "red", name = "Total Accidents") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Convert the plot to interactive using plotly
+interactive_time_band_plot <- ggplotly(time_band_plot, tooltip = c("x", "y"))
+
+# Display the interactive plot
+interactive_time_band_plot
+```
+
+**Accidents by Weather and Light Conditions**
+
+This interactive heatmap analyzes the influence of weather and light conditions on road accidents, highlighting combinations like "Fine without high winds" and "Daylight" with the highest frequencies. A gradient color scale emphasizes accident intensity, with data labels providing exact counts. The visualization aids in identifying high-risk conditions to inform targeted safety measures.
+
+**Impact of Weather Conditions on Road Accidents**
+
+This interactive bar plot presents the distribution of road accidents under various weather conditions, highlighting categories such as *Fine without high winds* *Raining without high winds,* and *Fog or mist.* The gradient color scale, ranging from light pink to deep red, emphasizes the frequency of accidents, with higher counts visually more prominent. Tooltips provide precise accident counts for each weather condition, enhancing the interpret ability of the data.
+
+The visualization reveals that the majority of accidents occur under *Fine without high winds,* suggesting that favorable weather does not necessarily mitigate risk. Such insights are critical for policymakers and researchers to understand environmental influences on road safety and to develop targeted prevention strategies.
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+# Load the dataset
+road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Define weather condition mapping
+weather_conditions_map <- c(
+  "1" = "Fine without high winds",
+  "2" = "Raining without high winds",
+  "3" = "Snowing without high winds",
+  "4" = "Fine with high winds",
+  "5" = "Raining with high winds",
+  "6" = "Snowing with high winds",
+  "7" = "Fog or mist",
+  "8" = "Other",
+  "9" = "Unknown"
+)
+
+# Map weather conditions
+road_casualities$weather_conditions_desc <- as.factor(weather_conditions_map[as.character(road_casualities$weather_conditions)])
+
+# Summarize the data to get accident counts by weather condition
+weather_summary <- road_casualities %>%
+  group_by(weather_conditions_desc) %>%
+  summarise(total_accidents = n(), .groups = "drop")
+
+# Add a clean label for the tooltip
+weather_summary$tooltip_label <- paste0(
+  "Weather: ", weather_summary$weather_conditions_desc, 
+  "<br>Total Accidents: ", weather_summary$total_accidents
+)
+
+# Create a bar plot with dynamic red shading
+weather_plot <- ggplot(weather_summary, aes(
+  x = reorder(weather_conditions_desc, -total_accidents), 
+  y = total_accidents, 
+  fill = total_accidents, 
+  text = tooltip_label  # Use clean tooltip labels
+)) +
+  geom_bar(stat = "identity", color = "black", alpha = 0.8) +
+  scale_fill_gradient(low = "#FFC1C1", high = "#8B0000", name = "Total Accidents") +
+  labs(
+    title = "Accidents by Weather Conditions",
+    x = "Weather Conditions",
+    y = "Number of Accidents"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8), # Rotate and reduce text size
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title.x = element_text(size = 10),
+    axis.title.y = element_text(size = 10)
+  )
+
+# Make it interactive and use the clean tooltip
+interactive_weather_plot <- ggplotly(weather_plot, tooltip = "text")
+interactive_weather_plot
+```
+
+**Accidents by Road Surface Conditions**
+
+This interactive bar plot examines the distribution of road accidents across various surface conditions based on STATS19 classifications, such as *Dry,* *Wet or damp,* and *Snow.* Each condition is color-coded for clarity, with tooltips providing detailed accident counts for enhanced interpretability.
+
+The analysis reveals that the majority of accidents occur on *Dry* surfaces, followed by *Wet or damp* conditions, while adverse surfaces like *Flood* and *Mud* show significantly lower frequencies. These findings emphasize the need to consider surface conditions when implementing road safety measures, particularly for common scenarios like wet or dry roads. The visualization supports data-driven strategies for reducing accidents under diverse environmental conditions.
+
+```{r, echo=FALSE}
+# Load the dataset
+road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(plotly)
+
+# Define STATS19 road surface condition mapping
+road_conditions_map <- c(
+  "1" = "Dry",
+  "2" = "Wet or damp",
+  "3" = "Snow",
+  "4" = "Frost or ice",
+  "5" = "Flood",
+  "6" = "Oil or diesel",
+  "7" = "Mud",
+  "8" = "Other",
+  "9" = "Unknown"
+)
+
+# Step 1: Filter valid road_surface_conditions values (1 to 9)
+road_casualities <- road_casualities %>%
+  filter(road_surface_conditions %in% c(1:9))
+
+# Step 2: Map road conditions to descriptions
+road_casualities$road_conditions_desc <- as.factor(
+  road_conditions_map[as.character(road_casualities$road_surface_conditions)]
+)
+
+
+
+# Step 3: Aggregate data by road surface condition
+road_summary <- road_casualities %>%
+  group_by(road_conditions_desc) %>%
+  summarise(total_accidents = n()) %>%
+  arrange(desc(total_accidents))
+
+
+
+# Step 4: Create the bar plot
+road_plot <- ggplot(road_summary, aes(
+  x = reorder(road_conditions_desc, -total_accidents), 
+  y = total_accidents, 
+  fill = road_conditions_desc, 
+  text = paste0(road_conditions_desc, ": ", total_accidents, " accidents")
+)) +
+  geom_bar(stat = "identity", alpha = 0.8, color = "black") +
+  labs(
+    title = "Distribution of Accidents by Road Surface Conditions",
+    x = "Road Surface Conditions",
+    y = "Number of Accidents"
+  ) +
+  scale_fill_manual(values = c(
+    "Dry" = "red",
+    "Wet or damp" = "#73a2c6",
+    "Snow" = "#1b9e77",
+    "Frost or ice" = "#d95f02",
+    "Flood" = "#7570b3",
+    "Oil or diesel" = "#e7298a",
+    "Mud" = "#66a61e",
+    "Other" = "#e6ab02",
+    "Unknown" = "#a6761d"
+  )) 
+
+# Convert the plot to an interactive plot
+interactive_road_plot <- ggplotly(road_plot, tooltip = "text")
+
+# Display the interactive plot
+interactive_road_plot
+```
+
+### Random Forest Model to find What combination of factors most strongly predicts accident severity?
+
+A Random Forest model was developed to classify accident severity based on features such as weather conditions, road surface conditions, number of vehicles, and urban or rural location. The model, trained on 100 decision trees, achieved robust classification with reasonable AUC values across all severity levels, as visualized in the ROC curves for each class.
+
+The feature importance plot highlights "Weather Conditions" and "Road Surface Conditions" as the most significant predictors of accident severity, followed by "Number of Vehicles" and "Urban or Rural Area." These insights provide valuable guidance for prioritizing interventions and refining predictive models to improve road safety outcomes. The analysis underscores the importance of environmental and contextual factors in accident severity classification.
+
+```{r, echo=FALSE}
+# Load necessary libraries
+# Load necessary libraries
+library(randomForest)
+library(pROC)
+library(caret)
+
+# Read the dataset
+data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Select relevant features and target variable
+features <- c("weather_conditions", "number_of_vehicles", "road_surface_conditions", "urban_or_rural_area")
+target <- "accident_severity"
+
+# Filter data to include only relevant columns and remove rows with missing values
+data_cleaned <- na.omit(data[, c(features, target)])
+
+# Convert target variable to factor for classification
+data_cleaned$accident_severity <- as.factor(data_cleaned$accident_severity)
+
+# Split data into training and testing sets
+set.seed(42)
+train_index <- createDataPartition(data_cleaned$accident_severity, p = 0.8, list = FALSE)
+train_data <- data_cleaned[train_index, ]
+test_data <- data_cleaned[-train_index, ]
+
+# Train a Random Forest model
+rf_model <- randomForest(
+  accident_severity ~ .,
+  data = train_data,
+  ntree = 100,
+  importance = TRUE
+)
+
+
+# Predict probabilities on the test set
+rf_probabilities <- predict(rf_model, newdata = test_data, type = "prob")
+
+# Draw AUC Curve for each class using one-vs-all approach
+auc_values <- list()
+for (i in 1:ncol(rf_probabilities)) {
+  class_label <- colnames(rf_probabilities)[i]
+  roc_curve <- roc(as.numeric(test_data$accident_severity == class_label), 
+                   rf_probabilities[, i], 
+                   plot = TRUE, 
+                   main = paste("ROC Curve for Class", class_label), 
+                   col = i)
+  auc_values[[class_label]] <- auc(roc_curve)
+}
+
+# Visualize feature importance
+varImpPlot(rf_model, main = "Feature analysis by Random Forest Model")
+
+```
+
+### Multinomial Logistic Regression Analysis of Accident Severity by Weather Conditions
+
+A multinomial logistic regression model was developed to examine the relationship between accident severity and weather conditions using a cleaned subset of the dataset. The dataset was partitioned into training (80%) and testing (20%) subsets to ensure robust evaluation. The model achieved convergence after 10 iterations, with residual deviance and AIC values of 100785 and 100793, respectively.
+
+The confusion matrix revealed that the model performed well in classifying higher severity levels, achieving an overall accuracy of 76.06%. The coefficients indicate a positive association between weather conditions and accident severity, suggesting that as adverse weather conditions increase, the likelihood of severe accidents also rises. These findings underscore the critical role of weather in road safety and provide insights for preventive measures.
+
+*ROC Curve Analysis for Multinomial Logistic Regression Model*
+
+The ROC curve illustrates the predictive performance of the multinomial logistic regression model in classifying accident severity levels (Fatal, Serious, and Slight) based on weather conditions. One-vs-all ROC curves were generated for each class, with distinct color coding: red for Fatal, blue for Serious, and green for Slight.
+
+The curves largely overlap with the diagonal reference line, indicating limited separation between true positive and false positive rates. As a more distanced ROC curve signifies better model performance, these results suggest the need for further feature refinement or model optimization to improve classification accuracy. The AUC values, though reasonable, highlight areas for potential enhancement in predictive capability.
+
+```{r, echo=FALSE}
+# Load necessary libraries
+library(nnet)  # For multinomial logistic regression
+library(caret) # For data partitioning
+library(pROC)  # For AUC and ROC curves
+
+# Read the dataset
+data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Select relevant columns and remove rows with missing values
+data_cleaned <- na.omit(data[, c("accident_severity", "weather_conditions")])
+
+# Convert columns to factors and numeric types
+data_cleaned$accident_severity <- as.factor(data_cleaned$accident_severity)
+data_cleaned$weather_conditions <- as.numeric(data_cleaned$weather_conditions)
+
+# Split the dataset into training and testing sets
+set.seed(42)
+train_index <- createDataPartition(data_cleaned$accident_severity, p = 0.8, list = FALSE)
+train_data <- data_cleaned[train_index, ]
+test_data <- data_cleaned[-train_index, ]
+
+# Train multinomial logistic regression model
+multinom_model <- multinom(accident_severity ~ weather_conditions, data = train_data)
+
+# Predict probabilities for the test data
+probabilities <- predict(multinom_model, newdata = test_data, type = "probs")
+
+# Create one-vs-all ROC curves for each class
+roc_curve_1 <- roc(as.numeric(test_data$accident_severity == 1), probabilities[, 1], plot = TRUE, col = "red", main = "ROC Curve for Multinomial Logistic Regression")
+roc_curve_2 <- roc(as.numeric(test_data$accident_severity == 2), probabilities[, 2], plot = TRUE, col = "blue", add = TRUE)
+roc_curve_3 <- roc(as.numeric(test_data$accident_severity == 3), probabilities[, 3], plot = TRUE, col = "green", add = TRUE)
+
+# Add legend
+legend("bottomright", legend = c("Class 1 (Fatal)", "Class 2 (Serious)", "Class 3 (Slight)"),
+       col = c("red", "blue", "green"), lwd = 2)
+
+# Compute AUC for each class
+auc_1 <- auc(roc_curve_1)
+auc_2 <- auc(roc_curve_2)
+auc_3 <- auc(roc_curve_3)
+```
+
+```{r, echo=FALSE}
+
+library(ggplot2)
+effect_data <- data.frame(
+  weather_conditions = seq(min(train_data$weather_conditions), max(train_data$weather_conditions), length.out = 100)
+)
+effect_data$prob_class1 <- predict(multinom_model, newdata = effect_data, type = "probs")[, 1]
+effect_data$prob_class2 <- predict(multinom_model, newdata = effect_data, type = "probs")[, 2]
+effect_data$prob_class3 <- predict(multinom_model, newdata = effect_data, type = "probs")[, 3]
+
+ggplot(effect_data, aes(x = weather_conditions)) +
+  geom_line(aes(y = prob_class1, color = "Class 1")) +
+  geom_line(aes(y = prob_class2, color = "Class 2")) +
+  geom_line(aes(y = prob_class3, color = "Class 3")) +
+  labs(title = "Effect of Weather Conditions on Accident Severity",
+       y = "Probability", x = "Weather Conditions") +
+  scale_color_manual(values = c("red", "blue", "green"))
+```
+
+### Logistic Regression for Binary Accident Severity Classification to predict accident severity by rural vs urban areas in certain weather conditions.
+
+A logistic regression model was employed to classify accident severity into binary categories: "Slight" (1) and "Fatal/Serious" (0), using features such as urban or rural area and weather conditions. The model showed a modest reduction in residual deviance (from 91810 to 91030), with an AIC of 91040, suggesting limited improvement over the null model.
+
+The ROC curve yielded an AUC value of 0.5498, indicating the model's predictive performance is slightly better than random chance. The negative coefficient for "urban_or_rural_area" suggests that accidents in urban areas are more likely to be classified as "Slight," while the positive coefficient for "weather_conditions" implies a weak association with increased severity. Overall, the model demonstrates minimal predictive capability and requires additional features or refinement to achieve better classification accuracy and practical applicability.
+
+```{r, echo=FALSE, results='hide'}
+# Load necessary libraries
+library(nnet)    # For logistic regression
+library(pROC)    # For ROC curve and AUC
+library(caret)   # For data partitioning
+
+# Read the dataset
+data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Select relevant columns and remove rows with missing values
+data_cleaned <- na.omit(data[, c("accident_severity", "urban_or_rural_area", "weather_conditions")])
+
+# Create a binary target variable (1 for Slight, 0 for Fatal and Serious)
+data_cleaned$binary_severity <- ifelse(data_cleaned$accident_severity == 3, 1, 0)
+
+# Convert necessary columns to numeric/factor
+data_cleaned$binary_severity <- as.factor(data_cleaned$binary_severity)
+data_cleaned$urban_or_rural_area <- as.numeric(data_cleaned$urban_or_rural_area)
+data_cleaned$weather_conditions <- as.numeric(data_cleaned$weather_conditions)
+
+# Split the dataset into training and testing sets
+set.seed(42)
+train_index <- createDataPartition(data_cleaned$binary_severity, p = 0.8, list = FALSE)
+train_data <- data_cleaned[train_index, ]
+test_data <- data_cleaned[-train_index, ]
+
+# Train logistic regression model
+logistic_model <- glm(binary_severity ~ urban_or_rural_area + weather_conditions, 
+                      data = train_data, 
+                      family = binomial)
+
+# Predict probabilities for the test data
+probabilities <- predict(logistic_model, newdata = test_data, type = "response")
+
+# Create the ROC curve
+roc_curve <- roc(test_data$binary_severity, probabilities, plot = TRUE, col = "blue",
+                 main = "ROC Curve for Binary Classification")
+
+# Compute the AUC
+auc_value <- auc(roc_curve)
+
+# Add the AUC value to the plot
+text(x = 0.6, y = 0.2, labels = paste("AUC =", round(auc_value, 3)), col = "blue", cex = 1.2)
+
+
+# Compute and print AUC
+auc_value <- auc(roc_curve)
+```
+
+### Lasso Logistic Regression for Binary Classification of Accident Severity
+
+A Lasso logistic regression model was applied to classify accident severity into binary categories ("Slight" vs. "Fatal/Serious") using features such as urban or rural area and weather conditions. The model employed cross-validation to identify the optimal regularization parameter (lambda.min), ensuring reduced overfitting and improved generalizability.
+
+The ROC curve yielded an AUC of 0.5514, indicating a marginally better performance than random guessing. The close proximity of the ROC curve to the diagonal reference line suggests limited predictive power. While the model effectively reduces feature complexity, the low AUC highlights the need for additional predictive variables or refined feature engineering to improve classification accuracy and ensure practical applicability.
+
+```{r, echo=FALSE}
+library(glmnet)
+
+# Prepare data for glmnet
+X <- as.matrix(train_data[, c("urban_or_rural_area", "weather_conditions")])
+y <- as.numeric(train_data$binary_severity) - 1
+
+# Train Lasso logistic regression
+lasso_model <- cv.glmnet(X, y, family = "binomial", alpha = 1)
+
+# Predict probabilities for test data
+test_X <- as.matrix(test_data[, c("urban_or_rural_area", "weather_conditions")])
+lasso_probabilities <- predict(lasso_model, newx = test_X, s = "lambda.min", type = "response")
+
+# Evaluate using ROC and AUC
+# Evaluate using ROC and AUC
+lasso_roc <- roc(as.numeric(test_data$binary_severity), lasso_probabilities, plot = TRUE, col = "blue",
+                 main = "ROC Curve for Lasso Logistic Regression")
+
+# Compute the AUC value
+lasso_auc <- auc(lasso_roc)
+
+# Add the AUC value as text on the plot
+text(x = 0.6, y = 0.2, labels = paste("AUC =", round(lasso_auc, 3)), col = "blue", cex = 1.2)
+
+# Optionally, add a diagonal line for random guessing
+abline(a = 0, b = 1, col = "gray", lty = 2)
+```
+
+### Lasso Logistic Regression for Predicting Accident Severity including more variables
+
+A Lasso logistic regression model was implemented to classify accident severity into binary categories: "Severe" (1) and "Slight" (0). The model utilized key features such as road surface conditions, weather conditions, urban or rural area, and time of day. Cross-validation identified the optimal regularization parameter (lambda.min), ensuring feature selection and preventing over fitting.
+
+The model achieved an AUC of 0.612, which is the highest among all models evaluated, as visualized through the ROC curve. This indicates improved predictive performance and better discriminatory power compared to earlier approaches. Feature coefficients highlighted the importance of road surface conditions and urban/rural areas as significant predictors. While the model demonstrates improved performance, further enhancements could refine its applicability for real-world scenarios.
+
+```{r, echo=FALSE}
+# Load necessary libraries
+library(glmnet)
+library(pROC)
+
+# Load the dataset
+data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Define selected features and target variable
+selected_features <- c("accident_severity", "number_of_vehicles", "road_surface_conditions", 
+                       "weather_conditions", "urban_or_rural_area", "special_conditions_at_site", 
+                       "day_of_week", "time", "junction_detail", "speed_limit")
+
+# Check if selected features exist in the dataset
+if (!all(selected_features %in% colnames(data))) {
+  missing_features <- selected_features[!selected_features %in% colnames(data)]
+  stop(paste("The following features are missing from the dataset:", paste(missing_features, collapse = ", ")))
+}
+
+# Filter the dataset for selected features and remove rows with missing values
+data_cleaned <- na.omit(data[, selected_features])
+
+# Create a binary target variable for classification
+# Severe (1) = accident_severity 1 or 2, Slight (0) = accident_severity 3
+data_cleaned$binary_severity <- ifelse(data_cleaned$accident_severity == 3, 0, 1)
+
+# Feature engineering: Convert 'time' into 'time_of_day' (e.g., Morning, Afternoon, Night)
+data_cleaned$time <- as.numeric(sub("^(\\d{2}):.*$", "\\1", data_cleaned$time)) # Extract hour
+data_cleaned$time_of_day <- cut(data_cleaned$time, 
+                                breaks = c(-1, 6, 12, 18, 24), 
+                                labels = c("Night", "Morning", "Afternoon", "Evening"))
+
+# Drop unnecessary columns (original 'time' and 'accident_severity')
+data_cleaned <- data_cleaned[, !(names(data_cleaned) %in% c("time", "accident_severity"))]
+
+# Convert categorical variables into factors
+categorical_vars <- c("road_surface_conditions", "weather_conditions", "urban_or_rural_area", 
+                      "special_conditions_at_site", "day_of_week", "time_of_day", "junction_detail")
+data_cleaned[categorical_vars] <- lapply(data_cleaned[categorical_vars], as.factor)
+
+# Prepare data for glmnet
+X <- model.matrix(binary_severity ~ ., data_cleaned)[, -1] # Remove intercept
+y <- data_cleaned$binary_severity
+
+# Split data into training and testing sets
+set.seed(42)
+train_index <- sample(1:nrow(X), size = 0.8 * nrow(X))
+train_X <- X[train_index, ]
+train_y <- y[train_index]
+test_X <- X[-train_index, ]
+test_y <- y[-train_index]
+
+# Train Lasso Logistic Regression model
+lasso_model <- cv.glmnet(train_X, train_y, family = "binomial", alpha = 1)
+
+# Predict probabilities for test data
+lasso_probabilities <- predict(lasso_model, newx = test_X, s = "lambda.min", type = "response")
+
+# Evaluate using ROC and AUC
+# Plot the ROC curve and display the AUC value
+lasso_roc <- roc(test_y, lasso_probabilities, plot = TRUE, col = "blue",
+                 main = "ROC Curve for Lasso Logistic Regression")
+
+# Calculate the AUC value
+lasso_auc <- auc(lasso_roc)
+
+# Add the AUC value to the plot
+text(x = 0.6, y = 0.2, labels = paste("AUC =", round(lasso_auc, 3)), col = "blue", cex = 1.2)
+
+# Optionally, add a diagonal line for reference
+abline(a = 0, b = 1, col = "gray", lty = 2)
+
+
+# Add the AUC value as text on the plot
+text(x = 0.6, y = 0.2, labels = paste("AUC =", round(lasso_auc, 3)), col = "blue", cex = 1.2)
+
+
+
+# Extract coefficients from the Lasso model
+coefficients <- as.matrix(coef(lasso_model, s = "lambda.min"))  # Convert to a matrix
+
+# Identify non-zero coefficients and corresponding features
+non_zero_indices <- which(coefficients != 0)  # Find non-zero coefficients
+non_zero_coefficients <- coefficients[non_zero_indices]  # Extract non-zero coefficients
+feature_names <- rownames(coefficients)[non_zero_indices]  # Extract corresponding feature names
+
+# Create the feature importance data frame
+feature_importance <- data.frame(
+  Feature = feature_names,
+  Coefficient = as.numeric(non_zero_coefficients)
+)
+
+# Load necessary libraries
+library(plotly)
+
+
+
+# Remove the intercept from the data
+feature_importance <- feature_importance[feature_importance$Feature != "(Intercept)", ]
+
+# Filter top 10 positive and negative coefficients
+top_features <- feature_importance %>%
+  arrange(desc(abs(Coefficient))) %>%  # Sort by absolute coefficient
+  head(11)   
+
+# Create the plot without the intercept
+ggplot(top_features, aes(x = reorder(Feature, Coefficient), y = Coefficient, fill = Coefficient > 0)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_fill_manual(values = c("blue", "red"), labels = c("Negative", "Positive")) +
+  labs(title = "Top Feature Importance from Lasso Logistic ",
+       x = "Features",
+       y = "Coefficient",
+       fill = "Effect") +
+  theme_minimal(base_size = 14)
+
+```
+
+## Re-visualization Project Using R-language Introduction:
+
+Suicide is the act of intentionally causing one's own death. It can be due to many conditions or the situations. It includes Mental disorders, physical disorders, and substance abuse are the risk factors. Suicides resulted in 828,000 deaths globally in 2015, an increase from 712,000 deaths in 1990. This makes suicide the 10th leading cause of death worldwide. Every death from suicide is a tragedy.
+
+The below is the Visualization on Suicides by Saloni Dattani, Lucas Rodes-Guirao, Hannah Ritchie, Max Roser, and Esteban Ortiz-Ospina. The research shows that suicide rates can be reduced with greater understanding and support. To do that the researchers considered or recognized suicide as a public health problem, and people should know that it can be prevented and its rates can be reduced.
+
+## Please watch the full project presentation on the following YouTube video
+
+{{< video https://www.youtube.com/watch?v=MDNMmd_fKms>}}
+
+### **OLD VISUALIZATION:**
+
+### ![](docs/docs/suicide-rate-image-mdb.svg)
+
+**Suicide rates vary around the world:**
+
+Suicide rates vary widely between the countries. The given visualization depicts the data of annual suicide rates per 100,000 people from 1950 to 2022, across various countries. Researchers used line graph to predict the data.
+
+-   X-axis represents the years from 1950 to 2022 and y-axis represents the suicide rate per 100000 people, ranging from 0 to 40. It also says that higher the value, the greater will be the number of suicide rates.
+
+-   Each line of the graph represents the countries. The countries which have higher suicide rates are represented on the top. The legends taken are countries.
+
+**Observations:**
+
+-   There is a wide range of variations between the countries. Countries like Lithuania, South Korea shows the highest suicide rates, as indicated by their position near the top of the graph.
+
+-   Some countries shows large fluctuations in the suicide rates while other countries shows the constant rate throughout the years.
+
+-   It also says that suicide deaths are under-reported in many countries due to social stigma and culture or legal concerns means that actual rates can be higher than the reported rates.
+
+-   The data is collected based on the data listed in the death certificates. It can impact the accuracy of the data
+
+-   The data is adjusted for age standardization allowing a fair comparison between the countries with different age structures, ensuring that population age distribution doesn't skew the data.
+
+#### **Bad Visualization Predictions:**
+
+-   More number of lines: The graph contains a huge number of lines which are representing the countries. This creates a messy graph it is very difficult to predict the data immediately as we look into the graph.
+
+-   Color Categorization: All the countries represented with different colors but for some countries there are distinct colors where it will be very difficult to categorize the data. There are similar colors in for different countries. We can use more contrasting colors to represent the data or we can group the colors into regions or categories.
+
+-   Interactive Labeling: With so many lines we cannot identify the particular country instantly and it is impossible to find the particular country and there are all the countries mentioned in the legend where it is impossible to identify the specific country. Hence we can use interactive Labeling for highlighting the particular country.
+
+-   No Highlights on the key insights: All the lines in the graph are in equal size where there is no differentiation between the countries. We can highlight the countries which have highest suicide rates and lowest suicide rates with different dimensions of the lines.
+
+![](docs/docs/suicide-rates-by-age-who-mdb.svg)
+
+The above visualization tells us about the reported suicide rates by age in the United States.
+
+**Observations:**
+
+It explains the breakdown for the rate of suicides for different age groups like children, adults. The data highlights the trends such as the increasing or decreasing risk of suicide within the specific age over time and across different regions.
+
+-   It shows the data for the suicide rates per 100,000 people across different age groups. Age specific data usually reveals trends showing which age group are more vulnerable to suicide in different regions.
+
+-   According to the graph it predicts that the old generation people have the higher suicide rates (Age between 80-84). The age between 15-19 suicidal rates are less. But there is growing concern about suicidal rates in young adults particularly due to health conditions and mental stress.
+
+#### **Bad Visualization Predictions:**
+
+-   More number of lines: The graph contains a huge number of lines which are representing the different age groups. This creates a messy graph it is very difficult to predict the data immediately as we look into the graph.
+
+-   Color Categorization: All the age groups are represented with different colors but for some there are distinct colors where it will be very difficult to categorize the data. There are similar colors for different age groups. We can use more contrasting colors to represent the data or we can group the colors into categories or age groups.
+
+-   Legend: The legend have too many entries where it is difficult for the user to identify the particular data of the age group in a particular year. Viewers must constantly shift their focus on the legend and the graph simultaneously where it would be difficult for predicting the exact information.
+
+-   Lack of data insights: There is no contextual information or annotations on the graph to explain significant spikes, trends or sudden drops in the suicide rates for certain age groups.
+
+-   Interactive Labeling: Adding the interactvite labeling helps to improve the readability.
+
+## Re-Visualizations:
+
+#### **According to the above research and bad visualizations found we have made some changes and re-visualized the data as below:**
+
+Each map or graph in this project displays suicide rates per 100,000 people to enhance the clarity and effectiveness of the visualization and this is the standard that data analysts generally follow while visualizing death related data.
+
+## **Average Suicidal Rates By Country from 1950 to 2022:**
+
+The map below illustrates the average suicide rates by country from 1950 to 2022, broken down by different age groups such as children, young adults, and adults across all nations.
+
+In the previous visualization, the data was presented in a line graph for all countries, resulting in a cluttered and hard-to-read display. To improve clarity, we have re-visualized the data by focusing on the average suicide rates from 1950 to 2022 using a world map. In the provided dataset, we calculated the average suicide rates over the years and made predictions based on that data. The world map offers an easier and more intuitive way to interpret the data. This updated map is also interactive, allowing users to highlight specific parameters and explore the average range of deaths by suicide more flexibly.
+
+Based on the predictions shown in the map, Russia has the highest average suicide rates.
+
+# Load required libraries
+
+```{r}
+
+suppressWarnings({
+ library(tidyverse)
+library(ggplot2)
+library(plotly)  
+library(maps)
+library(leaflet)
+library(readr)
+
+
+  library(plotly)
+  library(dplyr)
+  library(viridis)  
+  library(rnaturalearth)  # For world map data
+
+
+})
+```
+
+```{r}
+
+
+# Load the data (change the path to where your file is stored)
+suicide_data <- read.csv("suicide-rates-all.csv")
+
+# Summarize the data to get the average suicide rate for each country
+average_suicide_rate <- suicide_data %>%
+  group_by(Country) %>%
+  summarise(Average_Suicide_Rate = mean(suscide.rate, na.rm = TRUE), .groups = "drop")  # Add .groups = "drop" to avoid warnings
+
+# Load world map data
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Merge world map data with average suicide rates
+world_data <- merge(world, average_suicide_rate, by.x = "name", by.y = "Country", all.x = TRUE)
+
+# Create color palette for suicide rates
+pal <- colorNumeric(palette = "YlOrRd", domain = world_data$Average_Suicide_Rate, na.color = "transparent")
+
+# Create interactive leaflet map
+leaflet(world_data) %>%
+  addTiles() %>%
+  addPolygons(
+    fillColor = ~pal(Average_Suicide_Rate),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.7,
+    highlight = highlightOptions(
+      weight = 5,
+      color = "#666",
+      dashArray = "",
+      fillOpacity = 0.7,
+      bringToFront = TRUE
+    ),
+    label = ~paste(name, "Average Suicide Rate: ", round(Average_Suicide_Rate, 2)),
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px",
+      direction = "auto"
+    )
+  ) %>%
+  addLegend(pal = pal, values = ~Average_Suicide_Rate, opacity = 0.7, title = "Average Suicide Rate per 100,000", position = "bottomright") %>%
+  addControl("<strong>Average Suicide Rates by Country of all the ages over the years 1950 to 2022</strong>", position = "topright", 
+             className = "map-title")  # Add title to the map
+```
+
+### **Average Suicide Rates of all the ages by Country for the top rated year: 1982**
+
+The map below shows the average suicide rates for all age groups by country for the year 1982, which was chosen because it had the highest suicide rates between 1982 and 2022.
+
+In the previous visualization, the data was displayed in a line graph, resulting in a cluttered and hard-to-read format. To improve accessibility, we re-visualized the data by calculating the average suicide rates across all years and selected 1982 for its peak in suicide rates.
+
+This updated visualization uses a world map to display the data, with countries categorized by different colors, highlighting the highest suicide rates in red. Russia stands out as having the highest average suicide rates.
+
+```{r}
+
+# Load the data (change the path to where your file is stored)
+suicide_data <- read.csv("suicide-rates-all.csv")
+
+# Calculate the overall average suicide rate for each year across all countries
+yearly_avg_suicide_rate <- suicide_data %>%
+  group_by(Year) %>%
+  summarise(Average_Suicide_Rate = mean(suscide.rate, na.rm = TRUE))
+
+# Find the year with the highest overall average suicide rate
+top_year <- yearly_avg_suicide_rate %>%
+  filter(Average_Suicide_Rate == max(Average_Suicide_Rate)) %>%
+  pull(Year)
+
+# Filter the data to include only the data for the top year
+top_year_data <- suicide_data %>%
+  filter(Year == top_year)
+
+# Load world map data
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Merge world map data with suicide rate data for the top year
+world_data <- merge(world, top_year_data, by.x = "name", by.y = "Country", all.x = TRUE)
+
+# Create color palette for the suicide rates in the top year
+pal <- colorNumeric(palette = "YlOrRd", domain = world_data$suscide.rate, na.color = "transparent")
+
+# Create interactive leaflet map
+map <- leaflet(world_data) %>%
+  addTiles() %>%
+  addPolygons(
+    fillColor = ~pal(suscide.rate),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.7,
+    highlight = highlightOptions(
+      weight = 5,
+      color = "#666",
+      dashArray = "",
+      fillOpacity = 0.7,
+      bringToFront = TRUE
+    ),
+    label = ~paste(name, "Suicide Rate: ", round(suscide.rate, 2)),
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px",
+      direction = "auto"
+    )
+  ) %>%
+  addLegend(pal = pal, values = ~suscide.rate, opacity = 0.7, title = paste("Suicide Rate per 100,000 in ", top_year), position = "bottomright")%>%
+addControl("<strong>Average Suicide Rates of all the ages by Country for the top rated year: 1982</strong>", position = "topright", 
+             className = "map-title")  # Add title to the map
+
+# Show the map
+map
+```
+
+### **Average Suicide Rates by Year all over the World:**
+
+The map below shows the average suicide rates by year globally from 1950 to 2022. We re-visualized the data by calculating the average death rates over this period. First, we determined the averages for each year for all the countries, and then we used a frequency polygon graph to visualize the trend of the suicide rates over all the years.
+
+In this representation, the highest suicide rate occurred in 1982, with a rate of 12.38, while the lowest rate across all countries and age groups was recorded in 2016 with 7.21.
+
+```{r}
+
+
+# Read the data
+data <- read_csv(
+  "C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv",
+  col_types = cols(
+    Country = col_character(),
+    Code = col_character(),
+    Year = col_double(),
+    `suscide-rate` = col_double()
+  )
+)
+
+# Step 1: Calculate the average suicide rate for each year
+avg_suicide_by_year <- data %>%
+  group_by(Year) %>%
+  summarise(Average_suicide_rate = round(mean(`suscide-rate`, na.rm = TRUE), 2), .groups = "drop")
+
+# Step 2: Create the frequency polygon
+frequency_polygon <- ggplot(avg_suicide_by_year, aes(x = Year, y = Average_suicide_rate)) +
+  geom_line(stat = "identity", color = "blue", size = 1) +  # Line to connect data points
+  geom_point(color = "red") +  # Points for each year
+  labs(title = "Suicide Rates trend of all the ages and Years all over the world", 
+       x = "Year", 
+       y = "Average Suicide Rate per 100,000") +
+  
+  theme(
+    plot.title = element_text(face = "bold"), 
+    axis.title.x = element_text(face = "bold"), 
+    axis.title.y = element_text(face = "bold")
+  )
+
+# Convert the frequency polygon to an interactive plot
+interactive_frequency_polygon <- ggplotly(frequency_polygon)
+
+# Show the interactive frequency polygon
+interactive_frequency_polygon
+```
+
+## **Top 5 Years with Highest Suicide Rates in Top 5 Countries:**
+
+The graph below shows the top 5 years with the highest suicide rates in the top 5 countries. First, we identified the 5 countries with the highest average suicide rates. After filtering the data to include only these countries, we selected the top 5 years with the highest suicide rates for each. Using this categorized data, we created a bar graph with **ggplot**. Additionally, we added interactive labeling to enhance accessibility and provide a more user-friendly experience for viewers.
+
+```{r}
+
+# Load the data (update the path to your CSV file accordingly)
+suicide_data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv")
+
+# Calculate the average suicide rate per country and filter top 5 countries
+top_5_countries <- suicide_data %>%
+  group_by(Country) %>%
+  summarise(Average_Suicide_Rate = mean(suscide.rate, na.rm = TRUE)) %>%
+  top_n(5, wt = Average_Suicide_Rate)
+
+# Find the top 5 years for each of the top 5 countries
+top_5_years_per_country <- suicide_data %>%
+  filter(Country %in% top_5_countries$Country) %>%
+  group_by(Country, Year) %>%
+  summarise(Suicide_Rate = mean(suscide.rate, na.rm = TRUE)) %>%
+  arrange(Country, desc(Suicide_Rate)) %>%
+  group_by(Country) %>%
+  slice_max(Suicide_Rate, n = 5)
+
+# Create a horizontal bar plot with increased bar size
+p_bar <- ggplot(top_5_years_per_country, aes(x = reorder(Country, Suicide_Rate), y = Suicide_Rate, fill = Year, text = paste("Country:", Country, "<br>Year:", Year, "<br>Suicide Rate:", round(Suicide_Rate, 2)))) +
+  geom_bar(stat = "identity", position = position_dodge(), width = 0.9) +  # Adjust width to increase bar size
+  scale_fill_gradient(low = "#FF9999", high = "#CC0000") +  # Light to dark red gradient
+  labs(title = "Top 5 Countries with Highest Suicide Rates and Their Top 5 Years",
+       x = "Suicide Rate",
+       y = "Country") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "none") +
+  coord_flip() +  # Flip the axes to create horizontal bars
+  
+  # Add year labels to the bars
+  geom_text(aes(label = Year), 
+            position = position_dodge(width = 0.9),  # Ensure labels match bar positions
+            hjust = -0.2,   # Adjust horizontal position of text
+            size = 3,       # Set a smaller text size
+            fontface = "bold")       # Set a smaller text size
+
+# Convert ggplot to interactive plotly plot
+interactive_bar_plot <- ggplotly(p_bar, tooltip = "text")
+
+# Display the interactive plot
+interactive_bar_plot
+
+
+```
+
+## **Average Suicide Rates for Ages 15-19 over the years:**
+
+The graph below displays the average suicide rates for individuals aged 15-19. The previous visualization focused on overall suicide rates across all years and age groups. For this re-visualization, we specifically selected the 15-19 age group, as it marks the end of teen years. We used a world map to represent the data and incorporated interactive labeling for easier interpretation.
+
+```{r}
+
+
+# Load the CSV file
+children_data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-by-age.csv")
+
+# Step 1: Rename columns to appropriate labels
+colnames(children_data) <- c("Country", "Code", "Year", 
+                              "Death_rate_15_19", "Death_rate_20_24", "Death_rate_25_29", 
+                              "Death_rate_30_34", "Death_rate_35_39", "Death_rate_40_44", 
+                              "Death_rate_45_49", "Death_rate_50_54", "Death_rate_55_59", 
+                              "Death_rate_60_64", "Death_rate_65_69", "Death_rate_70_74", 
+                              "Death_rate_75_79", "Death_rate_80_84", "Death_rate_over_85")
+
+# Step 2: Calculate the average suicide rate for children (using 'Death_rate_15_19' as an example)
+avg_suicide_rate <- children_data %>%
+  group_by(Country) %>%
+  summarise(AverageRate = round(mean(Death_rate_15_19, na.rm = TRUE),2))
+
+# Step 3: Load map data
+world_map <- map_data("world")
+
+# Step 4: Merge average suicide rates with the map data
+map_data <- world_map %>%
+  left_join(avg_suicide_rate, by = c("region" = "Country")) # Ensure to match the correct column names
+
+# Step 5: Create the static map using ggplot2
+gg <- ggplot(data = map_data, aes(x = long, y = lat, group = group, fill = AverageRate)) +
+  geom_polygon(color = "black", aes(text = paste("Country:", region, "<br>Average Suicide Rate (Ages 15-19):", round(AverageRate, 2)))) +
+  scale_fill_gradient(low = "lightblue", high = "red", na.value = "grey50", 
+                      name = "Average Suicide Rate\n(Ages 15-19)") +
+  labs(title = "Average Suicide Rate of Children by Country (Ages 15-19)",
+       x = "Longitude", 
+       y = "Latitude") +
+  theme_minimal() +
+  theme(legend.position = "right")
+
+# Step 6: Convert ggplot to an interactive plotly object
+interactive_map <- ggplotly(gg, tooltip = "text")
+
+# Step 7: Display the interactive map
+interactive_map
+
+
+```
+
+### Average Suicide Rate for the Top 20 Nations in the 15-19 Age Group (Across All Years):
+
+The graph below illustrates the average suicide rate for the top 20 countries in the 15-19 age group over the years 1950 to 2021. It highlights the top 20 countries for this age group, with the addition of interactive labeling for enhanced user experience.
+
+```{r}
+
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(plotly)
+
+# Load the data
+data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-by-age.csv")
+
+# Clean column names for easier access
+colnames(data) <- c("Entity", "Code", "Year", 
+                    "Death_rate_15_19", "Death_rate_20_24", "Death_rate_25_29", 
+                    "Death_rate_30_34", "Death_rate_35_39", "Death_rate_40_44", 
+                    "Death_rate_45_49", "Death_rate_50_54", "Death_rate_55_59", 
+                    "Death_rate_60_64", "Death_rate_65_69", "Death_rate_70_74", 
+                    "Death_rate_75_79", "Death_rate_80_84", "Death_rate_over_85")
+
+# Filter the data for the 15-19 age group and remove missing values
+data_filtered <- data %>%
+  filter(!is.na(Death_rate_15_19))
+
+# Calculate the average suicide rate for each country across all years
+avg_suicide_rate <- data_filtered %>%
+  group_by(Entity) %>%
+  summarise(suscide_Rate = round(mean(Death_rate_15_19, na.rm = TRUE), 2)) %>%
+  arrange(desc(suscide_Rate)) %>%
+  top_n(20, suscide_Rate)
+
+# Create the bar plot with ggplot
+bar_plot <- ggplot(avg_suicide_rate, aes(x = reorder(Entity, suscide_Rate), 
+                                           y = suscide_Rate, 
+                                           fill = suscide_Rate,
+                                           text = paste("Country:", Entity, "<br>Average Suicide Rate:", suscide_Rate))) +
+  geom_bar(stat = "identity") +
+  coord_flip() +  # Flip coordinates to make country names readable
+  scale_fill_gradient(low = "#ffcccc", high = "#990000") +  # Light red to dark red gradient
+  labs(title = "Average Suicide Rate of Children (Age 15-19) (All Years)", 
+       x = "Country", 
+       y = "Average Suicide Rate per 100,000 Population") +
+  theme(axis.text.y = element_text(angle = 0, hjust = 1, size = 8)) +  # Adjust text angle and size
+  guides(fill = guide_legend(title = "Suicide Rate per 100,000"))  # Change the legend title
+
+# Convert to an interactive plot with plotly
+interactive_plot <- ggplotly(bar_plot, tooltip = "text")  # Use the 'text' aesthetic for tooltip
+
+# Show the interactive plot
+interactive_plot
+
+
+
+```

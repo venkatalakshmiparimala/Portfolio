@@ -1,0 +1,911 @@
+---
+title: "Project Source Codes"
+format: html
+editor: visual
+execute:
+  warning: false
+---
+
+**Crash Clarity: Data-Driven Insights for Enhancing UK Road Safety using statistical models**
+
+
+## **Loading Libraries:**
+
+```{r}
+# Load required libraries
+
+suppressWarnings({
+ library(tidyverse)
+library(ggplot2)
+library(plotly)  
+library(maps)
+library(leaflet)
+library(readr)
+
+library(plotly)
+library(dplyr)
+library(viridis) 
+library(rnaturalearth)  # For loading world map data
+
+
+})
+
+
+
+```
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(plotly)
+
+# Load the data
+road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Data Cleaning Steps
+# 1. Remove rows with missing or NA values in important columns
+road_casualities <- road_casualities %>%
+  filter(!is.na(accident_severity), 
+         !is.na(weather_conditions), 
+         !is.na(road_surface_conditions))
+
+# 2. Ensure the accident_severity column has valid values (1, 2, 3)
+road_casualities <- road_casualities %>%
+  filter(accident_severity %in% c(1, 2, 3))
+
+# 3. Convert necessary columns to factors
+road_casualities$accident_severity <- factor(road_casualities$accident_severity, 
+                                 levels = c(1, 2, 3),
+                                 labels = c("Life-Threatening", "Significant", "Mild"))
+road_casualities$weather_conditions <- as.factor(road_casualities$weather_conditions)
+road_casualities$road_surface_conditions <- as.factor(road_casualities$road_surface_conditions)
+road_casualities$urban_or_rural_area <- as.factor(road_casualities$urban_or_rural_area)
+
+# 4. Remove duplicates if any
+road_casualities <- road_casualities %>% distinct()
+```
+
+```{r}
+
+# Visualization with Cleaned Data
+# Assign updated custom colors for each severity level
+severity_colors <- c("Life-Threatening" = "red", 
+                     "Significant" = "darkorange", 
+                     "Mild" = "darkgreen")
+
+# Create an Interactive Histogram with Updated Colors
+histogram <- ggplot(road_casualities, aes(x = accident_severity, fill = accident_severity)) +
+  geom_bar(alpha = 0.7, color = "black") +
+  scale_fill_manual(values = severity_colors) +
+  labs(title = "Distribution of Accident Severity",
+       x = "Accident Severity",
+       y = "Count") 
+
+# Convert to interactive using plotly
+interactive_histogram <- ggplotly(histogram, tooltip = c("count", "x"))
+
+# Display the interactive histogram
+interactive_histogram
+
+```
+
+```{r}
+library(ggplot2)
+library(plotly)
+
+# Load dataset
+road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Convert time column to a usable format (assuming time is in 24-hour format)
+road_casualities$time_of_day <- as.numeric(substr(road_casualities$time, 1, 2))
+
+# Define time bands based on STATS20 guidance
+road_casualities$time_band <- cut(
+  road_casualities$time_of_day,
+  breaks = c(-1, 5, 9, 15, 19, 23),
+  labels = c("Night (Midnight to 5 AM)", 
+             "Morning Rush Hour", 
+             "Daytime", 
+             "Evening Rush Hour", 
+             "Night (8 PM to 11 PM)")
+)
+
+# Aggregate the data by time bands
+time_band_summary <- road_casualities %>%
+  group_by(time_band) %>%
+  summarise(total_accidents = n()) %>%
+  arrange(desc(total_accidents))
+
+# Create a ggplot object with gradient colors
+time_band_plot <- ggplot(time_band_summary, aes(x = time_band, y = total_accidents, fill = total_accidents)) +
+  geom_bar(stat = "identity", color = "black", alpha = 0.8) +
+  labs(
+    title = "Accidents by Time Bands (STATS20)",
+    x = "Time Band",
+    y = "Number of Accidents"
+  ) +
+  scale_fill_gradient(low = "pink", high = "red", name = "Total Accidents") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Convert the plot to interactive using plotly
+interactive_time_band_plot <- ggplotly(time_band_plot, tooltip = c("x", "y"))
+
+# Display the interactive plot
+interactive_time_band_plot
+
+
+
+```
+
+```{r}
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+# Define light condition mapping (STATS20)
+light_conditions_map <- c(
+  "1" = "Daylight",
+  "4" = "Dark (street lights present and lit)",
+  "5" = "Dark (street lights present but unlit)",
+  "6" = "Dark (no street lights)",
+  "7" = "Other"
+)
+
+# Map light conditions
+road_casualities$light_conditions <- as.factor(
+  light_conditions_map[as.character(road_casualities$light_conditions)]
+)
+
+# Ensure weather conditions are mapped
+weather_conditions_map <- c(
+  "1" = "Fine without high winds",
+  "2" = "Raining without high winds",
+  "3" = "Snowing without high winds",
+  "4" = "Fine with high winds",
+  "5" = "Raining with high winds",
+  "6" = "Snowing with high winds",
+  "7" = "Fog or mist",
+  "8" = "Other",
+  "9" = "Unknown"
+)
+
+road_casualities$weather_conditions <- as.factor(
+  weather_conditions_map[as.character(road_casualities$weather_conditions)]
+)
+
+# Create summary data for heatmap
+heatmap_data <- road_casualities %>%
+  group_by(weather_conditions, light_conditions) %>%
+  summarise(total_accidents = n(), .groups = "drop")
+
+# Create the heatmap with data labels and contrasting colors
+heatmap_plot <- ggplot(heatmap_data, aes(x = weather_conditions, y = light_conditions, fill = total_accidents)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = total_accidents), color = "black", size = 3) +  # Add data labels
+  scale_fill_gradient(low = "#f9f9f9", high = "#d73027", name = "Total Accidents") +
+  labs(
+    title = "Accidents by Weather and Light Conditions",
+    x = "Weather Conditions",
+    y = "Light Conditions"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
+    axis.text.y = element_text(size = 10),
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8)
+  )
+
+# Make the heatmap interactive
+interactive_heatmap <- ggplotly(heatmap_plot, tooltip = c("x", "y", "fill"))
+interactive_heatmap
+
+
+```
+
+`
+
+```{r}
+# Load the dataset
+road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(plotly)
+
+# Define STATS19 road surface condition mapping
+road_conditions_map <- c(
+  "1" = "Dry",
+  "2" = "Wet or damp",
+  "3" = "Snow",
+  "4" = "Frost or ice",
+  "5" = "Flood",
+  "6" = "Oil or diesel",
+  "7" = "Mud",
+  "8" = "Other",
+  "9" = "Unknown"
+)
+
+# Step 1: Filter valid road_surface_conditions values (1 to 9)
+road_casualities <- road_casualities %>%
+  filter(road_surface_conditions %in% c(1:9))
+
+# Step 2: Map road conditions to descriptions
+road_casualities$road_conditions_desc <- as.factor(
+  road_conditions_map[as.character(road_casualities$road_surface_conditions)]
+)
+
+# Debugging: Check unique values in road_conditions_desc
+print("Mapped descriptions:")
+print(unique(road_casualities$road_conditions_desc))
+
+# Step 3: Aggregate data by road surface condition
+road_summary <- road_casualities %>%
+  group_by(road_conditions_desc) %>%
+  summarise(total_accidents = n()) %>%
+  arrange(desc(total_accidents))
+
+# Debugging: Check aggregated data
+print("Aggregated road surface condition data:")
+print(road_summary)
+
+# Step 4: Create the bar plot
+road_plot <- ggplot(road_summary, aes(
+  x = reorder(road_conditions_desc, -total_accidents), 
+  y = total_accidents, 
+  fill = road_conditions_desc, 
+  text = paste0(road_conditions_desc, ": ", total_accidents, " accidents")
+)) +
+  geom_bar(stat = "identity", alpha = 0.8, color = "black") +
+  labs(
+    title = "Distribution of Accidents by Road Surface Conditions (STATS19)",
+    x = "Road Surface Conditions",
+    y = "Number of Accidents"
+  ) +
+  scale_fill_manual(values = c(
+    "Dry" = "red",
+    "Wet or damp" = "#73a2c6",
+    "Snow" = "#1b9e77",
+    "Frost or ice" = "#d95f02",
+    "Flood" = "#7570b3",
+    "Oil or diesel" = "#e7298a",
+    "Mud" = "#66a61e",
+    "Other" = "#e6ab02",
+    "Unknown" = "#a6761d"
+  )) 
+
+# Convert the plot to an interactive plot
+interactive_road_plot <- ggplotly(road_plot, tooltip = "text")
+
+# Display the interactive plot
+interactive_road_plot
+
+```
+
+```{r}
+# Load necessary libraries
+library(caret)
+# Load necessary libraries
+library(nnet)  # For multinomial logistic regression
+library(caret) # For data partitioning
+
+
+# Read the dataset
+data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+
+# Select relevant columns and remove rows with missing values
+data_cleaned <- na.omit(data[, c("accident_severity", "weather_conditions")])
+
+# Convert columns to factors
+data_cleaned$accident_severity <- as.factor(data_cleaned$accident_severity)
+data_cleaned$weather_conditions <- as.numeric(data_cleaned$weather_conditions)
+
+# Split the dataset into training and testing sets
+set.seed(42)
+train_index <- createDataPartition(data_cleaned$accident_severity, p = 0.8, list = FALSE)
+train_data <- data_cleaned[train_index, ]
+test_data <- data_cleaned[-train_index, ]
+
+# Train multinomial logistic regression model
+multinom_model <- multinom(accident_severity ~ weather_conditions, data = train_data)
+
+# Summarize the model
+summary(multinom_model)
+
+# Make predictions
+predictions <- predict(multinom_model, newdata = test_data)
+
+# Evaluate the model
+confusion_matrix <- table(test_data$accident_severity, predictions)
+print("Confusion Matrix:")
+print(confusion_matrix)
+
+# Calculate accuracy
+accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
+print(paste("Accuracy:", round(accuracy, 4)))
+
+```
+
+```{r}
+# Load necessary libraries
+library(nnet)  # For multinomial logistic regression
+library(caret) # For data partitioning
+library(pROC)  # For AUC and ROC curves
+
+# Read the dataset
+data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Select relevant columns and remove rows with missing values
+data_cleaned <- na.omit(data[, c("accident_severity", "weather_conditions")])
+
+# Convert columns to factors and numeric types
+data_cleaned$accident_severity <- as.factor(data_cleaned$accident_severity)
+data_cleaned$weather_conditions <- as.numeric(data_cleaned$weather_conditions)
+
+# Split the dataset into training and testing sets
+set.seed(42)
+train_index <- createDataPartition(data_cleaned$accident_severity, p = 0.8, list = FALSE)
+train_data <- data_cleaned[train_index, ]
+test_data <- data_cleaned[-train_index, ]
+
+# Train multinomial logistic regression model
+multinom_model <- multinom(accident_severity ~ weather_conditions, data = train_data)
+
+# Predict probabilities for the test data
+probabilities <- predict(multinom_model, newdata = test_data, type = "probs")
+
+# Create one-vs-all ROC curves for each class
+roc_curve_1 <- roc(as.numeric(test_data$accident_severity == 1), probabilities[, 1], plot = TRUE, col = "red", main = "ROC Curve for Multinomial Logistic Regression")
+roc_curve_2 <- roc(as.numeric(test_data$accident_severity == 2), probabilities[, 2], plot = TRUE, col = "blue", add = TRUE)
+roc_curve_3 <- roc(as.numeric(test_data$accident_severity == 3), probabilities[, 3], plot = TRUE, col = "green", add = TRUE)
+
+# Add legend
+legend("bottomright", legend = c("Class 1 (Fatal)", "Class 2 (Serious)", "Class 3 (Slight)"),
+       col = c("red", "blue", "green"), lwd = 2)
+
+# Compute AUC for each class
+auc_1 <- auc(roc_curve_1)
+auc_2 <- auc(roc_curve_2)
+auc_3 <- auc(roc_curve_3)
+
+
+
+```
+
+```{r}
+# Load necessary libraries
+# Load necessary libraries
+library(randomForest)
+library(pROC)
+library(caret)
+
+# Read the dataset
+data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Select relevant features and target variable
+features <- c("weather_conditions", "number_of_vehicles", "road_surface_conditions", "urban_or_rural_area")
+target <- "accident_severity"
+
+# Filter data to include only relevant columns and remove rows with missing values
+data_cleaned <- na.omit(data[, c(features, target)])
+
+# Convert target variable to factor for classification
+data_cleaned$accident_severity <- as.factor(data_cleaned$accident_severity)
+
+# Split data into training and testing sets
+set.seed(42)
+train_index <- createDataPartition(data_cleaned$accident_severity, p = 0.8, list = FALSE)
+train_data <- data_cleaned[train_index, ]
+test_data <- data_cleaned[-train_index, ]
+
+# Train a Random Forest model
+rf_model <- randomForest(
+  accident_severity ~ .,
+  data = train_data,
+  ntree = 100,
+  importance = TRUE
+)
+
+# Print model summary
+print(rf_model)
+
+# Predict probabilities on the test set
+rf_probabilities <- predict(rf_model, newdata = test_data, type = "prob")
+
+# Draw AUC Curve for each class using one-vs-all approach
+auc_values <- list()
+for (i in 1:ncol(rf_probabilities)) {
+  class_label <- colnames(rf_probabilities)[i]
+  roc_curve <- roc(as.numeric(test_data$accident_severity == class_label), 
+                   rf_probabilities[, i], 
+                   plot = TRUE, 
+                   main = paste("ROC Curve for Class", class_label), 
+                   col = i)
+  auc_values[[class_label]] <- auc(roc_curve)
+  print(paste("AUC for Class", class_label, ":", round(auc(roc_curve), 4)))
+}
+
+# Visualize feature importance
+varImpPlot(rf_model)
+
+
+```
+
+## only Logistic regression with 2 variables
+
+```{r}
+# Load necessary libraries
+library(nnet)    # For logistic regression
+library(pROC)    # For ROC curve and AUC
+library(caret)   # For data partitioning
+
+# Read the dataset
+data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Select relevant columns and remove rows with missing values
+data_cleaned <- na.omit(data[, c("accident_severity", "urban_or_rural_area", "weather_conditions")])
+
+# Create a binary target variable (1 for Slight, 0 for Fatal and Serious)
+data_cleaned$binary_severity <- ifelse(data_cleaned$accident_severity == 3, 1, 0)
+
+# Convert necessary columns to numeric/factor
+data_cleaned$binary_severity <- as.factor(data_cleaned$binary_severity)
+data_cleaned$urban_or_rural_area <- as.numeric(data_cleaned$urban_or_rural_area)
+data_cleaned$weather_conditions <- as.numeric(data_cleaned$weather_conditions)
+
+# Split the dataset into training and testing sets
+set.seed(42)
+train_index <- createDataPartition(data_cleaned$binary_severity, p = 0.8, list = FALSE)
+train_data <- data_cleaned[train_index, ]
+test_data <- data_cleaned[-train_index, ]
+
+# Train logistic regression model
+logistic_model <- glm(binary_severity ~ urban_or_rural_area + weather_conditions, 
+                      data = train_data, 
+                      family = binomial)
+print(logistic_model)
+
+# Predict probabilities for the test data
+probabilities <- predict(logistic_model, newdata = test_data, type = "response")
+
+# Create the ROC curve
+roc_curve <- roc(test_data$binary_severity, probabilities, plot = TRUE, col = "blue", 
+                 main = "ROC Curve for Binary Classification")
+
+# Compute and print AUC
+auc_value <- auc(roc_curve)
+print(paste("AUC Value:", round(auc_value, 4)))
+
+# Add thresholds to the ROC plot
+plot(roc_curve, print.auc = TRUE, col = "blue")
+
+```
+
+## Logistic regression Lasso wirth 2 combination variables
+
+```{r}
+library(glmnet)
+
+# Prepare data for glmnet
+X <- as.matrix(train_data[, c("urban_or_rural_area", "weather_conditions")])
+y <- as.numeric(train_data$binary_severity) - 1
+
+# Train Lasso logistic regression
+lasso_model <- cv.glmnet(X, y, family = "binomial", alpha = 1)
+
+# Predict probabilities for test data
+test_X <- as.matrix(test_data[, c("urban_or_rural_area", "weather_conditions")])
+lasso_probabilities <- predict(lasso_model, newx = test_X, s = "lambda.min", type = "response")
+
+# Evaluate using ROC and AUC
+lasso_roc <- roc(as.numeric(test_data$binary_severity), lasso_probabilities, plot = TRUE, col = "blue",
+                 main = "ROC Curve for Lasso Logistic Regression")
+lasso_auc <- auc(lasso_roc)
+print(paste("Lasso Logistic Regression AUC:", round(lasso_auc, 4)))
+
+```
+
+## Logistic regression Lasso wirth more variables
+
+```{r}
+# Load necessary libraries
+library(glmnet)
+library(pROC)
+
+# Load the dataset
+data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+
+# Define selected features and target variable
+selected_features <- c("accident_severity", "number_of_vehicles", "road_surface_conditions", 
+                       "weather_conditions", "urban_or_rural_area", "special_conditions_at_site", 
+                       "day_of_week", "time", "junction_detail", "speed_limit")
+
+# Check if selected features exist in the dataset
+if (!all(selected_features %in% colnames(data))) {
+  missing_features <- selected_features[!selected_features %in% colnames(data)]
+  stop(paste("The following features are missing from the dataset:", paste(missing_features, collapse = ", ")))
+}
+
+# Filter the dataset for selected features and remove rows with missing values
+data_cleaned <- na.omit(data[, selected_features])
+
+# Create a binary target variable for classification
+# Severe (1) = accident_severity 1 or 2, Slight (0) = accident_severity 3
+data_cleaned$binary_severity <- ifelse(data_cleaned$accident_severity == 3, 0, 1)
+
+# Feature engineering: Convert 'time' into 'time_of_day' (e.g., Morning, Afternoon, Night)
+data_cleaned$time <- as.numeric(sub("^(\\d{2}):.*$", "\\1", data_cleaned$time)) # Extract hour
+data_cleaned$time_of_day <- cut(data_cleaned$time, 
+                                breaks = c(-1, 6, 12, 18, 24), 
+                                labels = c("Night", "Morning", "Afternoon", "Evening"))
+
+# Drop unnecessary columns (original 'time' and 'accident_severity')
+data_cleaned <- data_cleaned[, !(names(data_cleaned) %in% c("time", "accident_severity"))]
+
+# Convert categorical variables into factors
+categorical_vars <- c("road_surface_conditions", "weather_conditions", "urban_or_rural_area", 
+                      "special_conditions_at_site", "day_of_week", "time_of_day", "junction_detail")
+data_cleaned[categorical_vars] <- lapply(data_cleaned[categorical_vars], as.factor)
+
+# Prepare data for glmnet
+X <- model.matrix(binary_severity ~ ., data_cleaned)[, -1] # Remove intercept
+y <- data_cleaned$binary_severity
+
+# Split data into training and testing sets
+set.seed(42)
+train_index <- sample(1:nrow(X), size = 0.8 * nrow(X))
+train_X <- X[train_index, ]
+train_y <- y[train_index]
+test_X <- X[-train_index, ]
+test_y <- y[-train_index]
+
+# Train Lasso Logistic Regression model
+lasso_model <- cv.glmnet(train_X, train_y, family = "binomial", alpha = 1)
+
+# Predict probabilities for test data
+lasso_probabilities <- predict(lasso_model, newx = test_X, s = "lambda.min", type = "response")
+
+# Evaluate using ROC and AUC
+lasso_roc <- roc(test_y, lasso_probabilities, plot = TRUE, col = "blue",
+                 main = "ROC Curve for Lasso Logistic Regression")
+lasso_auc <- auc(lasso_roc)
+print(paste("Lasso Logistic Regression AUC:", round(lasso_auc, 4)))
+
+# Feature importance (coefficients)
+coefficients <- coef(lasso_model, s = "lambda.min")
+print("Selected Features and Coefficients:")
+print(coefficients)
+
+
+```
+
+
+## **Loading Libraries:**
+
+```{r}
+# Load required libraries
+
+suppressWarnings({
+ library(tidyverse)
+library(ggplot2)
+library(plotly)  
+library(maps)
+library(leaflet)
+library(readr)
+
+library(plotly)
+library(dplyr)
+library(viridis) 
+library(rnaturalearth)  # For loading world map data
+
+
+})
+
+
+
+```
+
+## **Average Suicidal Rates By Country from 1950 to 2022:**
+
+```{r}
+# Load the data (change the path to where your file is stored)
+suicide_data <- read.csv("suicide-rates-all.csv")
+
+# Summarize the data to get the average suicide rate for each country
+average_suicide_rate <- suicide_data %>%
+  group_by(Country) %>%
+  summarise(Average_Suicide_Rate = mean(suscide.rate, na.rm = TRUE), .groups = "drop")  # Add .groups = "drop" to avoid warnings
+
+# Load world map data
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Merge world map data with average suicide rates
+world_data <- merge(world, average_suicide_rate, by.x = "name", by.y = "Country", all.x = TRUE)
+
+# Create color palette for suicide rates
+pal <- colorNumeric(palette = "YlOrRd", domain = world_data$Average_Suicide_Rate, na.color = "transparent")
+
+# Create interactive leaflet map
+leaflet(world_data) %>%
+  addTiles() %>%
+  addPolygons(
+    fillColor = ~pal(Average_Suicide_Rate),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.7,
+    highlight = highlightOptions(
+      weight = 5,
+      color = "#666",
+      dashArray = "",
+      fillOpacity = 0.7,
+      bringToFront = TRUE
+    ),
+    label = ~paste(name, "Average Suicide Rate: ", round(Average_Suicide_Rate, 2)),
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px",
+      direction = "auto"
+    )
+  ) %>%
+  addLegend(pal = pal, values = ~Average_Suicide_Rate, opacity = 0.7, title = "Average Suicide Rate per 100,000", position = "bottomright") %>%
+  addControl("<strong>Average Suicide Rates by Country of all the ages over the years 1950 to 2022</strong>", position = "topright", 
+             className = "map-title")  # Add title to the map
+```
+
+### **Average Suicide Rates of all the ages by Country for the top rated year: 1982**
+
+```{r}
+
+# Load the data (change the path to where your file is stored)
+suicide_data <- read.csv("suicide-rates-all.csv")
+
+# Calculate the overall average suicide rate for each year across all countries
+yearly_avg_suicide_rate <- suicide_data %>%
+  group_by(Year) %>%
+  summarise(Average_Suicide_Rate = mean(suscide.rate, na.rm = TRUE))
+
+# Find the year with the highest overall average suicide rate
+top_year <- yearly_avg_suicide_rate %>%
+  filter(Average_Suicide_Rate == max(Average_Suicide_Rate)) %>%
+  pull(Year)
+
+# Filter the data to include only the data for the top year
+top_year_data <- suicide_data %>%
+  filter(Year == top_year)
+
+# Load world map data
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Merge world map data with suicide rate data for the top year
+world_data <- merge(world, top_year_data, by.x = "name", by.y = "Country", all.x = TRUE)
+
+# Create color palette for the suicide rates in the top year
+pal <- colorNumeric(palette = "YlOrRd", domain = world_data$suscide.rate, na.color = "transparent")
+
+# Create interactive leaflet map
+map <- leaflet(world_data) %>%
+  addTiles() %>%
+  addPolygons(
+    fillColor = ~pal(suscide.rate),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.7,
+    highlight = highlightOptions(
+      weight = 5,
+      color = "#666",
+      dashArray = "",
+      fillOpacity = 0.7,
+      bringToFront = TRUE
+    ),
+    label = ~paste(name, "Suicide Rate: ", round(suscide.rate, 2)),
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px",
+      direction = "auto"
+    )
+  ) %>%
+  addLegend(pal = pal, values = ~suscide.rate, opacity = 0.7, title = paste("Suicide Rate per 100,000 in ", top_year), position = "bottomright")%>%
+addControl("<strong>Average Suicide Rates of all the ages by Country for the top rated year: 1982</strong>", position = "topright", 
+             className = "map-title")  # Add title to the map
+
+# Show the map
+map
+```
+
+### **Average Suicide Rates by Year all over the World:**
+
+```{r}
+
+
+# Read the data
+data <- read_csv(
+  "C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv",
+  col_types = cols(
+    Country = col_character(),
+    Code = col_character(),
+    Year = col_double(),
+    `suscide-rate` = col_double()
+  )
+)
+
+# Step 1: Calculate the average suicide rate for each year
+avg_suicide_by_year <- data %>%
+  group_by(Year) %>%
+  summarise(Average_suicide_rate = round(mean(`suscide-rate`, na.rm = TRUE), 2), .groups = "drop")
+
+# Step 2: Create the frequency polygon
+frequency_polygon <- ggplot(avg_suicide_by_year, aes(x = Year, y = Average_suicide_rate)) +
+  geom_line(stat = "identity", color = "blue", size = 1) +  # Line to connect data points
+  geom_point(color = "red") +  # Points for each year
+  labs(title = "Suicide Rates trend of all the ages and Years all over the world", 
+       x = "Year", 
+       y = "Average Suicide Rate per 100,000") +
+  
+  theme(
+    plot.title = element_text(face = "bold"), 
+    axis.title.x = element_text(face = "bold"), 
+    axis.title.y = element_text(face = "bold")
+  )
+
+# Convert the frequency polygon to an interactive plot
+interactive_frequency_polygon <- ggplotly(frequency_polygon)
+
+# Show the interactive frequency polygon
+interactive_frequency_polygon
+```
+
+## **Top 5 Years with Highest Suicide Rates in Top 5 Countries:**
+
+```{r}
+# Load the data (update the path to your CSV file accordingly)
+suicide_data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv")
+
+# Calculate the average suicide rate per country and filter top 5 countries
+top_5_countries <- suicide_data %>%
+  group_by(Country) %>%
+  summarise(Average_Suicide_Rate = mean(suscide.rate, na.rm = TRUE)) %>%
+  top_n(5, wt = Average_Suicide_Rate)
+
+# Find the top 5 years for each of the top 5 countries
+top_5_years_per_country <- suicide_data %>%
+  filter(Country %in% top_5_countries$Country) %>%
+  group_by(Country, Year) %>%
+  summarise(Suicide_Rate = mean(suscide.rate, na.rm = TRUE)) %>%
+  arrange(Country, desc(Suicide_Rate)) %>%
+  group_by(Country) %>%
+  slice_max(Suicide_Rate, n = 5)
+
+# Create a horizontal bar plot with increased bar size
+p_bar <- ggplot(top_5_years_per_country, aes(x = reorder(Country, Suicide_Rate), y = Suicide_Rate, fill = Year, text = paste("Country:", Country, "<br>Year:", Year, "<br>Suicide Rate:", round(Suicide_Rate, 2)))) +
+  geom_bar(stat = "identity", position = position_dodge(), width = 0.9) +  # Adjust width to increase bar size
+  scale_fill_gradient(low = "#FF9999", high = "#CC0000") +  # Light to dark red gradient
+  labs(title = "Top 5 Countries with Highest Suicide Rates and Their Top 5 Years",
+       x = "Suicide Rate",
+       y = "Country") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "none") +
+  coord_flip() +  # Flip the axes to create horizontal bars
+  
+  # Add year labels to the bars
+  geom_text(aes(label = Year), 
+            position = position_dodge(width = 0.9),  # Ensure labels match bar positions
+            hjust = -0.2,   # Adjust horizontal position of text
+            size = 3,       # Set a smaller text size
+            fontface = "bold")       # Set a smaller text size
+
+# Convert ggplot to interactive plotly plot
+interactive_bar_plot <- ggplotly(p_bar, tooltip = "text")
+
+# Display the interactive plot
+interactive_bar_plot
+
+
+```
+
+## **Average Suicide Rates for Ages 15-19 over the years:**
+
+```{r}
+
+# Load the CSV file
+children_data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-by-age.csv")
+
+# Step 1: Rename columns to appropriate labels
+colnames(children_data) <- c("Country", "Code", "Year", 
+                              "Death_rate_15_19", "Death_rate_20_24", "Death_rate_25_29", 
+                              "Death_rate_30_34", "Death_rate_35_39", "Death_rate_40_44", 
+                              "Death_rate_45_49", "Death_rate_50_54", "Death_rate_55_59", 
+                              "Death_rate_60_64", "Death_rate_65_69", "Death_rate_70_74", 
+                              "Death_rate_75_79", "Death_rate_80_84", "Death_rate_over_85")
+
+# Step 2: Calculate the average suicide rate for children (using 'Death_rate_15_19' as an example)
+avg_suicide_rate <- children_data %>%
+  group_by(Country) %>%
+  summarise(AverageRate = round(mean(Death_rate_15_19, na.rm = TRUE),2))
+
+# Step 3: Load map data
+world_map <- map_data("world")
+
+# Step 4: Merge average suicide rates with the map data
+map_data <- world_map %>%
+  left_join(avg_suicide_rate, by = c("region" = "Country")) # Ensure to match the correct column names
+
+# Step 5: Create the static map using ggplot2
+gg <- ggplot(data = map_data, aes(x = long, y = lat, group = group, fill = AverageRate)) +
+  geom_polygon(color = "black", aes(text = paste("Country:", region, "<br>Average Suicide Rate (Ages 15-19):", round(AverageRate, 2)))) +
+  scale_fill_gradient(low = "lightblue", high = "red", na.value = "grey50", 
+                      name = "Average Suicide Rate\n(Ages 15-19)") +
+  labs(title = "Average Suicide Rate of Children by Country (Ages 15-19)",
+       x = "Longitude", 
+       y = "Latitude") +
+  theme_minimal() +
+  theme(legend.position = "right")
+
+# Step 6: Convert ggplot to an interactive plotly object
+interactive_map <- ggplotly(gg, tooltip = "text")
+
+# Step 7: Display the interactive map
+interactive_map
+```
+
+### Average Suicide Rate for the Top 20 Nations in the 15-19 Age Group (Across All Years):
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(plotly)
+
+# Load the data
+data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-by-age.csv")
+
+# Clean column names for easier access
+colnames(data) <- c("Entity", "Code", "Year", 
+                    "Death_rate_15_19", "Death_rate_20_24", "Death_rate_25_29", 
+                    "Death_rate_30_34", "Death_rate_35_39", "Death_rate_40_44", 
+                    "Death_rate_45_49", "Death_rate_50_54", "Death_rate_55_59", 
+                    "Death_rate_60_64", "Death_rate_65_69", "Death_rate_70_74", 
+                    "Death_rate_75_79", "Death_rate_80_84", "Death_rate_over_85")
+
+# Filter the data for the 15-19 age group and remove missing values
+data_filtered <- data %>%
+  filter(!is.na(Death_rate_15_19))
+
+# Calculate the average suicide rate for each country across all years
+avg_suicide_rate <- data_filtered %>%
+  group_by(Entity) %>%
+  summarise(suscide_Rate = round(mean(Death_rate_15_19, na.rm = TRUE), 2)) %>%
+  arrange(desc(suscide_Rate)) %>%
+  top_n(20, suscide_Rate)
+
+# Create the bar plot with ggplot
+bar_plot <- ggplot(avg_suicide_rate, aes(x = reorder(Entity, suscide_Rate), 
+                                           y = suscide_Rate, 
+                                           fill = suscide_Rate,
+                                           text = paste("Country:", Entity, "<br>Average Suicide Rate:", suscide_Rate))) +
+  geom_bar(stat = "identity") +
+  coord_flip() +  # Flip coordinates to make country names readable
+  scale_fill_gradient(low = "#ffcccc", high = "#990000") +  # Light red to dark red gradient
+  labs(title = "Suicide Rates Among 15-19 Year Olds in the Top 20 Nations (All Years)", 
+       x = "Country", 
+       y = "Average Suicide Rate per 100,000 Population") +
+  theme(axis.text.y = element_text(angle = 0, hjust = 1, size = 8)) +  # Adjust text angle and size
+  guides(fill = guide_legend(title = "Suicide Rate per 100,000"))  # Change the legend title
+
+# Convert to an interactive plot with plotly
+interactive_plot <- ggplotly(bar_plot, tooltip = "text")  # Use the 'text' aesthetic for tooltip
+
+# Show the interactive plot
+interactive_plot
+
+
+```

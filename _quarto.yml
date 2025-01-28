@@ -1,0 +1,28 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Venkata Lakshmi Parimala Pasupuleti"
+  description: "A portfolio website"
+  navbar:
+    right:
+      - href: about.qmd
+      - href: about.qmd
+        text: "About"
+      - href: project_details.qmd
+        text: Graduate Projects
+      - href: project_source_code.qmd
+        text: Project source code
+      - href: References.qmd
+        text: "References"
+      - href: contact.qmd
+        text: "Contact"
+
+
+format:
+  html:
+    theme: solar
+    toc: true
+    fontsize: 0.9em
+    linestretch: 1.7

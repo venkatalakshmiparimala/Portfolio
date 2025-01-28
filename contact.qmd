@@ -1,0 +1,15 @@
+---
+title: "Contact Information"
+format: html
+editor: visual
+---
+
+If you would like to get in touch, feel free to reach out through the following:
+
+#### Venkata Lakshmi Parimala Pasupuleti
+
+-   **Email**: [venkatalakshmiparimala\@gmail.com](mailto:venkatalakshmiparimala@gmail.com)
+
+-   **Phone**: +1 703-261-5410
+
+-   **LinkedIn**: [Venkata Lakshmi Parimala Pasupuleti](https://www.linkedin.com/in/venkata-lakshmi-parimala-pasupuleti/)
