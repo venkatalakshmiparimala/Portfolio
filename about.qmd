@@ -6,9 +6,9 @@
 title: "About Me"
 ---
 
-# Venkata Lakshmi Parimala Pasupuleti
+### ![](images/Screenshot 2025-01-15 194855.png){width="250"}
 
-![](myimage.jpg){width="169"}
+# Venkata Lakshmi Parimala Pasupuleti
 
 ### Software Engineer \| Web & Database Development Specialist
 
@@ -70,7 +70,7 @@ In addition to my technical expertise, I have worked on multiple projects in the
 
 -   Gained hands-on experience in Web development,Agile methodologies, actively involved in Sprint planning, and daily standups.
 
-##### **Trainee, Entrata India** (Db Xento Systems)          **Pune, India Jan 2017 – Jun 2017**
+##### **Trainee, Entrata India** (Db Xento Systems) **Pune, India Jan 2017 – Jun 2017**
 
 -   Acquired foundational skills in software development by learning key technologies such as PHP Concepts, Database technoques, and UI design and development.
 
@@ -215,3 +215,5 @@ In addition to my technical expertise, I have worked on multiple projects in the
 
 -   **Bachelor of Technology in Computer Science & Technology**\
     Sree Venkateshwara College of Engineering, Nellore, India (2013 - 2017)
+
+Resume: - [Venkata Lakshmi Parimala Pasupuleti Resume](VENKATA%20LAKSHMI%20PARIMALA%20PASUPULET%20Resume%20A_2025){download="VENKATA LAKSHMI PARIMALA PASUPULET Resume A_2025.pdf"}
