@@ -9,7 +9,7 @@ execute:
 
 **Crash Clarity: Data-Driven Insights for Enhancing UK Road Safety using statistical models\
 \
-**![](images/road image.jpg)
+**![](images/road%20image.jpg)
 
 **ABSTRACT**
 

@@ -6,7 +6,7 @@
 title: "About Me"
 ---
 
-### ![](images/Screenshot 2025-01-15 194855.png){width="250"}
+### ![](images/Screenshot%202025-01-15%20194855.png){width="250"}
 
 # Venkata Lakshmi Parimala Pasupuleti
 
@@ -24,7 +24,7 @@ In addition to my technical expertise, I have worked on multiple projects in the
 
 # Experience
 
-##### **Senior Software Engineer,** Entrata India (Db Xento Systems) – Pune, India **Jan 2023 – Aug 2024**
+##### **Software Engineer,** Entrata India (Db Xento Systems) – Pune, India    **Oct 2018 – Aug 2024**
 
 -   Participated in Agile Scrum processes, leading to Sprint planning & story point estimation using Planning Poker and the Fibonacci sequence.
 
@@ -44,7 +44,7 @@ In addition to my technical expertise, I have worked on multiple projects in the
 
 -   Ensured compliance with federal and state regulations for housing subsidies and income restrictions.
 
-##### **Software Engineer,** Entrata India (Db Xento Systems) – Pune, India **Oct 2018 – Dec 2022**
+##### 
 
 -   Assisted, Developed and deployed complex web designs for property management and rental solutions using PHP for backend and Multiple front-end technologies.
 
@@ -216,4 +216,4 @@ In addition to my technical expertise, I have worked on multiple projects in the
 -   **Bachelor of Technology in Computer Science & Technology**\
     Sree Venkateshwara College of Engineering, Nellore, India (2013 - 2017)
 
-Resume: - [Venkata Lakshmi Parimala Pasupuleti Resume](VENKATA%20LAKSHMI%20PARIMALA%20PASUPULET%20Resume%20A_2025){download="VENKATA LAKSHMI PARIMALA PASUPULET Resume A_2025.pdf"}
+Resume: - [Venkata Lakshmi Parimala Pasupuleti Resume](VENKATA LAKSHMI PARIMALA PASUPULET Resume_2025.pdf){download="VENKATA LAKSHMI PARIMALA PASUPULET Resume A_2025.pdf"}

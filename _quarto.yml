@@ -8,7 +8,6 @@ website:
   navbar:
     right:
       - href: about.qmd
-      - href: about.qmd
         text: "About"
       - href: project_details.qmd
         text: Graduate Projects
