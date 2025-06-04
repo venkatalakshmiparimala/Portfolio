@@ -22,6 +22,16 @@ I led several database projects under the guidance of a database architect with 
 
 In addition to my technical expertise, I have worked on multiple projects in the affordable housing sector. I designed solutions for resident management, rental subsidy calculations, eligibility determination, and rent calculations. My contributions to the development of these systems ensured that they were reliable, secure, and user-friendly. I also worked on encrypting sensitive resident data ensuring full compliance with data protection standards.
 
+### Education
+
+-   **Master’s in Data Analytics Engineering**\
+    George Mason University, Virginia, USA (2024 - 2026)
+
+    -   GPA: 3.83
+
+-   **Bachelor of Technology in Computer Science & Technology**\
+    Sree Venkateshwara College of Engineering, Nellore, India (2013 - 2017)
+
 # Experience
 
 ##### **Software Engineer,** Entrata India (Db Xento Systems) – Pune, India    **Oct 2018 – Aug 2024**
@@ -240,14 +250,5 @@ In addition to my technical expertise, I have worked on multiple projects in the
 
 -   Technologies: R-programming,Statistical methods, GIT.
 
-### Education
-
--   **Master’s in Data Analytics Engineering**\
-    George Mason University, Virginia, USA (2024 - 2026)
-
-    -   GPA: 3.78
-
--   **Bachelor of Technology in Computer Science & Technology**\
-    Sree Venkateshwara College of Engineering, Nellore, India (2013 - 2017)
 
 Resume: - [Venkata Lakshmi Parimala Pasupuleti Resume](VENKATA LAKSHMI PARIMALA PASUPULET Resume_2025.pdf){download="VENKATA LAKSHMI PARIMALA PASUPULET Resume A_2025.pdf"}
