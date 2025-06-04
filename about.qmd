@@ -78,6 +78,40 @@ In addition to my technical expertise, I have worked on multiple projects in the
 
 -   Completed comprehensive training in object-oriented programming (OOP) principles and database management, laying the groundwork.
 
+# Other Experience
+
+##### **PPA Assistant – Event ManagementGeorge Mason University, University Life – Mason Square (Mar 2025 – Present)**
+
+- Lead weekly wellness programs such as Pilates and Zumba for students, overseeing space reservations, materials, scheduling, and promotion to increase participation.
+
+- Collaborate with university departments and student organizations to co-host wellness and inclusion-focused programs.
+
+- Collect feedback from participants to assess engagement and improve future programming; contribute to quarterly reports and student success initiatives.
+
+- Serve as a liaison for University Life during campus events, supporting logistics, signage, and setup to enhance student experience and institutional outreach.
+
+##### **Team Event Coordinator – Entrata India (2020–2024)**
+
+- Spearheaded planning and execution of internal engagement activities, hackathons, and milestone celebrations for cross-functional teams.
+
+- Worked closely with HR and leadership to promote team culture, boost morale, and align event themes with organizational values.
+
+##### **CSR Committee Member – Entrata India (2019–2024)**
+
+- Led community outreach initiatives focused on education, wellness, and inclusivity by organizing donation drives, mentorship programs, and women-focused tech workshops.
+
+- Developed partnerships with NGOs to expand the impact of corporate social responsibility goals and documented outcomes for internal reporting.
+
+##### **Graduate Assistant – Academic Programs and Instruction  Sree Venkateshwara College of Engineering (2015–2017)**
+
+- Supported academic operations, including managing confidential student data, maintaining academic records, and coordinating departmental communications
+
+- Collaborated with faculty to plan and deliver academic outreach initiatives aimed at improving student engagement and retention
+
+- Created and maintained documentation for student-facing services, developed content for workshops, and participated in academic resource planning
+
+- Played a key role in analyzing student engagement trends to contribute to institutional reporting and enhance learning outcomes
+
 ### Technical Skills
 
 -   **Databases**: PostgreSQL, MySQL\
