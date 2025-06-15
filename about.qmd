@@ -156,7 +156,7 @@ In addition to my technical expertise, I have worked on multiple projects in the
 
 -   **Web Frameworks**: Basic NodeJS\
 
--   **Libraries/Frameworks**: PyTorch, NumPy, Pandas Methodologies: Data Analysis. Data Modeling\
+-   **•	Frameworks/Tools: PyTorch, Scikit-learn, TensorFlow, Docker, REST APIs, Git, JIRA, Spark, Hive, Tableau, Power BI\
 
 -   **Version Control, Task &project Management & Performance Monitoring**: SVN, Git, JIRA, ClickUp, New Relic, Agile methodologies, Waterfall,scrum
 
@@ -164,7 +164,9 @@ In addition to my technical expertise, I have worked on multiple projects in the
 
 -   **Queue Management**: RabbitMQ \
 
--   **Embedded Systems and Debugging**: Basic knowledge of embedded processors and real-time operating systems, excellent debugging skills 
+-   **Embedded Systems and Debugging**: Basic knowledge of embedded processors and real-time operating systems, excellent debugging skills \
+
+-   **Machine Learning: Recommendation Systems, NLP (LLMs, embeddings), Clustering, Classification 
 
 ### ORGANIZATION PROJECTS
 
@@ -240,15 +242,41 @@ In addition to my technical expertise, I have worked on multiple projects in the
 
 ### ACADEMIC PROJECTS
 
-#### **CrashClarity Project**
+#### **CrashClarity: UK Road Accidents Analysis**
+- Tools: R, Random Forest, Logistic Regression, GitHub Pages   
+- https://venkatalakshmiparimala.github.io/Portfolio/project_details.html
 
--   Analyzed traffic accident data using R to identify patterns and contributing factors.
+- 	Analyzed UK traffic accident data using R to uncover accident patterns and safety risks 
+- 	Conducted data cleaning, applied Random Forest and Logistic Regression models  
+- 	Developed interactive dashboards hosted on GitHub Pages to visualize results for stakeholders 
 
--   Applyed statistical methods and visualization techniques for Machine Learning Predictive Modeling.
+#### **Real Estate Sale Prices vs Socioeconomic Indicators (Connecticut, 2001–2022)**
+- Tools: Python, XGBoost, Random Forest, PyTorch, Scikit-learn, Docker, Tableau
+- https://mason.gmu.edu/~vpasupu2/index.html 
 
--   Presented insights via an interactive website hosted on GitHub Pages, enhancing data accessibility and decision-making.
+- 	Implemented XGBoost and Random Forest to explore effects of crime, education, and healthcare access
+- 	Merged multi-source datasets and applied feature engineering for regression modeling
+- 	Created dashboards in Tableau and Python for real estate stakeholders
+- 	Designed and fine-tuned scalable ML pipelines using PyTorch and Scikit-learn for model training and evaluation
+- 	Benchmarked models across architectures and optimized training with GPU acceleration and batching
+- 	Deployed inference-ready models via RESTful APIs in Docker-based microservice containers
+- 	Automated retraining workflows and developed scripts to monitor model drift and latency
 
--   Technologies: R-programming,Statistical methods, GIT.
+#### **Movie Recommendation System**
+- Technologies: Python, Scikit-learn, KNN, Collaborative Filtering, Power BI
+
+- 	Built a movie recommendation engine using K-Nearest Neighbors and collaborative filtering (Sarwar/Ullman models) on the MovieLens dataset.
+- 	Compared weighted and unweighted similarity metrics and evaluated results using RMSE.
+- 	Integrated model outputs with Power BI to visualize user preferences and recommendation quality.
+
+#### **Life Expectancy 360: Predictive Analysis**
+- Technologies: Python, Pandas, Scikit-learn, PCA, Linear Regression
+
+- 	Analyzed WHO life expectancy data, identifying patterns across socio-economic and health variables.
+- 	Engineered features through imputation, encoding, and log transformation to improve model accuracy.
+- 	Built a multiple linear regression model and applied PCA to reduce dimensionality and enhance interpretability.
+- 	Identified actionable trends and anomalies in health indicators across countries.
 
 
-Resume: - [Venkata Lakshmi Parimala Pasupuleti Resume](VENKATA LAKSHMI PARIMALA PASUPULET Resume_2025.pdf){download="VENKATA LAKSHMI PARIMALA PASUPULET Resume A_2025.pdf"}
+
+
