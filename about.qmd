@@ -1,7 +1,3 @@
-------------------------------------------------------------------------
-
-------------------------------------------------------------------------
-
 ---
 title: "About Me"
 ---
@@ -10,273 +6,132 @@ title: "About Me"
 
 # Venkata Lakshmi Parimala Pasupuleti
 
-### Software Engineer \| Web & Database Development Specialist
+### Software Engineer & AI Builder
 
-I have over seven years of experience in web development and database engineering, and my career has been built on a passion for creating high-quality, efficient solutions in dynamic work environments. I enjoy collaborating with teams and contributing to projects that solve real-world problems, especially in the areas of database design, scalable systems, and cloud-based architecture.
+I'm a software engineer with 8+ years of industry experience, currently focused on building AI systems. I recently completed my **MS in Data Analytics Engineering at George Mason University** (GPA 3.87) and built **AgentProbe** — an open-source agentic AI testing toolkit for LLM, RAG, and multi-agent systems using LangChain, LangGraph, ChromaDB, and FastAPI.
 
-I have experience in property management software development with **Entrata India**, where I worked within an Agile Scrum framework. I actively participated in sprint planning, project execution, and project management. I collaborated closely with cross-functional teams to deliver solutions that enhanced product performance and met client requirements. From optimizing SQL queries to developing scalable microservices, I consistently focused on improving system efficiency and addressing complex technical challenges.
+Most of my career was spent at **Entrata India**, one of the largest property management platforms in the US, where I worked on systems handling over 1 million property records and 100K+ monthly active users. I worked across database architecture, microservices, cloud migration to AWS, encryption, and performance optimization — learning what it means to build software that actually holds up at scale.
 
-One of the highlights of my experience was developing a microservices-based architecture that improved system scalability by 50%, and reduced deployment time by 30%, utilizing technologies such as Docker and Kubernetes. I was also deeply involved in migrating thousands of client documents from local servers to AWS cloud storage, which resolved critical storage limitations and ensured data security and accessibility.
+I care about building things that work, not just demos. Whether it's a RAG pipeline that needs debugging, an agentic workflow that needs to adapt, or a SQL query that needs tuning, I approach every problem by understanding it deeply before writing a single line of code.
 
-I led several database projects under the guidance of a database architect with 21 years of experience, gaining in-depth knowledge in database management and architecture design. Utilizing these skills, I contributed to building database structures for various projects and also served as a virtual database administrator for the product. In this role, I delivered multiple database optimization solutions to enhance product efficiency.
+---
 
-In addition to my technical expertise, I have worked on multiple projects in the affordable housing sector. I designed solutions for resident management, rental subsidy calculations, eligibility determination, and rent calculations. My contributions to the development of these systems ensured that they were reliable, secure, and user-friendly. I also worked on encrypting sensitive resident data ensuring full compliance with data protection standards.
+## Education
 
-### Education
+- **Master's in Data Analytics Engineering** — George Mason University, Virginia, USA (2024–2025) · GPA: 3.87
+- **Bachelor of Technology in Computer Science & Engineering** — Sree Venkateshwara College of Engineering, India (2013–2017)
 
--   **Master’s in Data Analytics Engineering**\
-    George Mason University, Virginia, USA (2024 - 2026)
+---
 
-    -   GPA: 3.83
+## Experience
 
--   **Bachelor of Technology in Computer Science & Technology**\
-    Sree Venkateshwara College of Engineering, Nellore, India (2013 - 2017)
+##### **Software Engineer** · Entrata India (Db Xento Systems), Pune · Oct 2018 – Aug 2024
 
-# Experience
+- Designed and maintained scalable backend systems supporting 1M+ property records and 100K+ monthly active users across 120+ Agile sprints.
+- Built 20+ full-stack modules (JavaScript, PHP, PostgreSQL) cutting deployment times by 40%; led microservices migration for 30%+ of modules using Docker, reducing execution time by 50%.
+- Architected database design for 20+ projects — schema standards, indexing strategies, and audit logging; tuned 200+ SQL queries for 30% avg. production performance gain.
+- Migrated all client data to AWS S3 via automated pipelines; led Libsodium encryption ensuring 100% PHI compliance.
+- Built 5+ internal debugging tools cutting resolution time by 40%; kept bug count under 10 for 6+ consecutive months.
+- Designed and automated workflow automation pipelines using Python and Bash, eliminating 80% of manual workload across internal operations.
+- Conducted 300+ peer code reviews and mentored 5+ junior engineers.
 
-##### **Software Engineer,** Entrata India (Db Xento Systems) – Pune, India    **Oct 2018 – Aug 2024**
+##### **Associate Software Engineer** · Entrata India, Pune · Jul 2017 – Sep 2018
 
--   Participated in Agile Scrum processes, leading to Sprint planning & story point estimation using Planning Poker and the Fibonacci sequence.
+- Developed and optimized 20+ full-stack property management modules (PHP, PostgreSQL), improving stability by 35%.
+- Resolved 100+ high-priority bugs, achieving 99.5% uptime and 25% faster report generation.
 
--   Optimized database performance by designing and refining SQL queries, implementing caching strategies, and utilizing triggers, log tables, and audit tables to improve efficiency and scalability.
+##### **Trainee Software Engineer** · Entrata India, Pune · Jan 2017 – Jun 2017
 
--   Involved in the team of database architecture and made crucial decisions while developing complex database project schemas.
+- Built backend APIs and UI modules in PHP with Git-based workflows; contributed production-ready code across iterative Agile delivery cycles from day one.
 
--   Developed and mentored web applications development projects using, php, and AWS services, focusing on cloud-based architecture to enhance deployment and system performance.
+##### **Graduate Teaching Assistant** · George Mason University, Virginia · Aug 2025 – May 2026
 
--   Built end-to-end software solutions for property management and affordable housing, including rental subsidies, rent calculations, ledger management, and payment processing features, ensuring compliance with housing regulations.
+- Assisted faculty in teaching Python programming and database concepts to undergraduate students.
+- Held regular office hours mentoring students on data structures, algorithms, and debugging.
+- Graded assignments and projects with detailed written feedback aligned to course rubrics.
 
--   Led the development and deployment of a microservices architecture using Docker , achieving a 50% improvement in system scalability and a 30% reduction in deployment time.
+---
 
--   Led the bug monitoring, reduced the bug count, and maintained the bug count to less than 10 for up to 6 months.
+## Technical Skills
 
--   Managed financial functionalities, including HAP (Housing Assistance Payments) allocation, rent schedules, gross rent updates, tax credits, HUD (Housing and Urban Development) payments, subsidies, and income limits.
+| Category | Skills |
+|---|---|
+| **AI & Agents** | LangChain, LangGraph, LLM Router, Ollama (Llama 3.1), ChromaDB, RAG pipelines, Prompt engineering, Fine-tuning, OpenAI, Anthropic, Groq, FastAPI |
+| **Languages** | Python, JavaScript, PHP, SQL, R, Bash, HTML/CSS, C++ |
+| **Cloud & DevOps** | AWS (S3, EC2, RDS, Glue), Docker, CI/CD (GitHub Actions), RabbitMQ, Microservices |
+| **Databases** | PostgreSQL, MySQL, Oracle, NoSQL — schema design, query tuning, indexing, audit logging |
+| **ML & Data** | PyTorch, TensorFlow, Scikit-learn, XGBoost, BERT, spaCy, Hugging Face, Power BI, Tableau |
+| **Tools** | Claude Code, GitHub Copilot, Cursor, Git, SVN, JIRA, Postman, Figma, Selenium |
 
--   Ensured compliance with federal and state regulations for housing subsidies and income restrictions.
+---
 
-##### 
+## Projects
 
--   Assisted, Developed and deployed complex web designs for property management and rental solutions using PHP for backend and Multiple front-end technologies.
+### AgentProbe — Agentic AI Testing Toolkit 🔍
+**Python · LangChain · LangGraph · FastAPI · ChromaDB · Ollama · React** · [GitHub ↗](https://github.com/venkatalakshmiparimala/AgentProbe)
 
--   Developed the php unit tests and helped the product to achieve the performance improvement.
+Pre-deployment testing, benchmarking, and debugging toolkit for LLM, RAG, and multi-agent systems. Built three LangGraph agents that think and adapt: an **Orchestrator Agent** that runs adaptive 3-phase stress tests (explore → target weak spots → verify failures), a **RAG Tracer Agent** that diagnoses 7 pipeline steps to find exactly where it broke, and an **Auto Fix Agent** that generates ready-to-use fixes — rewritten prompts, chunk configs, and query rewrites. A smart **LLM Router** auto-selects the optimal model per task. Runs 100% locally at zero cost.
 
--   Improved application performance by optimizing SQL queries by learning query optimization techniques with collaboration of data architects and implementing indexing and database partitioning.
+---
 
--   Collaborated closely with cross-functional teams in an Agile environment, participating in Sprint planning, & daily standups.
+### AI on FHIR — NLP-Driven Medical Records Query System
+**Flask · LLMs · FHIR · React · Docker · spaCy · BERT** · [GitHub ↗](https://github.com/venkatalakshmiparimala/AI_on_FHIR)
 
--   Done Peer code review and helped maintain the quality of the code.
+Built a Flask + React app mapping natural language queries (EN/ES) to FHIR APIs using LLMs and spaCy/BERT pipelines. Implemented HIPAA-compliant RBAC and real-time visual analytics. Reduced manual retrieval time by ~60%.
 
--   Improved the debugging techniques and attended to the most of the urgent bugs and resolved them for clients reducing system downtime by
+---
 
--   identifying and resolving critical issues resulting in receiving appreciation badges from the manager.
+### CrashClarity — UK Road Accident Analysis
+**R · Random Forest · Logistic Regression · GitHub Pages** · [View Project ↗](https://venkatalakshmiparimala.github.io/Portfolio/project_details.html)
 
-##### **Associate Software Engineer,** Entrata India – Pune, India **Jul 2017 – Sep 2018**
+Analyzed UK traffic accident data to uncover accident patterns and safety risks. Applied Random Forest and Logistic Regression on cleaned, feature-engineered data. Built interactive dashboards on GitHub Pages for non-technical stakeholders. Achieved 85%+ model accuracy.
 
--   Assisted in developing and maintaining full-stack applications using HTML,JavaScript, AJAX, jQuery, PHP, and PostgresSQL.
+---
 
--   Developed and deployed minor modules for the property management
+### Real Estate Sale Prices vs Socioeconomic Indicators (Connecticut, 2001–2022)
+**Python · XGBoost · Random Forest · PyTorch · Scikit-learn · Docker · Tableau** · [View Project ↗](https://mason.gmu.edu/~vpasupu2/index.html)
 
--   Participated in bug fixing, code debugging, and performance boosts.
+Implemented XGBoost and Random Forest to explore the effects of crime, education, and healthcare access on real estate prices. Designed scalable ML pipelines using PyTorch, deployed inference-ready models via RESTful APIs in Docker containers, and automated retraining workflows with model drift monitoring.
 
--   Gained hands-on experience in Web development,Agile methodologies, actively involved in Sprint planning, and daily standups.
+---
 
-##### **Trainee, Entrata India** (Db Xento Systems) **Pune, India Jan 2017 – Jun 2017**
+### Movie Recommendation System
+**Python · Scikit-learn · KNN · Collaborative Filtering · Power BI**
 
--   Acquired foundational skills in software development by learning key technologies such as PHP Concepts, Database technoques, and UI design and development.
+Built a recommendation engine using KNN and collaborative filtering (Sarwar/Ullman models) on the MovieLens dataset. Compared weighted and unweighted similarity metrics, evaluated with RMSE, and integrated outputs with Power BI to visualize user preferences and recommendation quality.
 
--   Worked closely with senior developers to understand Agile practices, participating in Sprint meetings and learning the fundamentals of version control using Git.
+---
 
--   Completed comprehensive training in object-oriented programming (OOP) principles and database management, laying the groundwork.
+### Life Expectancy 360 — Predictive Analysis
+**Python · Pandas · Scikit-learn · PCA · Linear Regression**
 
-# Other Experience
+Analyzed WHO life expectancy data, identifying patterns across socio-economic and health variables. Applied PCA to reduce dimensionality, built a multiple linear regression model, and identified actionable trends across countries.
 
-##### **PPA Assistant – Event ManagementGeorge Mason University, University Life – Mason Square (Mar 2025 – Present)**
+---
 
-- Lead weekly wellness programs such as Pilates and Zumba for students, overseeing space reservations, materials, scheduling, and promotion to increase participation.
+## Organization Projects (Entrata India)
 
-- Collaborate with university departments and student organizations to co-host wellness and inclusion-focused programs.
+**Importing Income Limits** — Processed 1.6M HUD and Tax Credit income limit records across five years using generic SQL scripts. Automated eligibility workflows based on family size, income levels, and percentage thresholds. `PHP · PostgreSQL · PLSQL`
 
-- Collect feedback from participants to assess engagement and improve future programming; contribute to quarterly reports and student success initiatives.
+**Residents' Sensitive Data Encryption** — Encrypted 100% of resident data (phone numbers, SSNs) across the entire database using Libsodium. Updated 50%+ of product code for encryption compliance. `PHP · Libsodium · PostgreSQL`
 
-- Serve as a liaison for University Life during campus events, supporting logistics, signage, and setup to enhance student experience and institutional outreach.
+**Client Document Migration to AWS** — Migrated thousands of client documents from server storage to AWS S3, resolving 90% of space constraints on legacy systems. `PHP · PostgreSQL · AWS S3`
 
-##### **Team Event Coordinator – Entrata India (2020–2024)**
+**Redesigning Income Limits Module** — Applied Python and OpenAI models to automate data processing workflows, replacing manual Excel-based operations. Implemented a custom neural network to optimize complex dataset transformation. `Python · OpenAI · PyTorch · Pandas`
 
-- Spearheaded planning and execution of internal engagement activities, hackathons, and milestone celebrations for cross-functional teams.
+**Microservices for Financial Operations** — Designed microservices for rent schedules, gross rent updates, and HUD-compliant tax credit calculations, integrated into the main product for regulatory compliance. `PHP · PostgreSQL`
 
-- Worked closely with HR and leadership to promote team culture, boost morale, and align event themes with organizational values.
+**Debugging & Performance Optimization Tools** — Built internal debugging tools reducing debugging time by 40%. Optimized SQL queries across high-traffic modules. `PHP · PostgreSQL`
 
-##### **CSR Committee Member – Entrata India (2019–2024)**
+---
 
-- Led community outreach initiatives focused on education, wellness, and inclusivity by organizing donation drives, mentorship programs, and women-focused tech workshops.
+## Other Experience
 
-- Developed partnerships with NGOs to expand the impact of corporate social responsibility goals and documented outcomes for internal reporting.
+**PPA Assistant – Event Management** · George Mason University, University Life · Mar 2025 – Present
+Lead weekly wellness programs, collaborate with university departments on inclusion-focused events, collect participant feedback, and serve as liaison for University Life during campus events.
 
-##### **Graduate Assistant – Academic Programs and Instruction  Sree Venkateshwara College of Engineering (2015–2017)**
+**Team Event Coordinator** · Entrata India · 2020–2024
+Planned and executed internal hackathons, engagement activities, and milestone celebrations. Worked with HR and leadership to promote team culture.
 
-- Supported academic operations, including managing confidential student data, maintaining academic records, and coordinating departmental communications
-
-- Collaborated with faculty to plan and deliver academic outreach initiatives aimed at improving student engagement and retention
-
-- Created and maintained documentation for student-facing services, developed content for workshops, and participated in academic resource planning
-
-- Played a key role in analyzing student engagement trends to contribute to institutional reporting and enhance learning outcomes
-
-### Technical Skills
-
--   **Databases**: PostgreSQL, MySQL\
-
--   **Backend Development**: PHP, Python\
-
--   **Frontend Technologies**: AJAX, HTML, JavaScript, jQuery\
-
--   **Cloud Technologies**: AWS, Docker, Kubernetes\
-
--   **Frameworks**: MVC, Singleton, Fusebox\
-
--   **Agile Tools**: Jira, ClickUp\
-
--   **Version Control**: GIT, SVN
-
--   **Programming and Operating Systems**: PHP, Python, R , Object Oriented Programming (OOPS), Unit tests, Web Services, AJAX, HTML, JavaScript, CSS, jQuery, MVC, Design patterns, Fusebox, Unix, Windows, Linux\
-
--   **Testing**: PHP Unit, Test Driven Development (TDD), or Behavior Driven Design (BDD), Selenium Automation
-
--   **Databases & Storage**: Postgres, MySQL, Oracle\
-
--   **Cloud Computing concepts**:RDS ,AWS (S3, EC2),Data Glue\
-
--   **Distributed Technologie**s: Hive\
-
--   **Environment Management**: Docker or Containers\
-
--   **CI/CD** : GitHub\
-
--   **Reporting Tools** : PowerBI\
-
--   **Web Frameworks**: Basic NodeJS\
-
--   **•	Frameworks/Tools**: PyTorch, Scikit-learn, TensorFlow, Docker, REST APIs, Git, JIRA, Spark, Hive, Tableau, Power BI\
-
--   **Version Control, Task &project Management & Performance Monitoring**: SVN, Git, JIRA, ClickUp, New Relic, Agile methodologies, Waterfall,scrum
-
--   **Designing**: Adobe Acrobat DC Pro, Figma, Adobe Photoshop\
-
--   **Queue Management**: RabbitMQ \
-
--   **Embedded Systems and Debugging**: Basic knowledge of embedded processors and real-time operating systems, excellent debugging skills \
-
--   **Machine Learning**: Recommendation Systems, NLP (LLMs, embeddings), Clustering, Classification.
-
-### ORGANIZATION PROJECTS
-
-#### **Importing Income Limits and Module Development**
-
--   Processed 1.6 million records of HUD and Tax Credit income limits across five years by designing generic SQL scripts for importing and structuring data.
-
--   Automated workflows for eligibility definition based on family size, income levels, and percentage thresholds.
-
--   Technologies: PHP, Postgres SQL, PLSQL, GIT, Excel.
-
-#### **Residents' Sensitive Data Encryption**
-
--   Encrypted 100% of resident data, including phone numbers and SSNs, across the entire database using Libsodium encryption.
-
--   Updated over 50% of the product code to ensure encryption compliance during data insertion and retrieval.
-
--   Technologies: PHP, Libsodium, Postgres SQL, PLSQL, GIT.
-
-#### **State-Wise Certification Document Development**
-
--   Created 56 state-specific certification documents with merge fields for affordable housing certifications.
-
--   Integrated document storage and retrieval via AWS S3, enabling seamless client access.
-
--   Technologies: PHP, Postgres SQL, AWS S3, Adobe Acrobat DC Pro, GIT.
-
-#### **Client Document Migration to AWS**
-
--   Migrated thousands of client documents from server storage to AWS S3, resolving 90% space constraints on legacy systems.
-
--   Conducted database data creation, physical document migration, and comprehensive UI testing.
-
--   Technologies: PHP, Postgres SQL, AWS S3, GIT.
-
-#### **Service-Based Architecture Revamp**
-
--   Converted 20% of product modules into a service-based architecture, ensuring scalability and efficient data sharing across products.
-
--   Improved modularity and reduced interdependencies in the product logic.
-
--   Technologies: PHP, Postgres SQL, AWS S3, GIT.
-
-#### **Database Architecture Overhaul for Client Documents**
-
--   Redesigned outdated document storage architecture, migrating hundreds of thousands of records to a modern structure.
-
--   Provided post-deployment support for six months, stabilizing the ecosystem and resolving client-specific issues.
-
--   Technologies: PHP, Postgres SQL, Lucidchart, Adobe Acrobat DC Pro, GIT.
-
-#### **Redesigning Income Limits Module**
-
--   Applied deep learning frameworks and Python to automate data processing workflows, leveraging API calls and OpenAI models to replace manual Excel-based operations.
-
--   Implemented a custom neural network architecture inspired by literature to optimize the transformation and validation of complex datasets.
-
--   Demonstrated clear communication by articulating technical concepts and project outcomes to stakeholders. 
-
--   Technologies: Python, OpenAI, PyTorch,Pandas, Postgres SQL, GIT.
-
-#### **Microservices for Financial Operations**
-
--   Designed microservices to handle critical financial functionalities such as rent schedules, gross rent updates, and HUD-compliant tax credit calculations.
-
--   Integrated these services into the main product to ensure compliance with state and federal regulations.
-
-#### **Debugging and Performance Optimization Tools**
-
--   Developed internal debugging tools to identify and resolve system bottlenecks, reducing debugging time by 40%.
-
--   Improved application performance through SQL query optimization, reducing response times across high-traffic modules.
-
-### ACADEMIC PROJECTS
-
-#### **CrashClarity: UK Road Accidents Analysis**
-#### **Tools: R, Random Forest, Logistic Regression, GitHub Pages**   
-#### **https://venkatalakshmiparimala.github.io/Portfolio/project_details.html**
-
-- 	Analyzed UK traffic accident data using R to uncover accident patterns and safety risks 
-- 	Conducted data cleaning, applied Random Forest and Logistic Regression models  
-- 	Developed interactive dashboards hosted on GitHub Pages to visualize results for stakeholders 
-
-#### **Real Estate Sale Prices vs Socioeconomic Indicators (Connecticut, 2001–2022)**
-#### **Tools: Python, XGBoost, Random Forest, PyTorch, Scikit-learn, Docker, Tableau**
-#### **https://mason.gmu.edu/~vpasupu2/index.html** 
-
-- 	Implemented XGBoost and Random Forest to explore effects of crime, education, and healthcare access
-- 	Merged multi-source datasets and applied feature engineering for regression modeling
-- 	Created dashboards in Tableau and Python for real estate stakeholders
-- 	Designed and fine-tuned scalable ML pipelines using PyTorch and Scikit-learn for model training and evaluation
-- 	Benchmarked models across architectures and optimized training with GPU acceleration and batching
-- 	Deployed inference-ready models via RESTful APIs in Docker-based microservice containers
-- 	Automated retraining workflows and developed scripts to monitor model drift and latency
-
-#### **Movie Recommendation System**
-#### **Technologies: Python, Scikit-learn, KNN, Collaborative Filtering, Power BI**
-
-- 	Built a movie recommendation engine using K-Nearest Neighbors and collaborative filtering (Sarwar/Ullman models) on the MovieLens dataset.
-- 	Compared weighted and unweighted similarity metrics and evaluated results using RMSE.
-- 	Integrated model outputs with Power BI to visualize user preferences and recommendation quality.
-
-#### **Life Expectancy 360: Predictive Analysis**
-#### **Technologies: Python, Pandas, Scikit-learn, PCA, Linear Regression**
-
-- 	Analyzed WHO life expectancy data, identifying patterns across socio-economic and health variables.
-- 	Engineered features through imputation, encoding, and log transformation to improve model accuracy.
-- 	Built a multiple linear regression model and applied PCA to reduce dimensionality and enhance interpretability.
-- 	Identified actionable trends and anomalies in health indicators across countries.
-
-
-
-
+**CSR Committee Member** · Entrata India · 2019–2024
+Led community outreach focused on education, wellness, and women in tech. Developed NGO partnerships and documented outcomes for corporate social responsibility reporting.
