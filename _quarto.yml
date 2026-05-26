@@ -3,25 +3,42 @@ project:
   output-dir: docs
 
 website:
-  title: "Venkata Lakshmi Parimala Pasupuleti"
-  description: "A portfolio website"
+  title: "VLP"
+  description: "Portfolio of Venkata Lakshmi Parimala Pasupuleti — Software Engineer & AI Builder"
+  favicon: images/myimage.jpg
   navbar:
+    background: dark
+    foreground: light
+    left:
+      - href: index.qmd
+        text: "HOME"
     right:
       - href: about.qmd
-        text: "About"
+        text: "ABOUT"
       - href: project_details.qmd
-        text: Graduate Projects
+        text: "PROJECTS"
       - href: project_source_code.qmd
-        text: Project source code
+        text: "SOURCE CODE"
       - href: References.qmd
-        text: "References"
+        text: "REFERENCES"
       - href: contact.qmd
-        text: "Contact"
-
+        text: "CONTACT"
+  page-footer:
+    left: "© 2025 Venkata Lakshmi Parimala Pasupuleti"
+    right: "Built with Quarto"
+    background: dark
 
 format:
   html:
-    theme: solar
+    theme:
+      dark: [darkly, styles.css]
     toc: true
-    fontsize: 0.9em
-    linestretch: 1.7
+    toc-depth: 3
+    toc-title: "ON THIS PAGE"
+    fontsize: 0.95em
+    linestretch: 1.8
+    smooth-scroll: true
+    link-external-newwindow: true
+    code-fold: true
+    code-summary: "Show Code"
+    highlight-style: github-dark

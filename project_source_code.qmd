@@ -41,7 +41,7 @@ library(ggplot2)
 library(plotly)
 
 # Load the data
-road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+road_casualities <- read.csv("casualty_statistics.csv")
 
 # Data Cleaning Steps
 # 1. Remove rows with missing or NA values in important columns
@@ -95,7 +95,7 @@ library(ggplot2)
 library(plotly)
 
 # Load dataset
-road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+road_casualities <- read.csv("casualty_statistics.csv")
 
 # Convert time column to a usable format (assuming time is in 24-hour format)
 road_casualities$time_of_day <- as.numeric(substr(road_casualities$time, 1, 2))
@@ -210,7 +210,7 @@ interactive_heatmap
 
 ```{r}
 # Load the dataset
-road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+road_casualities <- read.csv("casualty_statistics.csv")
 
 # Load necessary libraries
 library(ggplot2)
@@ -295,7 +295,7 @@ library(caret) # For data partitioning
 
 
 # Read the dataset
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+data <- read.csv("casualty_statistics.csv")
 
 
 # Select relevant columns and remove rows with missing values
@@ -338,7 +338,7 @@ library(caret) # For data partitioning
 library(pROC)  # For AUC and ROC curves
 
 # Read the dataset
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+data <- read.csv("casualty_statistics.csv")
 
 # Select relevant columns and remove rows with missing values
 data_cleaned <- na.omit(data[, c("accident_severity", "weather_conditions")])
@@ -385,7 +385,7 @@ library(pROC)
 library(caret)
 
 # Read the dataset
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+data <- read.csv("casualty_statistics.csv")
 
 # Select relevant features and target variable
 features <- c("weather_conditions", "number_of_vehicles", "road_surface_conditions", "urban_or_rural_area")
@@ -445,7 +445,7 @@ library(pROC)    # For ROC curve and AUC
 library(caret)   # For data partitioning
 
 # Read the dataset
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+data <- read.csv("casualty_statistics.csv")
 
 # Select relevant columns and remove rows with missing values
 data_cleaned <- na.omit(data[, c("accident_severity", "urban_or_rural_area", "weather_conditions")])
@@ -518,7 +518,7 @@ library(glmnet)
 library(pROC)
 
 # Load the dataset
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+data <- read.csv("casualty_statistics.csv")
 
 # Define selected features and target variable
 selected_features <- c("accident_severity", "number_of_vehicles", "road_surface_conditions", 
@@ -728,7 +728,7 @@ map
 
 # Read the data
 data <- read_csv(
-  "C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv",
+  "suicide-rates-all.csv",
   col_types = cols(
     Country = col_character(),
     Code = col_character(),
@@ -767,7 +767,7 @@ interactive_frequency_polygon
 
 ```{r}
 # Load the data (update the path to your CSV file accordingly)
-suicide_data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv")
+suicide_data <- read.csv("suicide-rates-all.csv")
 
 # Calculate the average suicide rate per country and filter top 5 countries
 top_5_countries <- suicide_data %>%
@@ -817,7 +817,7 @@ interactive_bar_plot
 ```{r}
 
 # Load the CSV file
-children_data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-by-age.csv")
+children_data <- read.csv("suicide-rates-by-age.csv")
 
 # Step 1: Rename columns to appropriate labels
 colnames(children_data) <- c("Country", "Code", "Year", 
@@ -866,7 +866,7 @@ library(dplyr)
 library(plotly)
 
 # Load the data
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-by-age.csv")
+data <- read.csv("suicide-rates-by-age.csv")
 
 # Clean column names for easier access
 colnames(data) <- c("Entity", "Code", "Year", 

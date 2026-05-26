@@ -159,7 +159,7 @@ map
 
 # Read the data
 data <- read_csv(
-  "C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv",
+  "suicide-rates-all.csv",
   col_types = cols(
     Country = col_character(),
     Code = col_character(),
@@ -203,7 +203,7 @@ library(readr)  # Ensure you have the readr library to read CSV files
 
 # Read the data
 data <- read_csv(
-  "C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv",
+  "suicide-rates-all.csv",
   col_types = cols(
     Country = col_character(),
     Code = col_character(),
@@ -282,7 +282,7 @@ library(rnaturalearth)
 library(sf)
 
 # Read the data
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-by-age.csv")
+data <- read.csv("suicide-rates-by-age.csv")
 
 # Clean column names for easier access
 colnames(data) <- c("Entity", "Code", "Year", 
@@ -334,7 +334,7 @@ library(dplyr)
 library(plotly)
 
 # Load the data
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-by-age.csv")
+data <- read.csv("suicide-rates-by-age.csv")
 
 # Clean column names for easier access
 colnames(data) <- c("Entity", "Code", "Year", 

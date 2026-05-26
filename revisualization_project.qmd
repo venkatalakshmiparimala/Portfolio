@@ -10,7 +10,7 @@ execute:
 
 ### **OLD VISUALIZATION:**
 
-![](docs/docs/suicide-rate-image-mdb.svg)
+
 
 ## Running Code
 
@@ -43,7 +43,7 @@ library(maps)  # For world map data
 
 # Step 1: Load the data
 data <- read_csv(
-  "C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv",
+  "suicide-rates-all.csv",
   col_types = cols(
     Country = col_character(),
     Code = col_character(),
@@ -93,7 +93,7 @@ interactive_map
 
 # Read the data
 data <- read_csv(
-  "C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv",
+  "suicide-rates-all.csv",
   col_types = cols(
     Country = col_character(),
     Code = col_character(),
@@ -145,7 +145,7 @@ interactive_map
 
 # Read the data
 data <- read_csv(
-  "C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv",
+  "suicide-rates-all.csv",
   col_types = cols(
     Country = col_character(),
     Code = col_character(),
@@ -184,7 +184,7 @@ interactive_frequency_polygon
 
 # Read the data
 data <- read_csv(
-  "C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv",
+  "suicide-rates-all.csv",
   col_types = cols(
     Country = col_character(),
     Code = col_character(),
@@ -237,7 +237,7 @@ interactive_plot
 
 ```
 
-![](docs/docs/suicide-rates-by-age-who-mdb.svg)
+
 
 ```{r}
 # Load necessary libraries
@@ -249,7 +249,7 @@ library(rnaturalearthdata)
 library(sf)
 
 # Load the data
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-by-age.csv")
+data <- read.csv("suicide-rates-by-age.csv")
 
 # Clean column names for easier access
 colnames(data) <- c("Entity", "Code", "Year", 
@@ -304,7 +304,7 @@ library(dplyr)
 library(plotly)  # For interactive plots
 
 # Load the data
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-by-age.csv")
+data <- read.csv("suicide-rates-by-age.csv")
 
 # Clean column names for easier access
 colnames(data) <- c("Entity", "Code", "Year", 

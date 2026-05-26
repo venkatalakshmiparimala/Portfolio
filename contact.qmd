@@ -1,15 +1,48 @@
 ---
-title: "Contact Information"
-format: html
-editor: visual
+title: "CONTACT"
+toc: false
 ---
 
-If you would like to get in touch, feel free to reach out through the following:
+```{=html}
+<p style="color:#b3b3b3; font-size:1rem; max-width:44ch; line-height:1.8; margin-bottom:2.5rem;">
+Open to full-time roles in AI engineering, data engineering, and backend software. Based in Virginia — open to remote.
+</p>
 
-#### Venkata Lakshmi Parimala Pasupuleti
+<div style="display:flex; flex-direction:column; gap:0.75rem; max-width:560px; margin-bottom:3rem;">
 
--   **Email**: [venkatalakshmiparimala\@gmail.com](mailto:venkatalakshmiparimala@gmail.com)
+  <a href="mailto:venkatalakshmiparimala@gmail.com" style="display:flex; align-items:center; gap:1.25rem; padding:1.1rem 1.4rem; background:#1f1f1f; border-radius:6px; border:1px solid #333; text-decoration:none !important; transition:border-color 0.2s; color:inherit !important;">
+    <span style="font-size:1.2rem; width:30px; text-align:center; color:#e50914;">✉</span>
+    <div>
+      <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:#6d6d6d; margin-bottom:0.2rem;">Email</div>
+      <div style="color:#fff; font-size:0.92rem;">venkatalakshmiparimala@gmail.com</div>
+    </div>
+  </a>
 
--   **Phone**: +1 703-261-5410
+  <a href="tel:+17032615410" style="display:flex; align-items:center; gap:1.25rem; padding:1.1rem 1.4rem; background:#1f1f1f; border-radius:6px; border:1px solid #333; text-decoration:none !important; color:inherit !important;">
+    <span style="font-size:1.2rem; width:30px; text-align:center; color:#e50914;">☎</span>
+    <div>
+      <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:#6d6d6d; margin-bottom:0.2rem;">Phone</div>
+      <div style="color:#fff; font-size:0.92rem;">+1 703-261-5410</div>
+    </div>
+  </a>
 
--   **LinkedIn**: [Venkata Lakshmi Parimala Pasupuleti](https://www.linkedin.com/in/venkata-lakshmi-parimala-pasupuleti/)
+  <a href="https://www.linkedin.com/in/venkata-lakshmi-parimala-pasupuleti/" target="_blank" style="display:flex; align-items:center; gap:1.25rem; padding:1.1rem 1.4rem; background:#1f1f1f; border-radius:6px; border:1px solid #333; text-decoration:none !important; color:inherit !important;">
+    <span style="font-size:1rem; font-weight:800; width:30px; text-align:center; color:#e50914;">in</span>
+    <div>
+      <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:#6d6d6d; margin-bottom:0.2rem;">LinkedIn</div>
+      <div style="color:#e50914; font-size:0.92rem;">venkata-lakshmi-parimala-pasupuleti ↗</div>
+    </div>
+  </a>
+
+  <a href="https://github.com/venkatalakshmiparimala" target="_blank" style="display:flex; align-items:center; gap:1.25rem; padding:1.1rem 1.4rem; background:#1f1f1f; border-radius:6px; border:1px solid #333; text-decoration:none !important; color:inherit !important;">
+    <span style="font-size:1.1rem; width:30px; text-align:center; color:#e50914;">⌥</span>
+    <div>
+      <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:#6d6d6d; margin-bottom:0.2rem;">GitHub</div>
+      <div style="color:#e50914; font-size:0.92rem;">github.com/venkatalakshmiparimala ↗</div>
+    </div>
+  </a>
+
+</div>
+
+<p style="font-size:0.82rem; color:#6d6d6d; font-style:italic;">Response time: within 24 hours.</p>
+```
