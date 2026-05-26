@@ -8,8 +8,8 @@ execute:
 ---
 
 **Crash Clarity: Data-Driven Insights for Enhancing UK Road Safety using statistical models\
-\
-**![](images/road%20image.jpg)
+\**
+![](images/road%20image.jpg)
 
 **ABSTRACT**
 
@@ -47,7 +47,7 @@ library(ggplot2)
 library(plotly)
 
 # Load the data
-road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+road_casualities <- read.csv("casualty_statistics.csv")
 
 # Data Cleaning Steps
 # 1. Remove rows with missing or NA values in important columns
@@ -111,7 +111,7 @@ library(ggplot2)
 library(plotly)
 
 # Load dataset
-road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+road_casualities <- read.csv("casualty_statistics.csv")
 
 # Convert time column to a usable format (assuming time is in 24-hour format)
 road_casualities$time_of_day <- as.numeric(substr(road_casualities$time, 1, 2))
@@ -167,7 +167,7 @@ library(plotly)
 library(dplyr)
 
 # Load the dataset
-road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+road_casualities <- read.csv("casualty_statistics.csv")
 
 # Define weather condition mapping
 weather_conditions_map <- c(
@@ -230,7 +230,7 @@ The analysis reveals that the majority of accidents occur on *Dry* surfaces, fol
 
 ```{r, echo=FALSE}
 # Load the dataset
-road_casualities <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+road_casualities <- read.csv("casualty_statistics.csv")
 
 # Load necessary libraries
 library(ggplot2)
@@ -315,7 +315,7 @@ library(pROC)
 library(caret)
 
 # Read the dataset
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+data <- read.csv("casualty_statistics.csv")
 
 # Select relevant features and target variable
 features <- c("weather_conditions", "number_of_vehicles", "road_surface_conditions", "urban_or_rural_area")
@@ -381,7 +381,7 @@ library(caret) # For data partitioning
 library(pROC)  # For AUC and ROC curves
 
 # Read the dataset
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+data <- read.csv("casualty_statistics.csv")
 
 # Select relevant columns and remove rows with missing values
 data_cleaned <- na.omit(data[, c("accident_severity", "weather_conditions")])
@@ -449,7 +449,7 @@ library(pROC)    # For ROC curve and AUC
 library(caret)   # For data partitioning
 
 # Read the dataset
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+data <- read.csv("casualty_statistics.csv")
 
 # Select relevant columns and remove rows with missing values
 data_cleaned <- na.omit(data[, c("accident_severity", "urban_or_rural_area", "weather_conditions")])
@@ -538,7 +538,7 @@ library(glmnet)
 library(pROC)
 
 # Load the dataset
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Final project\\casualty_statistics.csv")
+data <- read.csv("casualty_statistics.csv")
 
 # Define selected features and target variable
 selected_features <- c("accident_severity", "number_of_vehicles", "road_surface_conditions", 
@@ -662,39 +662,39 @@ The below is the Visualization on Suicides by Saloni Dattani, Lucas Rodes-Guirao
 
 ### **OLD VISUALIZATION:**
 
-### ![](docs/docs/suicide-rate-image-mdb.svg)
+### 
 
 **Suicide rates vary around the world:**
 
 Suicide rates vary widely between the countries. The given visualization depicts the data of annual suicide rates per 100,000 people from 1950 to 2022, across various countries. Researchers used line graph to predict the data.
 
--   X-axis represents the years from 1950 to 2022 and y-axis represents the suicide rate per 100000 people, ranging from 0 to 40. It also says that higher the value, the greater will be the number of suicide rates.
+- X-axis represents the years from 1950 to 2022 and y-axis represents the suicide rate per 100000 people, ranging from 0 to 40. It also says that higher the value, the greater will be the number of suicide rates.
 
--   Each line of the graph represents the countries. The countries which have higher suicide rates are represented on the top. The legends taken are countries.
+- Each line of the graph represents the countries. The countries which have higher suicide rates are represented on the top. The legends taken are countries.
 
 **Observations:**
 
--   There is a wide range of variations between the countries. Countries like Lithuania, South Korea shows the highest suicide rates, as indicated by their position near the top of the graph.
+- There is a wide range of variations between the countries. Countries like Lithuania, South Korea shows the highest suicide rates, as indicated by their position near the top of the graph.
 
--   Some countries shows large fluctuations in the suicide rates while other countries shows the constant rate throughout the years.
+- Some countries shows large fluctuations in the suicide rates while other countries shows the constant rate throughout the years.
 
--   It also says that suicide deaths are under-reported in many countries due to social stigma and culture or legal concerns means that actual rates can be higher than the reported rates.
+- It also says that suicide deaths are under-reported in many countries due to social stigma and culture or legal concerns means that actual rates can be higher than the reported rates.
 
--   The data is collected based on the data listed in the death certificates. It can impact the accuracy of the data
+- The data is collected based on the data listed in the death certificates. It can impact the accuracy of the data
 
--   The data is adjusted for age standardization allowing a fair comparison between the countries with different age structures, ensuring that population age distribution doesn't skew the data.
+- The data is adjusted for age standardization allowing a fair comparison between the countries with different age structures, ensuring that population age distribution doesn't skew the data.
 
 #### **Bad Visualization Predictions:**
 
--   More number of lines: The graph contains a huge number of lines which are representing the countries. This creates a messy graph it is very difficult to predict the data immediately as we look into the graph.
+- More number of lines: The graph contains a huge number of lines which are representing the countries. This creates a messy graph it is very difficult to predict the data immediately as we look into the graph.
 
--   Color Categorization: All the countries represented with different colors but for some countries there are distinct colors where it will be very difficult to categorize the data. There are similar colors in for different countries. We can use more contrasting colors to represent the data or we can group the colors into regions or categories.
+- Color Categorization: All the countries represented with different colors but for some countries there are distinct colors where it will be very difficult to categorize the data. There are similar colors in for different countries. We can use more contrasting colors to represent the data or we can group the colors into regions or categories.
 
--   Interactive Labeling: With so many lines we cannot identify the particular country instantly and it is impossible to find the particular country and there are all the countries mentioned in the legend where it is impossible to identify the specific country. Hence we can use interactive Labeling for highlighting the particular country.
+- Interactive Labeling: With so many lines we cannot identify the particular country instantly and it is impossible to find the particular country and there are all the countries mentioned in the legend where it is impossible to identify the specific country. Hence we can use interactive Labeling for highlighting the particular country.
 
--   No Highlights on the key insights: All the lines in the graph are in equal size where there is no differentiation between the countries. We can highlight the countries which have highest suicide rates and lowest suicide rates with different dimensions of the lines.
+- No Highlights on the key insights: All the lines in the graph are in equal size where there is no differentiation between the countries. We can highlight the countries which have highest suicide rates and lowest suicide rates with different dimensions of the lines.
 
-![](docs/docs/suicide-rates-by-age-who-mdb.svg)
+
 
 The above visualization tells us about the reported suicide rates by age in the United States.
 
@@ -702,21 +702,21 @@ The above visualization tells us about the reported suicide rates by age in the 
 
 It explains the breakdown for the rate of suicides for different age groups like children, adults. The data highlights the trends such as the increasing or decreasing risk of suicide within the specific age over time and across different regions.
 
--   It shows the data for the suicide rates per 100,000 people across different age groups. Age specific data usually reveals trends showing which age group are more vulnerable to suicide in different regions.
+- It shows the data for the suicide rates per 100,000 people across different age groups. Age specific data usually reveals trends showing which age group are more vulnerable to suicide in different regions.
 
--   According to the graph it predicts that the old generation people have the higher suicide rates (Age between 80-84). The age between 15-19 suicidal rates are less. But there is growing concern about suicidal rates in young adults particularly due to health conditions and mental stress.
+- According to the graph it predicts that the old generation people have the higher suicide rates (Age between 80-84). The age between 15-19 suicidal rates are less. But there is growing concern about suicidal rates in young adults particularly due to health conditions and mental stress.
 
 #### **Bad Visualization Predictions:**
 
--   More number of lines: The graph contains a huge number of lines which are representing the different age groups. This creates a messy graph it is very difficult to predict the data immediately as we look into the graph.
+- More number of lines: The graph contains a huge number of lines which are representing the different age groups. This creates a messy graph it is very difficult to predict the data immediately as we look into the graph.
 
--   Color Categorization: All the age groups are represented with different colors but for some there are distinct colors where it will be very difficult to categorize the data. There are similar colors for different age groups. We can use more contrasting colors to represent the data or we can group the colors into categories or age groups.
+- Color Categorization: All the age groups are represented with different colors but for some there are distinct colors where it will be very difficult to categorize the data. There are similar colors for different age groups. We can use more contrasting colors to represent the data or we can group the colors into categories or age groups.
 
--   Legend: The legend have too many entries where it is difficult for the user to identify the particular data of the age group in a particular year. Viewers must constantly shift their focus on the legend and the graph simultaneously where it would be difficult for predicting the exact information.
+- Legend: The legend have too many entries where it is difficult for the user to identify the particular data of the age group in a particular year. Viewers must constantly shift their focus on the legend and the graph simultaneously where it would be difficult for predicting the exact information.
 
--   Lack of data insights: There is no contextual information or annotations on the graph to explain significant spikes, trends or sudden drops in the suicide rates for certain age groups.
+- Lack of data insights: There is no contextual information or annotations on the graph to explain significant spikes, trends or sudden drops in the suicide rates for certain age groups.
 
--   Interactive Labeling: Adding the interactvite labeling helps to improve the readability.
+- Interactive Labeling: Adding the interactvite labeling helps to improve the readability.
 
 ## Re-Visualizations:
 
@@ -882,7 +882,7 @@ In this representation, the highest suicide rate occurred in 1982, with a rate o
 
 # Read the data
 data <- read_csv(
-  "C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv",
+  "suicide-rates-all.csv",
   col_types = cols(
     Country = col_character(),
     Code = col_character(),
@@ -924,7 +924,7 @@ The graph below shows the top 5 years with the highest suicide rates in the top 
 ```{r}
 
 # Load the data (update the path to your CSV file accordingly)
-suicide_data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-all.csv")
+suicide_data <- read.csv("suicide-rates-all.csv")
 
 # Calculate the average suicide rate per country and filter top 5 countries
 top_5_countries <- suicide_data %>%
@@ -977,7 +977,7 @@ The graph below displays the average suicide rates for individuals aged 15-19. T
 
 
 # Load the CSV file
-children_data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-by-age.csv")
+children_data <- read.csv("suicide-rates-by-age.csv")
 
 # Step 1: Rename columns to appropriate labels
 colnames(children_data) <- c("Country", "Code", "Year", 
@@ -1031,7 +1031,8 @@ library(dplyr)
 library(plotly)
 
 # Load the data
-data <- read.csv("C:\\Users\\Venkata\\Desktop\\stat1\\Website project\\website\\suicide-rates-by-age.csv")
+data <- suicide_data <- read.csv("suicide-rates-by-age.csv")
+
 
 # Clean column names for easier access
 colnames(data) <- c("Entity", "Code", "Year", 
