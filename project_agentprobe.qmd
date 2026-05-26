@@ -1,0 +1,94 @@
+---
+title: "AgentProbe"
+subtitle: "Agentic AI Testing Toolkit"
+toc: true
+---
+
+```{=html}
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem;">
+<span style="background:#e50914;color:#fff;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;">Open Source</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">Python</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">LangChain</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">LangGraph</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">FastAPI</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">ChromaDB</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">React</span>
+</div>
+<a href="https://github.com/venkatalakshmiparimala/AgentProbe" target="_blank"
+   style="display:inline-flex;align-items:center;gap:0.5rem;background:#e50914;color:#fff !important;padding:0.6rem 1.4rem;border-radius:4px;font-size:0.82rem;font-weight:700;text-decoration:none !important;letter-spacing:0.06em;margin-bottom:2.5rem;">
+  View on GitHub ↗
+</a>
+```
+
+## Overview
+
+Pre-deployment testing, benchmarking, and debugging toolkit for LLM, RAG, and multi-agent systems. AgentProbe lets you stress-test AI pipelines **before** they go to production — finding weak spots, diagnosing failures, and generating ready-to-use fixes automatically.
+
+Runs **100% locally at zero cost** using Ollama (Llama 3.1).
+
+---
+
+## The Three Agents
+
+### Orchestrator Agent
+Runs adaptive 3-phase stress tests:
+
+1. **Explore** — broad coverage of the system's capability boundaries
+2. **Target weak spots** — focuses follow-up tests on failure patterns discovered in phase 1
+3. **Verify failures** — confirms and characterizes failure modes for reporting
+
+### RAG Tracer Agent
+Diagnoses 7 pipeline steps to pinpoint exactly where a RAG system broke:
+
+- Document ingestion → Chunking → Embedding → Vector storage → Retrieval → Reranking → Generation
+
+Each step is independently testable, producing a precise failure report rather than a vague "it didn't work."
+
+### Auto Fix Agent
+Takes the RAG Tracer's diagnosis and generates **ready-to-use fixes**:
+
+- Rewritten prompts
+- Optimized chunk size / overlap configurations
+- Query rewrite suggestions
+
+---
+
+## Smart LLM Router
+
+A lightweight router that auto-selects the optimal local model per task type — complex reasoning tasks get routed to larger models, simpler classification tasks to faster smaller ones — balancing quality and latency without manual configuration.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Agent framework | LangChain, LangGraph |
+| Vector store | ChromaDB |
+| Local LLM | Ollama (Llama 3.1) |
+| API layer | FastAPI |
+| Frontend | React |
+| Supported providers | OpenAI, Anthropic, Groq |
+
+---
+
+## Source Code
+
+```python
+# Example: Running a stress test with the Orchestrator Agent
+from agentprobe import OrchestratorAgent
+
+agent = OrchestratorAgent(
+    target_pipeline="your_rag_pipeline",
+    model="llama3.1",
+    phases=["explore", "target", "verify"]
+)
+
+results = agent.run()
+print(results.summary())
+# → Found 3 failure modes in retrieval phase
+# → Weak prompt handling for multi-hop questions
+# → Auto-fix suggestions generated: prompts/, configs/
+```
+
+> Full source code available on [GitHub ↗](https://github.com/venkatalakshmiparimala/AgentProbe)

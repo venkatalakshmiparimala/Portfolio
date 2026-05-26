@@ -295,3 +295,27 @@ img { border-radius: 6px !important; max-width: 100% !important; }
   .navbar { padding: 0.75rem 1.25rem !important; }
   #quarto-content main { padding: 5rem 1.25rem 4rem !important; }
 }
+
+/* ── DROPDOWN MENU ── */
+.dropdown-menu {
+  background: #141414 !important;
+  border: 1px solid #333 !important;
+  border-radius: 6px !important;
+  padding: 0.4rem 0 !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.8) !important;
+  min-width: 240px !important;
+}
+.dropdown-item {
+  color: #b3b3b3 !important;
+  font-size: 0.8rem !important;
+  padding: 0.55rem 1.25rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.03em !important;
+  transition: background 0.15s, color 0.15s !important;
+}
+.dropdown-item:hover, .dropdown-item:focus {
+  background: #2a2a2a !important;
+  color: #fff !important;
+}
+.dropdown-divider { border-color: #333 !important; }
+.navbar .dropdown-toggle::after { border-top-color: #b3b3b3 !important; }

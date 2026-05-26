@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>CrashClarity – VLP</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/myimage.jpg" rel="icon" type="image/jpeg">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dbc92dda8186f57fa2e333fbb71d6a9d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-dbc92dda8186f57fa2e333fbb71d6a9d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dbc92dda8186f57fa2e333fbb71d6a9d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-f359c76eebcb751ca8f6a763dfcaf068.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-ee1acf71531af147f566b54c1d2030bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-f359c76eebcb751ca8f6a763dfcaf068.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link href="site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.12.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+
+
+</head>
+
+<body class="nav-fixed quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = true;
+    const darkModeDefault = authorPrefersDark;
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">VLP</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">HOME</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">ABOUT</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">PROJECTS</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="./project_agentprobe.html">
+ <span class="dropdown-text">AgentProbe — AI Testing Toolkit</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./project_aifhir.html">
+ <span class="dropdown-text">AI on FHIR — Medical NLP</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./project_crashclarity.html">
+ <span class="dropdown-text">CrashClarity — UK Road Safety</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./project_suicide_rates.html">
+ <span class="dropdown-text">Global Suicide Rates Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./project_realestate.html">
+ <span class="dropdown-text">Real Estate vs Socioeconomics</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./References.html"> 
+<span class="menu-text">REFERENCES</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./contact.html"> 
+<span class="menu-text">CONTACT</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">ON THIS PAGE</h2>
+   
+  <ul>
+  <li><a href="#random-forest-model-to-find-what-combination-of-factors-most-strongly-predicts-accident-severity" id="toc-random-forest-model-to-find-what-combination-of-factors-most-strongly-predicts-accident-severity" class="nav-link active" data-scroll-target="#random-forest-model-to-find-what-combination-of-factors-most-strongly-predicts-accident-severity">Random Forest Model to find What combination of factors most strongly predicts accident severity?</a></li>
+  <li><a href="#multinomial-logistic-regression-analysis-of-accident-severity-by-weather-conditions" id="toc-multinomial-logistic-regression-analysis-of-accident-severity-by-weather-conditions" class="nav-link" data-scroll-target="#multinomial-logistic-regression-analysis-of-accident-severity-by-weather-conditions">Multinomial Logistic Regression Analysis of Accident Severity by Weather Conditions</a></li>
+  <li><a href="#logistic-regression-for-binary-accident-severity-classification-to-predict-accident-severity-by-rural-vs-urban-areas-in-certain-weather-conditions." id="toc-logistic-regression-for-binary-accident-severity-classification-to-predict-accident-severity-by-rural-vs-urban-areas-in-certain-weather-conditions." class="nav-link" data-scroll-target="#logistic-regression-for-binary-accident-severity-classification-to-predict-accident-severity-by-rural-vs-urban-areas-in-certain-weather-conditions.">Logistic Regression for Binary Accident Severity Classification to predict accident severity by rural vs urban areas in certain weather conditions.</a></li>
+  <li><a href="#lasso-logistic-regression-for-binary-classification-of-accident-severity" id="toc-lasso-logistic-regression-for-binary-classification-of-accident-severity" class="nav-link" data-scroll-target="#lasso-logistic-regression-for-binary-classification-of-accident-severity">Lasso Logistic Regression for Binary Classification of Accident Severity</a></li>
+  <li><a href="#lasso-logistic-regression-for-predicting-accident-severity-including-more-variables" id="toc-lasso-logistic-regression-for-predicting-accident-severity-including-more-variables" class="nav-link" data-scroll-target="#lasso-logistic-regression-for-predicting-accident-severity-including-more-variables">Lasso Logistic Regression for Predicting Accident Severity including more variables</a></li>
+  <li><a href="#re-visualization-project-using-r-language-introduction" id="toc-re-visualization-project-using-r-language-introduction" class="nav-link" data-scroll-target="#re-visualization-project-using-r-language-introduction">Re-visualization Project Using R-language Introduction:</a></li>
+  <li><a href="#source-code" id="toc-source-code" class="nav-link" data-scroll-target="#source-code">Source Code</a></li>
+  <li><a href="#loading-libraries" id="toc-loading-libraries" class="nav-link" data-scroll-target="#loading-libraries"><strong>Loading Libraries:</strong></a></li>
+  <li><a href="#only-logistic-regression-with-2-variables" id="toc-only-logistic-regression-with-2-variables" class="nav-link" data-scroll-target="#only-logistic-regression-with-2-variables">only Logistic regression with 2 variables</a></li>
+  <li><a href="#logistic-regression-lasso-wirth-2-combination-variables" id="toc-logistic-regression-lasso-wirth-2-combination-variables" class="nav-link" data-scroll-target="#logistic-regression-lasso-wirth-2-combination-variables">Logistic regression Lasso wirth 2 combination variables</a></li>
+  <li><a href="#logistic-regression-lasso-wirth-more-variables" id="toc-logistic-regression-lasso-wirth-more-variables" class="nav-link" data-scroll-target="#logistic-regression-lasso-wirth-more-variables">Logistic regression Lasso wirth more variables</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">CrashClarity</h1>
+<p class="subtitle lead">Data-Driven Insights for UK Road Safety</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem;">
+<span style="background:#e50914;color:#fff;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;">R</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">Random Forest</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">Logistic Regression</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">Plotly</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">Leaflet</span>
+</div>
+<p>**Crash Clarity: Data-Driven Insights for Enhancing UK Road Safety using statistical models<br>
+** <img src="images/road image.jpg" class="img-fluid"></p>
+<p><strong>ABSTRACT</strong></p>
+<p>Road accidents and safety remain critical public health concerns worldwide, with significant societal, economic, and emotional impacts. In the United Kingdom, the government provides comprehensive data on road accidents through its Road Accident and Safety Statistics guidance. This academic project leverages these statistics to analyze and interpret the trends, patterns, and contributing factors associated with road accidents in the UK.</p>
+<p>The study explores key variables such as accident severity, weather and road conditions, time of day, and demographic factors, providing actionable insights into the circumstances under which accidents are most likely to occur. Utilizing advanced data visualization techniques, including interactive heatmaps and histograms, the project presents complex information in a clear and engaging manner to enhance understanding and foster data-driven decision-making.</p>
+<p>The findings emphasize the critical role of environmental and behavioral factors in road safety and aim to support policymakers, researchers, and road users in designing effective interventions to reduce accidents and improve safety measures. This project underscores the importance of leveraging statistical data to promote evidence-based strategies for safer transportation systems.</p>
+<p><strong>Visualizing Accident Severity Distribution</strong></p>
+<p>This interactive histogram presents a comprehensive analysis of road accident severity levels categorized as <em>Life-Threatening,</em> <em>Significant</em>, and <em>Mild.</em> Each category is visually distinguished using a specific color palette, with red denoting <em>Life-Threatening</em> accidents, orange representing <em>Significant</em> accidents, and green for <em>Mild</em> cases. The visualization provides an intuitive understanding of the frequency distribution of these severity levels, enabling researchers and policymakers to identify patterns and focus on mitigating the most critical accident types. The interactivity of the graph allows for an in-depth examination of accident counts, enhancing data-driven decision-making and supporting evidence-based road safety interventions.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-1ac06c554eebf45b2c77" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-1ac06c554eebf45b2c77">{"x":{"data":[{"orientation":"v","width":0.89999999999999991,"base":0,"x":[1],"y":[1522],"text":"count:  1522<br />accident_severity: Life-Threatening","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,0,0,0.7)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Life-Threatening","legendgroup":"Life-Threatening","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000013,"base":0,"x":[2],"y":[23438],"text":"count: 23438<br />accident_severity: Significant","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,140,0,0.7)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Significant","legendgroup":"Significant","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[3],"y":[79298],"text":"count: 79298<br />accident_severity: Mild","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,100,0,0.7)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Mild","legendgroup":"Mild","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":37.260273972602747,"l":54.794520547945211},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Distribution of Accident Severity","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,3.6000000000000001],"tickmode":"array","ticktext":["Life-Threatening","Significant","Mild"],"tickvals":[1,2,3],"categoryorder":"array","categoryarray":["Life-Threatening","Significant","Mild"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Accident Severity","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-3964.9000000000001,83262.899999999994],"tickmode":"array","ticktext":["0","20000","40000","60000","80000"],"tickvals":[0,20000,40000,60000,80000],"categoryorder":"array","categoryarray":["0","20000","40000","60000","80000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Count","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"accident_severity","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"16cec7bf1c1c1":{"x":{},"fill":{},"type":"bar"}},"cur_data":"16cec7bf1c1c1","visdat":{"16cec7bf1c1c1":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p><strong>Temporal Analysis of Road Accidents by Time Bands</strong></p>
+<p>This interactive visualization categorizes road accidents into five time bands: “Night (Midnight to 5 AM),” “Morning Rush Hour,” “Daytime,” “Evening Rush Hour,” and “Night (8 PM to 11 PM)” using STATS20 guidance. The bar plot highlights accident frequencies with a gradient color scheme, showing the highest occurrences during “Daytime” and “Evening Rush Hour”.</p>
+<p>These insights help identify high-risk periods, enabling policymakers and researchers to develop targeted road safety strategies. The interactive design allows for detailed exploration of accident patterns.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-0cef6976ba522d16bc7f" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-0cef6976ba522d16bc7f">{"x":{"data":[{"orientation":"v","width":0.89999999999999991,"base":0,"x":[1],"y":[6170],"text":"time_band: Night (Midnight to 5 AM)<br />total_accidents:  6170","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,192,203,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[5],"y":[13031],"text":"time_band: Night (8 PM to 11 PM)<br />total_accidents: 13031","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,162,159,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000013,"base":0,"x":[2],"y":[17289],"text":"time_band: Morning Rush Hour<br />total_accidents: 17289","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,143,132,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[4],"y":[30836],"text":"time_band: Evening Rush Hour<br />total_accidents: 30836","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,73,49,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[3],"y":[36932],"text":"time_band: Daytime<br />total_accidents: 36932","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,0,0,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1],"y":[0],"name":"a7eeb1ef5d35fdc47c63ecca3aa37c66","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#FFC0CB"],[0.0033444816053511657,"#FFC0CA"],[0.0066889632107023315,"#FFBFCA"],[0.010033444816053526,"#FFBFC9"],[0.013377926421404692,"#FFBEC8"],[0.016722408026755856,"#FFBEC8"],[0.020066889632107024,"#FFBDC7"],[0.023411371237458189,"#FFBDC6"],[0.026755852842809354,"#FFBDC6"],[0.030100334448160519,"#FFBCC5"],[0.033444816053511711,"#FFBCC4"],[0.03678929765886288,"#FFBBC4"],[0.040133779264214048,"#FFBBC3"],[0.043478260869565209,"#FFBAC2"],[0.046822742474916378,"#FFBAC2"],[0.050167224080267574,"#FFB9C1"],[0.053511705685618735,"#FFB9C0"],[0.056856187290969903,"#FFB9C0"],[0.060200668896321065,"#FFB8BF"],[0.06354515050167224,"#FFB8BE"],[0.066889632107023422,"#FFB7BE"],[0.070234113712374563,"#FFB7BD"],[0.073578595317725759,"#FFB6BC"],[0.0769230769230769,"#FFB6BC"],[0.080267558528428096,"#FFB5BB"],[0.083612040133779292,"#FFB5BA"],[0.086956521739130418,"#FFB5BA"],[0.090301003344481615,"#FFB4B9"],[0.093645484949832755,"#FFB4B8"],[0.096989966555183951,"#FFB3B8"],[0.10033444816053515,"#FFB3B7"],[0.10367892976588627,"#FFB2B6"],[0.10702341137123747,"#FFB2B6"],[0.11036789297658861,"#FFB2B5"],[0.11371237458193981,"#FFB1B4"],[0.117056856187291,"#FFB1B4"],[0.12040133779264213,"#FFB0B3"],[0.12374581939799333,"#FFB0B2"],[0.12709030100334448,"#FFAFB2"],[0.13043478260869568,"#FFAFB1"],[0.13377926421404684,"#FFAEB0"],[0.13712374581939799,"#FFAEB0"],[0.14046822742474913,"#FFAEAF"],[0.14381270903010032,"#FFADAE"],[0.14715719063545152,"#FFADAE"],[0.15050167224080271,"#FFACAD"],[0.15384615384615385,"#FFACAD"],[0.157190635451505,"#FFABAC"],[0.16053511705685619,"#FFABAB"],[0.16387959866220739,"#FFAAAB"],[0.16722408026755858,"#FFAAAA"],[0.1705685618729097,"#FFAAA9"],[0.17391304347826084,"#FFA9A9"],[0.17725752508361203,"#FFA9A8"],[0.18060200668896323,"#FFA8A7"],[0.18394648829431437,"#FFA8A7"],[0.18729096989966557,"#FFA7A6"],[0.19063545150501671,"#FFA7A5"],[0.1939799331103679,"#FFA6A5"],[0.1973244147157191,"#FFA6A4"],[0.20066889632107024,"#FFA5A3"],[0.20401337792642135,"#FFA5A3"],[0.20735785953177255,"#FFA5A2"],[0.21070234113712374,"#FFA4A1"],[0.21404682274247494,"#FFA4A1"],[0.21739130434782608,"#FFA3A0"],[0.22073578595317722,"#FFA39F"],[0.22408026755852842,"#FFA29F"],[0.22742474916387961,"#FFA29E"],[0.23076923076923081,"#FFA19E"],[0.23411371237458195,"#FFA19D"],[0.23745819397993309,"#FFA19C"],[0.24080267558528426,"#FFA09C"],[0.24414715719063546,"#FFA09B"],[0.24749163879598665,"#FF9F9A"],[0.25083612040133779,"#FF9F9A"],[0.25418060200668896,"#FF9E99"],[0.25752508361204013,"#FF9E98"],[0.26086956521739135,"#FF9D98"],[0.26421404682274252,"#FF9D97"],[0.26755852842809363,"#FF9C96"],[0.2709030100334448,"#FF9C96"],[0.27424749163879597,"#FF9C95"],[0.27759197324414719,"#FF9B94"],[0.28093645484949831,"#FF9B94"],[0.28428093645484953,"#FF9A93"],[0.28762541806020064,"#FF9A93"],[0.29096989966555187,"#FF9992"],[0.29431438127090304,"#FF9991"],[0.29765886287625415,"#FF9891"],[0.30100334448160537,"#FF9890"],[0.30434782608695649,"#FF978F"],[0.30769230769230771,"#FF978F"],[0.31103678929765882,"#FF968E"],[0.31438127090301005,"#FF968D"],[0.31772575250836121,"#FF968D"],[0.32107023411371238,"#FF958C"],[0.32441471571906355,"#FF958B"],[0.32775919732441472,"#FF948B"],[0.33110367892976589,"#FF948A"],[0.33444816053511717,"#FF938A"],[0.33779264214046822,"#FF9389"],[0.34113712374581939,"#FF9288"],[0.34448160535117051,"#FF9288"],[0.34782608695652167,"#FF9187"],[0.3511705685618729,"#FF9186"],[0.35451505016722407,"#FF9086"],[0.35785953177257529,"#FF9085"],[0.36120401337792646,"#FF9084"],[0.36454849498327768,"#FF8F84"],[0.36789297658862874,"#FF8F83"],[0.37123745819397991,"#FF8E83"],[0.37458193979933113,"#FF8E82"],[0.37792642140468219,"#FF8D81"],[0.38127090301003341,"#FF8D81"],[0.38461538461538458,"#FF8C80"],[0.38795986622073581,"#FF8C7F"],[0.39130434782608697,"#FF8B7F"],[0.3946488294314382,"#FF8B7E"],[0.39799331103678937,"#FF8A7D"],[0.40133779264214048,"#FF8A7D"],[0.40468227424749165,"#FF897C"],[0.4080267558528427,"#FF897C"],[0.41137123745819393,"#FF887B"],[0.4147157190635451,"#FF887A"],[0.41806020066889632,"#FF877A"],[0.42140468227424749,"#FF8779"],[0.42474916387959871,"#FF8778"],[0.42809364548494988,"#FF8678"],[0.4314381270903011,"#FF8677"],[0.43478260869565216,"#FF8576"],[0.43812709030100339,"#FF8576"],[0.44147157190635444,"#FF8475"],[0.44481605351170561,"#FF8475"],[0.44816053511705684,"#FF8374"],[0.451505016722408,"#FF8373"],[0.45484949832775923,"#FF8273"],[0.4581939799331104,"#FF8272"],[0.46153846153846162,"#FF8171"],[0.46488294314381268,"#FF8171"],[0.4682274247491639,"#FF8070"],[0.47157190635451507,"#FF8070"],[0.47491638795986618,"#FF7F6F"],[0.47826086956521735,"#FF7F6E"],[0.48160535117056852,"#FF7E6E"],[0.48494983277591974,"#FF7E6D"],[0.48829431438127091,"#FF7D6C"],[0.49163879598662213,"#FF7D6C"],[0.4949832775919733,"#FF7C6B"],[0.49832775919732442,"#FF7C6B"],[0.50167224080267558,"#FF7B6A"],[0.50501672240802664,"#FF7B69"],[0.50836120401337792,"#FF7A69"],[0.51170568561872909,"#FF7A68"],[0.51505016722408026,"#FF7967"],[0.51839464882943143,"#FF7967"],[0.52173913043478271,"#FF7866"],[0.52508361204013387,"#FF7866"],[0.52842809364548504,"#FF7765"],[0.5317725752508361,"#FF7764"],[0.53511705685618727,"#FF7664"],[0.53846153846153855,"#FF7663"],[0.5418060200668896,"#FF7562"],[0.54515050167224077,"#FF7562"],[0.54849498327759194,"#FF7461"],[0.55183946488294322,"#FF7461"],[0.55518394648829439,"#FF7360"],[0.55852842809364545,"#FF735F"],[0.56187290969899661,"#FF725F"],[0.56521739130434778,"#FF725E"],[0.56856187290969906,"#FF715D"],[0.57190635451505023,"#FF715D"],[0.57525083612040129,"#FF705C"],[0.57859531772575246,"#FF705C"],[0.58193979933110374,"#FF6F5B"],[0.5852842809364549,"#FF6F5A"],[0.58862876254180607,"#FF6E5A"],[0.59197324414715713,"#FF6E59"],[0.5953177257525083,"#FF6D58"],[0.59866220735785958,"#FF6D58"],[0.60200668896321075,"#FF6C57"],[0.60535117056856191,"#FF6B57"],[0.60869565217391297,"#FF6B56"],[0.61204013377926425,"#FF6A55"],[0.61538461538461542,"#FF6A55"],[0.61872909698996659,"#FF6954"],[0.62207357859531764,"#FF6953"],[0.62541806020066892,"#FF6853"],[0.62876254180602009,"#FF6852"],[0.63210702341137126,"#FF6752"],[0.63545150501672243,"#FF6751"],[0.63879598662207349,"#FF6650"],[0.64214046822742477,"#FF6650"],[0.64548494983277593,"#FF654F"],[0.6488294314381271,"#FF644E"],[0.65217391304347827,"#FF644E"],[0.65551839464882944,"#FF634D"],[0.65886287625418061,"#FF634D"],[0.66220735785953178,"#FF624C"],[0.66555183946488294,"#FF624B"],[0.66889632107023422,"#FF614B"],[0.67224080267558528,"#FF614A"],[0.67558528428093645,"#FF6049"],[0.67892976588628762,"#FF5F49"],[0.68227424749163879,"#FF5F48"],[0.68561872909699006,"#FF5E48"],[0.68896321070234112,"#FF5E47"],[0.69230769230769229,"#FF5D46"],[0.69565217391304346,"#FF5D46"],[0.69899665551839474,"#FF5C45"],[0.70234113712374591,"#FF5B44"],[0.70568561872909696,"#FF5B44"],[0.70903010033444813,"#FF5A43"],[0.7123745819397993,"#FF5A43"],[0.71571906354515058,"#FF5942"],[0.71906354515050164,"#FF5841"],[0.72240802675585281,"#FF5841"],[0.72575250836120397,"#FF5740"],[0.72909698996655525,"#FF573F"],[0.73244147157190642,"#FF563F"],[0.73578595317725748,"#FF553E"],[0.73913043478260865,"#FF553E"],[0.74247491638795982,"#FF543D"],[0.7458193979933111,"#FF543C"],[0.74916387959866226,"#FF533C"],[0.75250836120401332,"#FF523B"],[0.75585284280936449,"#FF523A"],[0.75919732441471577,"#FF513A"],[0.76254180602006694,"#FF5039"],[0.76588628762541811,"#FF5038"],[0.76923076923076916,"#FF4F38"],[0.77257525083612044,"#FF4E37"],[0.77591973244147161,"#FF4E36"],[0.77926421404682278,"#FF4D36"],[0.78260869565217395,"#FF4D35"],[0.785953177257525,"#FF4C35"],[0.78929765886287628,"#FF4B34"],[0.79264214046822745,"#FF4B33"],[0.79598662207357862,"#FF4A33"],[0.79933110367892979,"#FF4932"],[0.80267558528428096,"#FF4831"],[0.80602006688963213,"#FF4831"],[0.80936454849498329,"#FF4730"],[0.81270903010033446,"#FF462F"],[0.81605351170568552,"#FF462F"],[0.8193979933110368,"#FF452E"],[0.82274247491638797,"#FF442D"],[0.82608695652173914,"#FF442D"],[0.8294314381270903,"#FF432C"],[0.83277591973244147,"#FF422B"],[0.83612040133779264,"#FF412B"],[0.83946488294314381,"#FF412A"],[0.84280936454849498,"#FF4029"],[0.84615384615384626,"#FF3F29"],[0.84949832775919731,"#FF3E28"],[0.85284280936454848,"#FF3E27"],[0.85618729096989965,"#FF3D27"],[0.85953177257525082,"#FF3C26"],[0.8628762541806021,"#FF3B25"],[0.86622073578595316,"#FF3A24"],[0.86956521739130432,"#FF3924"],[0.87290969899665549,"#FF3923"],[0.87625418060200677,"#FF3822"],[0.87959866220735794,"#FF3722"],[0.88294314381270889,"#FF3621"],[0.88628762541806028,"#FF3520"],[0.88963210702341122,"#FF341F"],[0.89297658862876272,"#FF331F"],[0.89632107023411367,"#FF321E"],[0.89966555183946484,"#FF321D"],[0.90301003344481601,"#FF311C"],[0.90635451505016729,"#FF301C"],[0.90969899665551845,"#FF2F1B"],[0.9130434782608694,"#FF2E1A"],[0.91638795986622079,"#FF2D19"],[0.91973244147157174,"#FF2C18"],[0.92307692307692324,"#FF2B18"],[0.92642140468227419,"#FF2917"],[0.92976588628762535,"#FF2816"],[0.93311036789297652,"#FF2715"],[0.9364548494983278,"#FF2614"],[0.93979933110367897,"#FF2513"],[0.94314381270903014,"#FF2412"],[0.94648829431438131,"#FF2211"],[0.94983277591973236,"#FF2111"],[0.95317725752508375,"#FF2010"],[0.9565217391304347,"#FF1E0F"],[0.95986622073578609,"#FF1D0D"],[0.96321070234113704,"#FF1B0C"],[0.96655518394648832,"#FF190B"],[0.96989966555183948,"#FF180A"],[0.97324414715719065,"#FF1609"],[0.97658862876254182,"#FF1408"],[0.97993311036789288,"#FF1207"],[0.98327759197324427,"#FF0F05"],[0.98662207357859522,"#FF0D04"],[0.98996655518394661,"#FF0A03"],[0.99331103678929766,"#FF0602"],[0.99665551839464883,"#FF0301"],[1,"#FF0000"]],"colorbar":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"thickness":23.039999999999996,"title":"Total Accidents","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"tickmode":"array","ticktext":["10000","20000","30000"],"tickvals":[0.12575591097241184,0.44974871594824778,0.77374152092408377],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":99.515200440319589,"l":54.794520547945211},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Accidents by Time Bands ","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,5.5999999999999996],"tickmode":"array","ticktext":["Night (Midnight to 5 AM)","Morning Rush Hour","Daytime","Evening Rush Hour","Night (8 PM to 11 PM)"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["Night (Midnight to 5 AM)","Morning Rush Hour","Daytime","Evening Rush Hour","Night (8 PM to 11 PM)"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Time Band","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-1846.6000000000001,38778.599999999999],"tickmode":"array","ticktext":["0","10000","20000","30000"],"tickvals":[0,10000,20000,30000],"categoryorder":"array","categoryarray":["0","10000","20000","30000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Accidents","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Total Accidents","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"16cec5e3eee2e":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"16cec5e3eee2e","visdat":{"16cec5e3eee2e":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p><strong>Accidents by Weather and Light Conditions</strong></p>
+<p>This interactive heatmap analyzes the influence of weather and light conditions on road accidents, highlighting combinations like “Fine without high winds” and “Daylight” with the highest frequencies. A gradient color scale emphasizes accident intensity, with data labels providing exact counts. The visualization aids in identifying high-risk conditions to inform targeted safety measures.</p>
+<p><strong>Impact of Weather Conditions on Road Accidents</strong></p>
+<p>This interactive bar plot presents the distribution of road accidents under various weather conditions, highlighting categories such as <em>Fine without high winds</em> <em>Raining without high winds,</em> and <em>Fog or mist.</em> The gradient color scale, ranging from light pink to deep red, emphasizes the frequency of accidents, with higher counts visually more prominent. Tooltips provide precise accident counts for each weather condition, enhancing the interpret ability of the data.</p>
+<p>The visualization reveals that the majority of accidents occur under <em>Fine without high winds,</em> suggesting that favorable weather does not necessarily mitigate risk. Such insights are critical for policymakers and researchers to understand environmental influences on road safety and to develop targeted prevention strategies.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-e17f82e022ec2df4a3b3" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-e17f82e022ec2df4a3b3">{"x":{"data":[{"orientation":"v","width":0.89999999999999858,"base":0,"x":[9],"y":[42],"text":"Weather: Snowing with high winds<br>Total Accidents: 42","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,193,193,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.89999999999999947,"base":0,"x":[8],"y":[333],"text":"Weather: Fog or mist<br>Total Accidents: 333","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,192,192,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[7],"y":[396],"text":"Weather: Snowing without high winds<br>Total Accidents: 396","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,192,192,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[6],"y":[977],"text":"Weather: Fine with high winds<br>Total Accidents: 977","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(254,191,191,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[5],"y":[1225],"text":"Weather: Raining with high winds<br>Total Accidents: 1225","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(254,190,190,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[4],"y":[3081],"text":"Weather: Other<br>Total Accidents: 3081","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(251,186,185,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[3],"y":[3335],"text":"Weather: Unknown<br>Total Accidents: 3335","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(251,186,185,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000013,"base":0,"x":[2],"y":[12840],"text":"Weather: Raining without high winds<br>Total Accidents: 12840","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(240,166,160,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.89999999999999991,"base":0,"x":[1],"y":[82029],"text":"Weather: Fine without high winds<br>Total Accidents: 82029","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(139,0,0,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1],"y":[0],"name":"4f9d5ff32d75f8b0d0c7cf8a6a446c86","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#FFC1C1"],[0.0033444816053511705,"#FFC0C0"],[0.006688963210702341,"#FEC0C0"],[0.01003344481605351,"#FEBFBF"],[0.013377926421404682,"#FEBFBE"],[0.016722408026755852,"#FDBEBD"],[0.02006688963210702,"#FDBDBD"],[0.023411371237458192,"#FDBDBC"],[0.026755852842809364,"#FCBCBB"],[0.030100334448160532,"#FCBCBB"],[0.033444816053511704,"#FCBBBA"],[0.036789297658862873,"#FBBBB9"],[0.040133779264214041,"#FBBAB9"],[0.043478260869565209,"#FBB9B8"],[0.046822742474916385,"#FAB9B7"],[0.050167224080267553,"#FAB8B6"],[0.053511705685618728,"#FAB8B6"],[0.056856187290969896,"#FAB7B5"],[0.060200668896321065,"#F9B6B4"],[0.06354515050167224,"#F9B6B4"],[0.066889632107023408,"#F9B5B3"],[0.070234113712374577,"#F8B5B2"],[0.073578595317725745,"#F8B4B2"],[0.076923076923076927,"#F8B3B1"],[0.080267558528428082,"#F7B3B0"],[0.08361204013377925,"#F7B2AF"],[0.086956521739130418,"#F7B2AF"],[0.090301003344481601,"#F6B1AE"],[0.093645484949832769,"#F6B1AD"],[0.096989966555183937,"#F6B0AD"],[0.10033444816053511,"#F5AFAC"],[0.10367892976588627,"#F5AFAB"],[0.10702341137123746,"#F5AEAB"],[0.11036789297658862,"#F4AEAA"],[0.11371237458193979,"#F4ADA9"],[0.11705685618729096,"#F4ACA8"],[0.12040133779264213,"#F3ACA8"],[0.12374581939799331,"#F3ABA7"],[0.12709030100334448,"#F3ABA6"],[0.13043478260869565,"#F2AAA6"],[0.13377926421404682,"#F2A9A5"],[0.13712374581939799,"#F2A9A4"],[0.14046822742474915,"#F1A8A4"],[0.14381270903010032,"#F1A8A3"],[0.14715719063545149,"#F1A7A2"],[0.15050167224080269,"#F0A7A2"],[0.15384615384615385,"#F0A6A1"],[0.15719063545150502,"#F0A5A0"],[0.16053511705685616,"#EFA5A0"],[0.16387959866220733,"#EFA49F"],[0.1672240802675585,"#EFA49E"],[0.17056856187290967,"#EEA39D"],[0.17391304347826084,"#EEA29D"],[0.17725752508361203,"#EDA29C"],[0.1806020066889632,"#EDA19B"],[0.18394648829431437,"#EDA19B"],[0.18729096989966554,"#ECA09A"],[0.19063545150501671,"#ECA099"],[0.19397993311036787,"#EC9F99"],[0.19732441471571904,"#EB9E98"],[0.20066889632107021,"#EB9E97"],[0.20401337792642138,"#EB9D97"],[0.20735785953177255,"#EA9D96"],[0.21070234113712372,"#EA9C95"],[0.21404682274247491,"#EA9C95"],[0.21739130434782608,"#E99B94"],[0.22073578595317725,"#E99A93"],[0.22408026755852842,"#E99A93"],[0.22742474916387959,"#E89992"],[0.23076923076923075,"#E89991"],[0.23411371237458192,"#E89891"],[0.23745819397993309,"#E79790"],[0.24080267558528426,"#E7978F"],[0.24414715719063543,"#E7968E"],[0.24749163879598662,"#E6968E"],[0.25083612040133779,"#E6958D"],[0.25418060200668896,"#E5958C"],[0.25752508361204013,"#E5948C"],[0.2608695652173913,"#E5938B"],[0.26421404682274247,"#E4938A"],[0.26755852842809363,"#E4928A"],[0.2709030100334448,"#E49289"],[0.27424749163879597,"#E39188"],[0.27759197324414714,"#E39188"],[0.28093645484949831,"#E39087"],[0.28428093645484948,"#E28F86"],[0.28762541806020064,"#E28F86"],[0.29096989966555181,"#E28E85"],[0.29431438127090298,"#E18E84"],[0.29765886287625415,"#E18D84"],[0.30100334448160537,"#E08C83"],[0.30434782608695654,"#E08C82"],[0.30769230769230771,"#E08B82"],[0.31103678929765888,"#DF8B81"],[0.31438127090301005,"#DF8A80"],[0.31772575250836121,"#DF8A80"],[0.32107023411371233,"#DE897F"],[0.3244147157190635,"#DE887E"],[0.32775919732441466,"#DE887E"],[0.33110367892976583,"#DD877D"],[0.334448160535117,"#DD877C"],[0.33779264214046817,"#DC867C"],[0.34113712374581934,"#DC867B"],[0.34448160535117051,"#DC857B"],[0.34782608695652167,"#DB847A"],[0.35117056856187284,"#DB8479"],[0.35451505016722407,"#DB8379"],[0.35785953177257523,"#DA8378"],[0.3612040133779264,"#DA8277"],[0.36454849498327757,"#DA8277"],[0.36789297658862874,"#D98176"],[0.37123745819397991,"#D98075"],[0.37458193979933108,"#D88075"],[0.37792642140468224,"#D87F74"],[0.38127090301003341,"#D87F73"],[0.38461538461538458,"#D77E73"],[0.38795986622073575,"#D77E72"],[0.39130434782608692,"#D77D71"],[0.39464882943143809,"#D67C71"],[0.39799331103678925,"#D67C70"],[0.40133779264214042,"#D57B6F"],[0.40468227424749165,"#D57B6F"],[0.40802675585284276,"#D57A6E"],[0.41137123745819398,"#D47A6D"],[0.4147157190635451,"#D4796D"],[0.41806020066889632,"#D4786C"],[0.42140468227424743,"#D3786C"],[0.42474916387959866,"#D3776B"],[0.42809364548494983,"#D2776A"],[0.43143812709030094,"#D2766A"],[0.43478260869565216,"#D27669"],[0.43812709030100327,"#D17568"],[0.4414715719063545,"#D17468"],[0.44481605351170561,"#D17467"],[0.44816053511705684,"#D07366"],[0.45150501672240795,"#D07366"],[0.45484949832775917,"#CF7265"],[0.45819397993311028,"#CF7164"],[0.46153846153846151,"#CF7164"],[0.46488294314381262,"#CE7063"],[0.46822742474916385,"#CE7063"],[0.47157190635451496,"#CD6F62"],[0.47491638795986618,"#CD6F61"],[0.47826086956521729,"#CD6E61"],[0.48160535117056852,"#CC6D60"],[0.48494983277591969,"#CC6D5F"],[0.48829431438127086,"#CC6C5F"],[0.49163879598662202,"#CB6C5E"],[0.49498327759197325,"#CB6B5D"],[0.49832775919732436,"#CA6B5D"],[0.50167224080267558,"#CA6A5C"],[0.50501672240802664,"#CA695C"],[0.50836120401337792,"#C9695B"],[0.51170568561872898,"#C9685A"],[0.51505016722408026,"#C8685A"],[0.51839464882943143,"#C86759"],[0.52173913043478259,"#C86758"],[0.52508361204013376,"#C76658"],[0.52842809364548493,"#C76557"],[0.5317725752508361,"#C66556"],[0.53511705685618727,"#C66456"],[0.53846153846153844,"#C66455"],[0.5418060200668896,"#C56355"],[0.54515050167224077,"#C56354"],[0.54849498327759194,"#C56253"],[0.55183946488294311,"#C46153"],[0.55518394648829428,"#C46152"],[0.55852842809364545,"#C36051"],[0.56187290969899661,"#C36051"],[0.56521739130434778,"#C35F50"],[0.56856187290969895,"#C25F50"],[0.57190635451505012,"#C25E4F"],[0.57525083612040129,"#C15D4E"],[0.57859531772575246,"#C15D4E"],[0.58193979933110362,"#C15C4D"],[0.58528428093645479,"#C05C4D"],[0.58862876254180596,"#C05B4C"],[0.59197324414715713,"#BF5B4B"],[0.5953177257525083,"#BF5A4B"],[0.59866220735785947,"#BF594A"],[0.60200668896321075,"#BE5949"],[0.6053511705685618,"#BE5849"],[0.60869565217391308,"#BD5848"],[0.61204013377926414,"#BD5748"],[0.61538461538461542,"#BD5647"],[0.61872909698996648,"#BC5646"],[0.62207357859531776,"#BC5546"],[0.62541806020066881,"#BB5545"],[0.62876254180602009,"#BB5445"],[0.63210702341137115,"#BB5444"],[0.63545150501672243,"#BA5343"],[0.63879598662207349,"#BA5243"],[0.64214046822742465,"#B95242"],[0.64548494983277582,"#B95142"],[0.64882943143812699,"#B85141"],[0.65217391304347816,"#B85040"],[0.65551839464882933,"#B84F40"],[0.65886287625418061,"#B74F3F"],[0.66220735785953166,"#B74E3E"],[0.66555183946488294,"#B64E3E"],[0.668896321070234,"#B64D3D"],[0.67224080267558528,"#B64D3D"],[0.67558528428093634,"#B54C3C"],[0.67892976588628762,"#B54B3B"],[0.68227424749163867,"#B44B3B"],[0.68561872909698995,"#B44A3A"],[0.68896321070234101,"#B44A3A"],[0.69230769230769229,"#B34939"],[0.69565217391304335,"#B34838"],[0.69899665551839463,"#B24838"],[0.70234113712374568,"#B24737"],[0.70568561872909696,"#B14737"],[0.70903010033444813,"#B14636"],[0.7123745819397993,"#B14535"],[0.71571906354515047,"#B04535"],[0.71906354515050164,"#B04434"],[0.72240802675585281,"#AF4434"],[0.72575250836120397,"#AF4333"],[0.72909698996655514,"#AE4232"],[0.73244147157190631,"#AE4232"],[0.73578595317725748,"#AE4131"],[0.73913043478260865,"#AD4131"],[0.74247491638795982,"#AD4030"],[0.74581939799331098,"#AC3F2F"],[0.74916387959866215,"#AC3F2F"],[0.75250836120401332,"#AC3E2E"],[0.75585284280936449,"#AB3E2E"],[0.75919732441471566,"#AB3D2D"],[0.76254180602006683,"#AA3C2D"],[0.76588628762541799,"#AA3C2C"],[0.76923076923076916,"#A93B2B"],[0.77257525083612033,"#A93A2B"],[0.7759197324414715,"#A93A2A"],[0.77926421404682267,"#A8392A"],[0.78260869565217384,"#A83929"],[0.785953177257525,"#A73828"],[0.78929765886287617,"#A73728"],[0.79264214046822745,"#A63727"],[0.79598662207357851,"#A63627"],[0.79933110367892979,"#A63526"],[0.80267558528428085,"#A53525"],[0.80602006688963201,"#A53425"],[0.80936454849498329,"#A43424"],[0.81270903010033446,"#A43324"],[0.81605351170568552,"#A33223"],[0.81939799331103669,"#A33223"],[0.82274247491638797,"#A33122"],[0.82608695652173914,"#A23021"],[0.82943143812709019,"#A23021"],[0.83277591973244136,"#A12F20"],[0.83612040133779264,"#A12E20"],[0.83946488294314381,"#A02E1F"],[0.84280936454849487,"#A02D1E"],[0.84615384615384603,"#9F2C1E"],[0.84949832775919731,"#9F2C1D"],[0.85284280936454848,"#9F2B1D"],[0.85618729096989965,"#9E2A1C"],[0.85953177257525071,"#9E2A1B"],[0.86287625418060188,"#9D291B"],[0.86622073578595316,"#9D281A"],[0.86956521739130432,"#9C271A"],[0.87290969899665538,"#9C2719"],[0.87625418060200655,"#9C2618"],[0.87959866220735783,"#9B2518"],[0.882943143812709,"#9B2517"],[0.88628762541806005,"#9A2417"],[0.88963210702341122,"#9A2316"],[0.8929765886287625,"#992215"],[0.89632107023411367,"#992215"],[0.89966555183946473,"#982114"],[0.9030100334448159,"#982014"],[0.90635451505016718,"#981F13"],[0.90969899665551834,"#971E12"],[0.91304347826086951,"#971E12"],[0.91638795986622057,"#961D11"],[0.91973244147157185,"#961C11"],[0.92307692307692302,"#951B10"],[0.92642140468227419,"#951A0F"],[0.92976588628762524,"#94190F"],[0.93311036789297663,"#94180E"],[0.93645484949832769,"#94170D"],[0.93979933110367886,"#93170D"],[0.94314381270902992,"#93160C"],[0.94648829431438131,"#92150C"],[0.94983277591973236,"#92140B"],[0.95317725752508353,"#91130A"],[0.95652173913043459,"#911109"],[0.95986622073578598,"#901009"],[0.96321070234113704,"#900F08"],[0.96655518394648821,"#8F0E07"],[0.96989966555183937,"#8F0D07"],[0.97324414715719065,"#8F0B06"],[0.97658862876254171,"#8E0A05"],[0.97993311036789288,"#8E0804"],[0.98327759197324405,"#8D0704"],[0.98662207357859533,"#8D0603"],[0.98996655518394649,"#8C0402"],[0.99331103678929755,"#8C0301"],[0.99665551839464872,"#8B0101"],[1,"#8B0000"]],"colorbar":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"thickness":23.039999999999996,"title":"Total Accidents","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"tickmode":"array","ticktext":["20000","40000","60000","80000"],"tickvals":[0.24428407349132583,0.48741204906468905,0.73054002463805234,0.97366800021141564],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":41.90286425902864,"r":7.3059360730593621,"b":97.029321335793611,"l":53.466168534661698},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"<b> Accidents by Weather Conditions <\/b>","font":{"color":"rgba(0,0,0,1)","family":"","size":18.596928185969279},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,9.5999999999999996],"tickmode":"array","ticktext":["Fine without high winds","Raining without high winds","Unknown","Other","Raining with high winds","Fine with high winds","Snowing without high winds","Fog or mist","Snowing with high winds"],"tickvals":[1,2,3,4,5,6,6.9999999999999991,8,9],"categoryorder":"array","categoryarray":["Fine without high winds","Raining without high winds","Unknown","Other","Raining with high winds","Fine with high winds","Snowing without high winds","Fog or mist","Snowing with high winds"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":10.62681610626816},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Weather Conditions","font":{"color":"rgba(0,0,0,1)","family":"","size":13.283520132835205}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-4101.4499999999998,86130.449999999997],"tickmode":"array","ticktext":["0","20000","40000","60000","80000"],"tickvals":[0,20000,40000,60000.000000000007,80000],"categoryorder":"array","categoryarray":["0","20000","40000","60000","80000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Accidents","font":{"color":"rgba(0,0,0,1)","family":"","size":13.283520132835205}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Total Accidents","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"16cec593bdf19":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"16cec593bdf19","visdat":{"16cec593bdf19":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p><strong>Accidents by Road Surface Conditions</strong></p>
+<p>This interactive bar plot examines the distribution of road accidents across various surface conditions based on STATS19 classifications, such as <em>Dry,</em> <em>Wet or damp,</em> and <em>Snow.</em> Each condition is color-coded for clarity, with tooltips providing detailed accident counts for enhanced interpretability.</p>
+<p>The analysis reveals that the majority of accidents occur on <em>Dry</em> surfaces, followed by <em>Wet or damp</em> conditions, while adverse surfaces like <em>Flood</em> and <em>Mud</em> show significantly lower frequencies. These findings emphasize the need to consider surface conditions when implementing road safety measures, particularly for common scenarios like wet or dry roads. The visualization supports data-driven strategies for reducing accidents under diverse environmental conditions.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-ef0f6592615ad141e3aa" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-ef0f6592615ad141e3aa">{"x":{"data":[{"orientation":"v","width":0.89999999999999991,"base":0,"x":[1],"y":[72752],"text":"Dry: 72752 accidents","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,0,0,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Dry","legendgroup":"Dry","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[6],"y":[179],"text":"Flood: 179 accidents","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(117,112,179,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Flood","legendgroup":"Flood","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[4],"y":[1461],"text":"Frost or ice: 1461 accidents","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(217,95,2,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Frost or ice","legendgroup":"Frost or ice","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[5],"y":[241],"text":"Snow: 241 accidents","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(27,158,119,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Snow","legendgroup":"Snow","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[3],"y":[1617],"text":"Unknown: 1617 accidents","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(166,118,29,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Unknown","legendgroup":"Unknown","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000013,"base":0,"x":[2],"y":[26944],"text":"Wet or damp: 26944 accidents","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(115,162,198,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Wet or damp","legendgroup":"Wet or damp","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":37.260273972602747,"l":54.794520547945211},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Distribution of Accidents by Road Surface Conditions","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,6.5999999999999996],"tickmode":"array","ticktext":["Dry","Wet or damp","Unknown","Frost or ice","Snow","Flood"],"tickvals":[1,2,3,3.9999999999999996,5,6],"categoryorder":"array","categoryarray":["Dry","Wet or damp","Unknown","Frost or ice","Snow","Flood"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Road Surface Conditions","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-3637.6000000000004,76389.600000000006],"tickmode":"array","ticktext":["0","20000","40000","60000"],"tickvals":[4.5474735088646412e-13,20000,40000,60000],"categoryorder":"array","categoryarray":["0","20000","40000","60000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Accidents","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"road_conditions_desc","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"16cec2435a111":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"16cec2435a111","visdat":{"16cec2435a111":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<section id="random-forest-model-to-find-what-combination-of-factors-most-strongly-predicts-accident-severity" class="level3">
+<h3 class="anchored" data-anchor-id="random-forest-model-to-find-what-combination-of-factors-most-strongly-predicts-accident-severity">Random Forest Model to find What combination of factors most strongly predicts accident severity?</h3>
+<p>A Random Forest model was developed to classify accident severity based on features such as weather conditions, road surface conditions, number of vehicles, and urban or rural location. The model, trained on 100 decision trees, achieved robust classification with reasonable AUC values across all severity levels, as visualized in the ROC curves for each class.</p>
+<p>The feature importance plot highlights “Weather Conditions” and “Road Surface Conditions” as the most significant predictors of accident severity, followed by “Number of Vehicles” and “Urban or Rural Area.” These insights provide valuable guidance for prioritizing interventions and refining predictive models to improve road safety outcomes. The analysis underscores the importance of environmental and contextual factors in accident severity classification.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="multinomial-logistic-regression-analysis-of-accident-severity-by-weather-conditions" class="level3">
+<h3 class="anchored" data-anchor-id="multinomial-logistic-regression-analysis-of-accident-severity-by-weather-conditions">Multinomial Logistic Regression Analysis of Accident Severity by Weather Conditions</h3>
+<p>A multinomial logistic regression model was developed to examine the relationship between accident severity and weather conditions using a cleaned subset of the dataset. The dataset was partitioned into training (80%) and testing (20%) subsets to ensure robust evaluation. The model achieved convergence after 10 iterations, with residual deviance and AIC values of 100785 and 100793, respectively.</p>
+<p>The confusion matrix revealed that the model performed well in classifying higher severity levels, achieving an overall accuracy of 76.06%. The coefficients indicate a positive association between weather conditions and accident severity, suggesting that as adverse weather conditions increase, the likelihood of severe accidents also rises. These findings underscore the critical role of weather in road safety and provide insights for preventive measures.</p>
+<p><em>ROC Curve Analysis for Multinomial Logistic Regression Model</em></p>
+<p>The ROC curve illustrates the predictive performance of the multinomial logistic regression model in classifying accident severity levels (Fatal, Serious, and Slight) based on weather conditions. One-vs-all ROC curves were generated for each class, with distinct color coding: red for Fatal, blue for Serious, and green for Slight.</p>
+<p>The curves largely overlap with the diagonal reference line, indicating limited separation between true positive and false positive rates. As a more distanced ROC curve signifies better model performance, these results suggest the need for further feature refinement or model optimization to improve classification accuracy. The AUC values, though reasonable, highlight areas for potential enhancement in predictive capability.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># weights:  9 (4 variable)
+initial  value 91633.053773 
+iter  10 value 50406.679444
+final  value 50392.493956 
+converged</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="logistic-regression-for-binary-accident-severity-classification-to-predict-accident-severity-by-rural-vs-urban-areas-in-certain-weather-conditions." class="level3">
+<h3 class="anchored" data-anchor-id="logistic-regression-for-binary-accident-severity-classification-to-predict-accident-severity-by-rural-vs-urban-areas-in-certain-weather-conditions.">Logistic Regression for Binary Accident Severity Classification to predict accident severity by rural vs urban areas in certain weather conditions.</h3>
+<p>A logistic regression model was employed to classify accident severity into binary categories: “Slight” (1) and “Fatal/Serious” (0), using features such as urban or rural area and weather conditions. The model showed a modest reduction in residual deviance (from 91810 to 91030), with an AIC of 91040, suggesting limited improvement over the null model.</p>
+<p>The ROC curve yielded an AUC value of 0.5498, indicating the model’s predictive performance is slightly better than random chance. The negative coefficient for “urban_or_rural_area” suggests that accidents in urban areas are more likely to be classified as “Slight,” while the positive coefficient for “weather_conditions” implies a weak association with increased severity. Overall, the model demonstrates minimal predictive capability and requires additional features or refinement to achieve better classification accuracy and practical applicability.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="lasso-logistic-regression-for-binary-classification-of-accident-severity" class="level3">
+<h3 class="anchored" data-anchor-id="lasso-logistic-regression-for-binary-classification-of-accident-severity">Lasso Logistic Regression for Binary Classification of Accident Severity</h3>
+<p>A Lasso logistic regression model was applied to classify accident severity into binary categories (“Slight” vs.&nbsp;“Fatal/Serious”) using features such as urban or rural area and weather conditions. The model employed cross-validation to identify the optimal regularization parameter (lambda.min), ensuring reduced overfitting and improved generalizability.</p>
+<p>The ROC curve yielded an AUC of 0.5514, indicating a marginally better performance than random guessing. The close proximity of the ROC curve to the diagonal reference line suggests limited predictive power. While the model effectively reduces feature complexity, the low AUC highlights the need for additional predictive variables or refined feature engineering to improve classification accuracy and ensure practical applicability.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="lasso-logistic-regression-for-predicting-accident-severity-including-more-variables" class="level3">
+<h3 class="anchored" data-anchor-id="lasso-logistic-regression-for-predicting-accident-severity-including-more-variables">Lasso Logistic Regression for Predicting Accident Severity including more variables</h3>
+<p>A Lasso logistic regression model was implemented to classify accident severity into binary categories: “Severe” (1) and “Slight” (0). The model utilized key features such as road surface conditions, weather conditions, urban or rural area, and time of day. Cross-validation identified the optimal regularization parameter (lambda.min), ensuring feature selection and preventing over fitting.</p>
+<p>The model achieved an AUC of 0.612, which is the highest among all models evaluated, as visualized through the ROC curve. This indicates improved predictive performance and better discriminatory power compared to earlier approaches. Feature coefficients highlighted the importance of road surface conditions and urban/rural areas as significant predictors. While the model demonstrates improved performance, further enhancements could refine its applicability for real-world scenarios.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="re-visualization-project-using-r-language-introduction" class="level2">
+<h2 class="anchored" data-anchor-id="re-visualization-project-using-r-language-introduction">Re-visualization Project Using R-language Introduction:</h2>
+<hr>
+</section>
+<section id="source-code" class="level2">
+<h2 class="anchored" data-anchor-id="source-code">Source Code</h2>
+<p>The complete source code for all visualizations and models on this page.</p>
+<p><strong>Crash Clarity: Data-Driven Insights for Enhancing UK Road Safety using statistical models</strong></p>
+</section>
+<section id="loading-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="loading-libraries"><strong>Loading Libraries:</strong></h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-390e7c21a47ff2e60b67" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-390e7c21a47ff2e60b67">{"x":{"data":[{"orientation":"v","width":0.89999999999999991,"base":0,"x":[1],"y":[1522],"text":"count:  1522<br />accident_severity: Life-Threatening","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,0,0,0.7)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Life-Threatening","legendgroup":"Life-Threatening","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000013,"base":0,"x":[2],"y":[23438],"text":"count: 23438<br />accident_severity: Significant","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,140,0,0.7)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Significant","legendgroup":"Significant","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[3],"y":[79298],"text":"count: 79298<br />accident_severity: Mild","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,100,0,0.7)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Mild","legendgroup":"Mild","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":37.260273972602747,"l":54.794520547945211},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Distribution of Accident Severity","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,3.6000000000000001],"tickmode":"array","ticktext":["Life-Threatening","Significant","Mild"],"tickvals":[1,2,3],"categoryorder":"array","categoryarray":["Life-Threatening","Significant","Mild"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Accident Severity","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-3964.9000000000001,83262.899999999994],"tickmode":"array","ticktext":["0","20000","40000","60000","80000"],"tickvals":[0,20000,40000,60000,80000],"categoryorder":"array","categoryarray":["0","20000","40000","60000","80000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Count","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"accident_severity","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"16cec545790cd":{"x":{},"fill":{},"type":"bar"}},"cur_data":"16cec545790cd","visdat":{"16cec545790cd":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-18591f56f7d84f536314" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-18591f56f7d84f536314">{"x":{"data":[{"orientation":"v","width":0.89999999999999991,"base":0,"x":[1],"y":[6170],"text":"time_band: Night (Midnight to 5 AM)<br />total_accidents:  6170","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,192,203,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[5],"y":[13031],"text":"time_band: Night (8 PM to 11 PM)<br />total_accidents: 13031","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,162,159,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000013,"base":0,"x":[2],"y":[17289],"text":"time_band: Morning Rush Hour<br />total_accidents: 17289","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,143,132,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[4],"y":[30836],"text":"time_band: Evening Rush Hour<br />total_accidents: 30836","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,73,49,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[3],"y":[36932],"text":"time_band: Daytime<br />total_accidents: 36932","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,0,0,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1],"y":[0],"name":"a7eeb1ef5d35fdc47c63ecca3aa37c66","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#FFC0CB"],[0.0033444816053511657,"#FFC0CA"],[0.0066889632107023315,"#FFBFCA"],[0.010033444816053526,"#FFBFC9"],[0.013377926421404692,"#FFBEC8"],[0.016722408026755856,"#FFBEC8"],[0.020066889632107024,"#FFBDC7"],[0.023411371237458189,"#FFBDC6"],[0.026755852842809354,"#FFBDC6"],[0.030100334448160519,"#FFBCC5"],[0.033444816053511711,"#FFBCC4"],[0.03678929765886288,"#FFBBC4"],[0.040133779264214048,"#FFBBC3"],[0.043478260869565209,"#FFBAC2"],[0.046822742474916378,"#FFBAC2"],[0.050167224080267574,"#FFB9C1"],[0.053511705685618735,"#FFB9C0"],[0.056856187290969903,"#FFB9C0"],[0.060200668896321065,"#FFB8BF"],[0.06354515050167224,"#FFB8BE"],[0.066889632107023422,"#FFB7BE"],[0.070234113712374563,"#FFB7BD"],[0.073578595317725759,"#FFB6BC"],[0.0769230769230769,"#FFB6BC"],[0.080267558528428096,"#FFB5BB"],[0.083612040133779292,"#FFB5BA"],[0.086956521739130418,"#FFB5BA"],[0.090301003344481615,"#FFB4B9"],[0.093645484949832755,"#FFB4B8"],[0.096989966555183951,"#FFB3B8"],[0.10033444816053515,"#FFB3B7"],[0.10367892976588627,"#FFB2B6"],[0.10702341137123747,"#FFB2B6"],[0.11036789297658861,"#FFB2B5"],[0.11371237458193981,"#FFB1B4"],[0.117056856187291,"#FFB1B4"],[0.12040133779264213,"#FFB0B3"],[0.12374581939799333,"#FFB0B2"],[0.12709030100334448,"#FFAFB2"],[0.13043478260869568,"#FFAFB1"],[0.13377926421404684,"#FFAEB0"],[0.13712374581939799,"#FFAEB0"],[0.14046822742474913,"#FFAEAF"],[0.14381270903010032,"#FFADAE"],[0.14715719063545152,"#FFADAE"],[0.15050167224080271,"#FFACAD"],[0.15384615384615385,"#FFACAD"],[0.157190635451505,"#FFABAC"],[0.16053511705685619,"#FFABAB"],[0.16387959866220739,"#FFAAAB"],[0.16722408026755858,"#FFAAAA"],[0.1705685618729097,"#FFAAA9"],[0.17391304347826084,"#FFA9A9"],[0.17725752508361203,"#FFA9A8"],[0.18060200668896323,"#FFA8A7"],[0.18394648829431437,"#FFA8A7"],[0.18729096989966557,"#FFA7A6"],[0.19063545150501671,"#FFA7A5"],[0.1939799331103679,"#FFA6A5"],[0.1973244147157191,"#FFA6A4"],[0.20066889632107024,"#FFA5A3"],[0.20401337792642135,"#FFA5A3"],[0.20735785953177255,"#FFA5A2"],[0.21070234113712374,"#FFA4A1"],[0.21404682274247494,"#FFA4A1"],[0.21739130434782608,"#FFA3A0"],[0.22073578595317722,"#FFA39F"],[0.22408026755852842,"#FFA29F"],[0.22742474916387961,"#FFA29E"],[0.23076923076923081,"#FFA19E"],[0.23411371237458195,"#FFA19D"],[0.23745819397993309,"#FFA19C"],[0.24080267558528426,"#FFA09C"],[0.24414715719063546,"#FFA09B"],[0.24749163879598665,"#FF9F9A"],[0.25083612040133779,"#FF9F9A"],[0.25418060200668896,"#FF9E99"],[0.25752508361204013,"#FF9E98"],[0.26086956521739135,"#FF9D98"],[0.26421404682274252,"#FF9D97"],[0.26755852842809363,"#FF9C96"],[0.2709030100334448,"#FF9C96"],[0.27424749163879597,"#FF9C95"],[0.27759197324414719,"#FF9B94"],[0.28093645484949831,"#FF9B94"],[0.28428093645484953,"#FF9A93"],[0.28762541806020064,"#FF9A93"],[0.29096989966555187,"#FF9992"],[0.29431438127090304,"#FF9991"],[0.29765886287625415,"#FF9891"],[0.30100334448160537,"#FF9890"],[0.30434782608695649,"#FF978F"],[0.30769230769230771,"#FF978F"],[0.31103678929765882,"#FF968E"],[0.31438127090301005,"#FF968D"],[0.31772575250836121,"#FF968D"],[0.32107023411371238,"#FF958C"],[0.32441471571906355,"#FF958B"],[0.32775919732441472,"#FF948B"],[0.33110367892976589,"#FF948A"],[0.33444816053511717,"#FF938A"],[0.33779264214046822,"#FF9389"],[0.34113712374581939,"#FF9288"],[0.34448160535117051,"#FF9288"],[0.34782608695652167,"#FF9187"],[0.3511705685618729,"#FF9186"],[0.35451505016722407,"#FF9086"],[0.35785953177257529,"#FF9085"],[0.36120401337792646,"#FF9084"],[0.36454849498327768,"#FF8F84"],[0.36789297658862874,"#FF8F83"],[0.37123745819397991,"#FF8E83"],[0.37458193979933113,"#FF8E82"],[0.37792642140468219,"#FF8D81"],[0.38127090301003341,"#FF8D81"],[0.38461538461538458,"#FF8C80"],[0.38795986622073581,"#FF8C7F"],[0.39130434782608697,"#FF8B7F"],[0.3946488294314382,"#FF8B7E"],[0.39799331103678937,"#FF8A7D"],[0.40133779264214048,"#FF8A7D"],[0.40468227424749165,"#FF897C"],[0.4080267558528427,"#FF897C"],[0.41137123745819393,"#FF887B"],[0.4147157190635451,"#FF887A"],[0.41806020066889632,"#FF877A"],[0.42140468227424749,"#FF8779"],[0.42474916387959871,"#FF8778"],[0.42809364548494988,"#FF8678"],[0.4314381270903011,"#FF8677"],[0.43478260869565216,"#FF8576"],[0.43812709030100339,"#FF8576"],[0.44147157190635444,"#FF8475"],[0.44481605351170561,"#FF8475"],[0.44816053511705684,"#FF8374"],[0.451505016722408,"#FF8373"],[0.45484949832775923,"#FF8273"],[0.4581939799331104,"#FF8272"],[0.46153846153846162,"#FF8171"],[0.46488294314381268,"#FF8171"],[0.4682274247491639,"#FF8070"],[0.47157190635451507,"#FF8070"],[0.47491638795986618,"#FF7F6F"],[0.47826086956521735,"#FF7F6E"],[0.48160535117056852,"#FF7E6E"],[0.48494983277591974,"#FF7E6D"],[0.48829431438127091,"#FF7D6C"],[0.49163879598662213,"#FF7D6C"],[0.4949832775919733,"#FF7C6B"],[0.49832775919732442,"#FF7C6B"],[0.50167224080267558,"#FF7B6A"],[0.50501672240802664,"#FF7B69"],[0.50836120401337792,"#FF7A69"],[0.51170568561872909,"#FF7A68"],[0.51505016722408026,"#FF7967"],[0.51839464882943143,"#FF7967"],[0.52173913043478271,"#FF7866"],[0.52508361204013387,"#FF7866"],[0.52842809364548504,"#FF7765"],[0.5317725752508361,"#FF7764"],[0.53511705685618727,"#FF7664"],[0.53846153846153855,"#FF7663"],[0.5418060200668896,"#FF7562"],[0.54515050167224077,"#FF7562"],[0.54849498327759194,"#FF7461"],[0.55183946488294322,"#FF7461"],[0.55518394648829439,"#FF7360"],[0.55852842809364545,"#FF735F"],[0.56187290969899661,"#FF725F"],[0.56521739130434778,"#FF725E"],[0.56856187290969906,"#FF715D"],[0.57190635451505023,"#FF715D"],[0.57525083612040129,"#FF705C"],[0.57859531772575246,"#FF705C"],[0.58193979933110374,"#FF6F5B"],[0.5852842809364549,"#FF6F5A"],[0.58862876254180607,"#FF6E5A"],[0.59197324414715713,"#FF6E59"],[0.5953177257525083,"#FF6D58"],[0.59866220735785958,"#FF6D58"],[0.60200668896321075,"#FF6C57"],[0.60535117056856191,"#FF6B57"],[0.60869565217391297,"#FF6B56"],[0.61204013377926425,"#FF6A55"],[0.61538461538461542,"#FF6A55"],[0.61872909698996659,"#FF6954"],[0.62207357859531764,"#FF6953"],[0.62541806020066892,"#FF6853"],[0.62876254180602009,"#FF6852"],[0.63210702341137126,"#FF6752"],[0.63545150501672243,"#FF6751"],[0.63879598662207349,"#FF6650"],[0.64214046822742477,"#FF6650"],[0.64548494983277593,"#FF654F"],[0.6488294314381271,"#FF644E"],[0.65217391304347827,"#FF644E"],[0.65551839464882944,"#FF634D"],[0.65886287625418061,"#FF634D"],[0.66220735785953178,"#FF624C"],[0.66555183946488294,"#FF624B"],[0.66889632107023422,"#FF614B"],[0.67224080267558528,"#FF614A"],[0.67558528428093645,"#FF6049"],[0.67892976588628762,"#FF5F49"],[0.68227424749163879,"#FF5F48"],[0.68561872909699006,"#FF5E48"],[0.68896321070234112,"#FF5E47"],[0.69230769230769229,"#FF5D46"],[0.69565217391304346,"#FF5D46"],[0.69899665551839474,"#FF5C45"],[0.70234113712374591,"#FF5B44"],[0.70568561872909696,"#FF5B44"],[0.70903010033444813,"#FF5A43"],[0.7123745819397993,"#FF5A43"],[0.71571906354515058,"#FF5942"],[0.71906354515050164,"#FF5841"],[0.72240802675585281,"#FF5841"],[0.72575250836120397,"#FF5740"],[0.72909698996655525,"#FF573F"],[0.73244147157190642,"#FF563F"],[0.73578595317725748,"#FF553E"],[0.73913043478260865,"#FF553E"],[0.74247491638795982,"#FF543D"],[0.7458193979933111,"#FF543C"],[0.74916387959866226,"#FF533C"],[0.75250836120401332,"#FF523B"],[0.75585284280936449,"#FF523A"],[0.75919732441471577,"#FF513A"],[0.76254180602006694,"#FF5039"],[0.76588628762541811,"#FF5038"],[0.76923076923076916,"#FF4F38"],[0.77257525083612044,"#FF4E37"],[0.77591973244147161,"#FF4E36"],[0.77926421404682278,"#FF4D36"],[0.78260869565217395,"#FF4D35"],[0.785953177257525,"#FF4C35"],[0.78929765886287628,"#FF4B34"],[0.79264214046822745,"#FF4B33"],[0.79598662207357862,"#FF4A33"],[0.79933110367892979,"#FF4932"],[0.80267558528428096,"#FF4831"],[0.80602006688963213,"#FF4831"],[0.80936454849498329,"#FF4730"],[0.81270903010033446,"#FF462F"],[0.81605351170568552,"#FF462F"],[0.8193979933110368,"#FF452E"],[0.82274247491638797,"#FF442D"],[0.82608695652173914,"#FF442D"],[0.8294314381270903,"#FF432C"],[0.83277591973244147,"#FF422B"],[0.83612040133779264,"#FF412B"],[0.83946488294314381,"#FF412A"],[0.84280936454849498,"#FF4029"],[0.84615384615384626,"#FF3F29"],[0.84949832775919731,"#FF3E28"],[0.85284280936454848,"#FF3E27"],[0.85618729096989965,"#FF3D27"],[0.85953177257525082,"#FF3C26"],[0.8628762541806021,"#FF3B25"],[0.86622073578595316,"#FF3A24"],[0.86956521739130432,"#FF3924"],[0.87290969899665549,"#FF3923"],[0.87625418060200677,"#FF3822"],[0.87959866220735794,"#FF3722"],[0.88294314381270889,"#FF3621"],[0.88628762541806028,"#FF3520"],[0.88963210702341122,"#FF341F"],[0.89297658862876272,"#FF331F"],[0.89632107023411367,"#FF321E"],[0.89966555183946484,"#FF321D"],[0.90301003344481601,"#FF311C"],[0.90635451505016729,"#FF301C"],[0.90969899665551845,"#FF2F1B"],[0.9130434782608694,"#FF2E1A"],[0.91638795986622079,"#FF2D19"],[0.91973244147157174,"#FF2C18"],[0.92307692307692324,"#FF2B18"],[0.92642140468227419,"#FF2917"],[0.92976588628762535,"#FF2816"],[0.93311036789297652,"#FF2715"],[0.9364548494983278,"#FF2614"],[0.93979933110367897,"#FF2513"],[0.94314381270903014,"#FF2412"],[0.94648829431438131,"#FF2211"],[0.94983277591973236,"#FF2111"],[0.95317725752508375,"#FF2010"],[0.9565217391304347,"#FF1E0F"],[0.95986622073578609,"#FF1D0D"],[0.96321070234113704,"#FF1B0C"],[0.96655518394648832,"#FF190B"],[0.96989966555183948,"#FF180A"],[0.97324414715719065,"#FF1609"],[0.97658862876254182,"#FF1408"],[0.97993311036789288,"#FF1207"],[0.98327759197324427,"#FF0F05"],[0.98662207357859522,"#FF0D04"],[0.98996655518394661,"#FF0A03"],[0.99331103678929766,"#FF0602"],[0.99665551839464883,"#FF0301"],[1,"#FF0000"]],"colorbar":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"thickness":23.039999999999996,"title":"Total Accidents","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"tickmode":"array","ticktext":["10000","20000","30000"],"tickvals":[0.12575591097241184,0.44974871594824778,0.77374152092408377],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":99.515200440319589,"l":54.794520547945211},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Accidents by Time Bands (STATS20)","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,5.5999999999999996],"tickmode":"array","ticktext":["Night (Midnight to 5 AM)","Morning Rush Hour","Daytime","Evening Rush Hour","Night (8 PM to 11 PM)"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["Night (Midnight to 5 AM)","Morning Rush Hour","Daytime","Evening Rush Hour","Night (8 PM to 11 PM)"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Time Band","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-1846.6000000000001,38778.599999999999],"tickmode":"array","ticktext":["0","10000","20000","30000"],"tickvals":[0,10000,20000,30000],"categoryorder":"array","categoryarray":["0","10000","20000","30000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Accidents","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Total Accidents","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"16cec45265a77":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"16cec45265a77","visdat":{"16cec45265a77":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-227c09b448bcb2892915" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-227c09b448bcb2892915">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9],"y":[1,2,3,4,5],"z":[[0.0016910294141558673,0.061234776670298044,0.0016259898213037186,0.00375603648721159,0.0034145786247378089,0.01808100681289735,0.00016259898213037187,0.00066665582673452464,0.00073169541958667344],[0.0043413928228809287,0.25064633095396821,0.0012520121624038634,0.013918472870359832,0.0067803775548365064,0.070242760280320643,0.00016259898213037187,0.0016910294141558673,0.0085852262564836343],[0.00011381928749126031,0.007886050633323035,6.5039592852148746e-05,0.00045527714996504122,0.00039023755711289248,0.0027479227980032844,0,8.1299491065185933e-05,0.00032519796426074373],[0.0094632607599876416,1,0.0022926456480382431,0.030942586299409765,0.008650265849335783,0.11370546820376905,0.00026015837140859499,0.0038698557747028502,0.037820523243524494],[0.00019511877855644624,0.013934732768572869,9.755938927822312e-05,0.00094307409635615679,0.00060161623388237594,0.0039186354693419622,1.6259898213037187e-05,4.877969463911156e-05,0.0066828181655582833]],"text":[["weather_conditions: Fine with high winds<br />light_conditions: Dark (no street lights)<br />total_accidents:   105","weather_conditions: Fine without high winds<br />light_conditions: Dark (no street lights)<br />total_accidents:  3767","weather_conditions: Fog or mist<br />light_conditions: Dark (no street lights)<br />total_accidents:   101","weather_conditions: Other<br />light_conditions: Dark (no street lights)<br />total_accidents:   232","weather_conditions: Raining with high winds<br />light_conditions: Dark (no street lights)<br />total_accidents:   211","weather_conditions: Raining without high winds<br />light_conditions: Dark (no street lights)<br />total_accidents:  1113","weather_conditions: Snowing with high winds<br />light_conditions: Dark (no street lights)<br />total_accidents:    11","weather_conditions: Snowing without high winds<br />light_conditions: Dark (no street lights)<br />total_accidents:    42","weather_conditions: Unknown<br />light_conditions: Dark (no street lights)<br />total_accidents:    46"],["weather_conditions: Fine with high winds<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:   268","weather_conditions: Fine without high winds<br />light_conditions: Dark (street lights present and lit)<br />total_accidents: 15416","weather_conditions: Fog or mist<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:    78","weather_conditions: Other<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:   857","weather_conditions: Raining with high winds<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:   418","weather_conditions: Raining without high winds<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:  4321","weather_conditions: Snowing with high winds<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:    11","weather_conditions: Snowing without high winds<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:   105","weather_conditions: Unknown<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:   529"],["weather_conditions: Fine with high winds<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:     8","weather_conditions: Fine without high winds<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:   486","weather_conditions: Fog or mist<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:     5","weather_conditions: Other<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:    29","weather_conditions: Raining with high winds<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:    25","weather_conditions: Raining without high winds<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:   170","weather_conditions: Snowing with high winds<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:     1","weather_conditions: Snowing without high winds<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:     6","weather_conditions: Unknown<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:    21"],["weather_conditions: Fine with high winds<br />light_conditions: Daylight<br />total_accidents:   583","weather_conditions: Fine without high winds<br />light_conditions: Daylight<br />total_accidents: 61502","weather_conditions: Fog or mist<br />light_conditions: Daylight<br />total_accidents:   142","weather_conditions: Other<br />light_conditions: Daylight<br />total_accidents:  1904","weather_conditions: Raining with high winds<br />light_conditions: Daylight<br />total_accidents:   533","weather_conditions: Raining without high winds<br />light_conditions: Daylight<br />total_accidents:  6994","weather_conditions: Snowing with high winds<br />light_conditions: Daylight<br />total_accidents:    17","weather_conditions: Snowing without high winds<br />light_conditions: Daylight<br />total_accidents:   239","weather_conditions: Unknown<br />light_conditions: Daylight<br />total_accidents:  2327"],["weather_conditions: Fine with high winds<br />light_conditions: Other<br />total_accidents:    13","weather_conditions: Fine without high winds<br />light_conditions: Other<br />total_accidents:   858","weather_conditions: Fog or mist<br />light_conditions: Other<br />total_accidents:     7","weather_conditions: Other<br />light_conditions: Other<br />total_accidents:    59","weather_conditions: Raining with high winds<br />light_conditions: Other<br />total_accidents:    38","weather_conditions: Raining without high winds<br />light_conditions: Other<br />total_accidents:   242","weather_conditions: Snowing with high winds<br />light_conditions: Other<br />total_accidents:     2","weather_conditions: Snowing without high winds<br />light_conditions: Other<br />total_accidents:     4","weather_conditions: Unknown<br />light_conditions: Other<br />total_accidents:   412"]],"colorscale":[[0,"#F9F9F9"],[1.6259898213037187e-05,"#F9F9F9"],[4.877969463911156e-05,"#F9F9F9"],[6.5039592852148746e-05,"#F9F9F9"],[8.1299491065185933e-05,"#F9F9F9"],[9.755938927822312e-05,"#F9F9F9"],[0.00011381928749126031,"#F9F9F9"],[0.00016259898213037187,"#F9F9F9"],[0.00019511877855644624,"#F9F9F9"],[0.00026015837140859499,"#F9F9F9"],[0.00032519796426074373,"#F9F9F9"],[0.00039023755711289248,"#F9F9F9"],[0.00045527714996504122,"#F9F9F9"],[0.00060161623388237594,"#F9F9F9"],[0.00066665582673452464,"#F9F9F9"],[0.00073169541958667344,"#F9F9F9"],[0.00094307409635615679,"#F9F9F9"],[0.0012520121624038634,"#F9F9F9"],[0.0016259898213037186,"#F9F9F9"],[0.0016910294141558673,"#F9F9F9"],[0.0022926456480382431,"#F9F9F8"],[0.0027479227980032844,"#F9F8F8"],[0.0034145786247378089,"#F9F8F8"],[0.00375603648721159,"#F9F8F8"],[0.0038698557747028502,"#F9F8F8"],[0.0039186354693419622,"#F9F8F8"],[0.0043413928228809287,"#F9F8F8"],[0.0066828181655582833,"#F9F8F7"],[0.0067803775548365064,"#F9F8F7"],[0.007886050633323035,"#F9F8F7"],[0.0085852262564836343,"#F9F7F7"],[0.008650265849335783,"#F9F7F7"],[0.0094632607599876416,"#F9F7F7"],[0.013918472870359832,"#F9F6F6"],[0.013934732768572869,"#F9F6F6"],[0.01808100681289735,"#F9F6F5"],[0.030942586299409765,"#FAF3F2"],[0.037820523243524494,"#FAF2F0"],[0.061234776670298044,"#FAEEEB"],[0.070242760280320643,"#FBECE9"],[0.11370546820376905,"#FBE4DF"],[0.25064633095396821,"#FBCAC0"],[1,"#D73027"]],"type":"heatmap","showscale":false,"autocolorscale":false,"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,4,4,5,5,5,5,5,6,6,6,6,6,7,7,7,7,7,8,8,8,8,8,9,9,9,9,9],"y":[1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5],"text":[105,268,8,583,13,3767,15416,486,61502,858,101,78,5,142,7,232,857,29,1904,59,211,418,25,533,38,1113,4321,170,6994,242,11,11,1,17,2,42,105,6,239,4,46,529,21,2327,412],"hovertext":["weather_conditions: Fine with high winds<br />light_conditions: Dark (no street lights)<br />total_accidents:   105","weather_conditions: Fine with high winds<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:   268","weather_conditions: Fine with high winds<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:     8","weather_conditions: Fine with high winds<br />light_conditions: Daylight<br />total_accidents:   583","weather_conditions: Fine with high winds<br />light_conditions: Other<br />total_accidents:    13","weather_conditions: Fine without high winds<br />light_conditions: Dark (no street lights)<br />total_accidents:  3767","weather_conditions: Fine without high winds<br />light_conditions: Dark (street lights present and lit)<br />total_accidents: 15416","weather_conditions: Fine without high winds<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:   486","weather_conditions: Fine without high winds<br />light_conditions: Daylight<br />total_accidents: 61502","weather_conditions: Fine without high winds<br />light_conditions: Other<br />total_accidents:   858","weather_conditions: Fog or mist<br />light_conditions: Dark (no street lights)<br />total_accidents:   101","weather_conditions: Fog or mist<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:    78","weather_conditions: Fog or mist<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:     5","weather_conditions: Fog or mist<br />light_conditions: Daylight<br />total_accidents:   142","weather_conditions: Fog or mist<br />light_conditions: Other<br />total_accidents:     7","weather_conditions: Other<br />light_conditions: Dark (no street lights)<br />total_accidents:   232","weather_conditions: Other<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:   857","weather_conditions: Other<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:    29","weather_conditions: Other<br />light_conditions: Daylight<br />total_accidents:  1904","weather_conditions: Other<br />light_conditions: Other<br />total_accidents:    59","weather_conditions: Raining with high winds<br />light_conditions: Dark (no street lights)<br />total_accidents:   211","weather_conditions: Raining with high winds<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:   418","weather_conditions: Raining with high winds<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:    25","weather_conditions: Raining with high winds<br />light_conditions: Daylight<br />total_accidents:   533","weather_conditions: Raining with high winds<br />light_conditions: Other<br />total_accidents:    38","weather_conditions: Raining without high winds<br />light_conditions: Dark (no street lights)<br />total_accidents:  1113","weather_conditions: Raining without high winds<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:  4321","weather_conditions: Raining without high winds<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:   170","weather_conditions: Raining without high winds<br />light_conditions: Daylight<br />total_accidents:  6994","weather_conditions: Raining without high winds<br />light_conditions: Other<br />total_accidents:   242","weather_conditions: Snowing with high winds<br />light_conditions: Dark (no street lights)<br />total_accidents:    11","weather_conditions: Snowing with high winds<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:    11","weather_conditions: Snowing with high winds<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:     1","weather_conditions: Snowing with high winds<br />light_conditions: Daylight<br />total_accidents:    17","weather_conditions: Snowing with high winds<br />light_conditions: Other<br />total_accidents:     2","weather_conditions: Snowing without high winds<br />light_conditions: Dark (no street lights)<br />total_accidents:    42","weather_conditions: Snowing without high winds<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:   105","weather_conditions: Snowing without high winds<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:     6","weather_conditions: Snowing without high winds<br />light_conditions: Daylight<br />total_accidents:   239","weather_conditions: Snowing without high winds<br />light_conditions: Other<br />total_accidents:     4","weather_conditions: Unknown<br />light_conditions: Dark (no street lights)<br />total_accidents:    46","weather_conditions: Unknown<br />light_conditions: Dark (street lights present and lit)<br />total_accidents:   529","weather_conditions: Unknown<br />light_conditions: Dark (street lights present but unlit)<br />total_accidents:    21","weather_conditions: Unknown<br />light_conditions: Daylight<br />total_accidents:  2327","weather_conditions: Unknown<br />light_conditions: Other<br />total_accidents:   412"],"textfont":{"size":11.338582677165356,"color":"rgba(0,0,0,1)"},"type":"scatter","mode":"text","hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1],"y":[1],"name":"36d12499349324009ef1d81e2ae1e2ff","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#F9F9F9"],[0.0033444816053511709,"#F9F8F8"],[0.0066889632107023419,"#F9F8F7"],[0.010033444816053512,"#F9F7F7"],[0.013377926421404684,"#F9F7F6"],[0.016722408026755852,"#F9F6F5"],[0.020066889632107024,"#FAF5F4"],[0.023411371237458196,"#FAF5F4"],[0.026755852842809368,"#FAF4F3"],[0.030100334448160536,"#FAF3F2"],[0.033444816053511704,"#FAF3F1"],[0.03678929765886288,"#FAF2F1"],[0.040133779264214048,"#FAF2F0"],[0.043478260869565216,"#FAF1EF"],[0.046822742474916391,"#FAF0EE"],[0.050167224080267567,"#FAF0ED"],[0.053511705685618735,"#FAEFED"],[0.056856187290969903,"#FAEEEC"],[0.060200668896321072,"#FAEEEB"],[0.06354515050167224,"#FAEDEA"],[0.066889632107023408,"#FAEDEA"],[0.070234113712374591,"#FBECE9"],[0.073578595317725759,"#FBEBE8"],[0.076923076923076927,"#FBEBE7"],[0.080267558528428096,"#FBEAE7"],[0.083612040133779264,"#FBE9E6"],[0.086956521739130432,"#FBE9E5"],[0.090301003344481601,"#FBE8E4"],[0.093645484949832783,"#FBE8E4"],[0.096989966555183965,"#FBE7E3"],[0.10033444816053513,"#FBE6E2"],[0.1036789297658863,"#FBE6E1"],[0.10702341137123747,"#FBE5E1"],[0.11036789297658864,"#FBE4E0"],[0.11371237458193981,"#FBE4DF"],[0.11705685618729098,"#FBE3DE"],[0.12040133779264214,"#FBE3DD"],[0.12374581939799333,"#FBE2DD"],[0.12709030100334448,"#FBE1DC"],[0.13043478260869568,"#FBE1DB"],[0.13377926421404682,"#FBE0DA"],[0.13712374581939801,"#FBDFDA"],[0.14046822742474918,"#FBDFD9"],[0.14381270903010035,"#FBDED8"],[0.14715719063545152,"#FBDED7"],[0.15050167224080269,"#FBDDD7"],[0.15384615384615385,"#FBDCD6"],[0.15719063545150502,"#FBDCD5"],[0.16053511705685619,"#FBDBD4"],[0.16387959866220739,"#FBDAD4"],[0.16722408026755853,"#FBDAD3"],[0.17056856187290972,"#FBD9D2"],[0.17391304347826086,"#FBD9D1"],[0.17725752508361206,"#FBD8D1"],[0.1806020066889632,"#FBD7D0"],[0.1839464882943144,"#FBD7CF"],[0.18729096989966557,"#FBD6CE"],[0.19063545150501673,"#FBD6CE"],[0.19397993311036793,"#FBD5CD"],[0.19732441471571907,"#FBD4CC"],[0.20066889632107027,"#FBD4CB"],[0.20401337792642141,"#FBD3CB"],[0.2073578595317726,"#FBD2CA"],[0.21070234113712374,"#FBD2C9"],[0.21404682274247494,"#FBD1C8"],[0.21739130434782611,"#FBD1C8"],[0.22073578595317728,"#FBD0C7"],[0.22408026755852845,"#FBCFC6"],[0.22742474916387961,"#FBCFC6"],[0.23076923076923078,"#FBCEC5"],[0.23411371237458195,"#FBCDC4"],[0.23745819397993312,"#FBCDC3"],[0.24080267558528429,"#FBCCC3"],[0.24414715719063546,"#FBCCC2"],[0.24749163879598665,"#FBCBC1"],[0.25083612040133779,"#FBCAC0"],[0.25418060200668896,"#FBCAC0"],[0.25752508361204013,"#FBC9BF"],[0.26086956521739135,"#FBC8BE"],[0.26421404682274247,"#FBC8BD"],[0.26755852842809363,"#FBC7BD"],[0.27090301003344486,"#FBC7BC"],[0.27424749163879603,"#FBC6BB"],[0.27759197324414714,"#FBC5BA"],[0.28093645484949836,"#FBC5BA"],[0.28428093645484953,"#FBC4B9"],[0.2876254180602007,"#FBC3B8"],[0.29096989966555181,"#FBC3B7"],[0.29431438127090304,"#FBC2B7"],[0.2976588628762542,"#FBC2B6"],[0.30100334448160537,"#FAC1B5"],[0.30434782608695654,"#FAC0B5"],[0.30769230769230771,"#FAC0B4"],[0.31103678929765888,"#FABFB3"],[0.31438127090301005,"#FABFB2"],[0.31772575250836121,"#FABEB2"],[0.32107023411371238,"#FABDB1"],[0.32441471571906355,"#FABDB0"],[0.32775919732441477,"#FABCAF"],[0.33110367892976594,"#FABBAF"],[0.33444816053511706,"#FABBAE"],[0.33779264214046822,"#FABAAD"],[0.34113712374581945,"#FABAAD"],[0.34448160535117062,"#FAB9AC"],[0.34782608695652173,"#FAB8AB"],[0.35117056856187295,"#FAB8AA"],[0.35451505016722412,"#FAB7AA"],[0.35785953177257529,"#F9B6A9"],[0.3612040133779264,"#F9B6A8"],[0.36454849498327763,"#F9B5A7"],[0.3678929765886288,"#F9B5A7"],[0.37123745819397996,"#F9B4A6"],[0.37458193979933113,"#F9B3A5"],[0.3779264214046823,"#F9B3A5"],[0.38127090301003347,"#F9B2A4"],[0.38461538461538464,"#F9B1A3"],[0.38795986622073586,"#F9B1A2"],[0.39130434782608697,"#F9B0A2"],[0.39464882943143814,"#F9B0A1"],[0.39799331103678931,"#F8AFA0"],[0.40133779264214053,"#F8AEA0"],[0.40468227424749165,"#F8AE9F"],[0.40802675585284282,"#F8AD9E"],[0.41137123745819404,"#F8AC9D"],[0.41471571906354521,"#F8AC9D"],[0.41806020066889632,"#F8AB9C"],[0.42140468227424749,"#F8AB9B"],[0.42474916387959871,"#F8AA9B"],[0.42809364548494988,"#F8A99A"],[0.43143812709030099,"#F8A999"],[0.43478260869565222,"#F7A898"],[0.43812709030100339,"#F7A798"],[0.44147157190635455,"#F7A797"],[0.44481605351170567,"#F7A696"],[0.44816053511705689,"#F7A696"],[0.45150501672240806,"#F7A595"],[0.45484949832775923,"#F7A494"],[0.45819397993311045,"#F7A493"],[0.46153846153846156,"#F7A393"],[0.46488294314381273,"#F6A292"],[0.4682274247491639,"#F6A291"],[0.47157190635451512,"#F6A191"],[0.47491638795986624,"#F6A190"],[0.47826086956521741,"#F6A08F"],[0.48160535117056857,"#F69F8E"],[0.4849498327759198,"#F69F8E"],[0.48829431438127091,"#F69E8D"],[0.49163879598662208,"#F69D8C"],[0.4949832775919733,"#F59D8C"],[0.49832775919732447,"#F59C8B"],[0.50167224080267558,"#F59C8A"],[0.50501672240802675,"#F59B8A"],[0.50836120401337792,"#F59A89"],[0.51170568561872909,"#F59A88"],[0.51505016722408026,"#F59987"],[0.51839464882943154,"#F59887"],[0.52173913043478271,"#F49886"],[0.52508361204013376,"#F49785"],[0.52842809364548493,"#F49685"],[0.53177257525083621,"#F49684"],[0.53511705685618727,"#F49583"],[0.53846153846153844,"#F49583"],[0.54180602006688972,"#F49482"],[0.54515050167224077,"#F39381"],[0.54849498327759205,"#F39380"],[0.55183946488294322,"#F39280"],[0.55518394648829428,"#F3917F"],[0.55852842809364556,"#F3917E"],[0.56187290969899673,"#F3907E"],[0.56521739130434778,"#F38F7D"],[0.56856187290969906,"#F28F7C"],[0.57190635451505023,"#F28E7C"],[0.5752508361204014,"#F28E7B"],[0.57859531772575257,"#F28D7A"],[0.58193979933110362,"#F28C7A"],[0.5852842809364549,"#F28C79"],[0.58862876254180607,"#F28B78"],[0.59197324414715713,"#F18A77"],[0.59531772575250841,"#F18A77"],[0.59866220735785958,"#F18976"],[0.60200668896321075,"#F18875"],[0.60535117056856191,"#F18875"],[0.60869565217391308,"#F18774"],[0.61204013377926425,"#F08673"],[0.61538461538461542,"#F08673"],[0.6187290969899667,"#F08572"],[0.62207357859531776,"#F08571"],[0.62541806020066892,"#F08471"],[0.62876254180602009,"#F08370"],[0.63210702341137126,"#EF836F"],[0.63545150501672243,"#EF826F"],[0.6387959866220736,"#EF816E"],[0.64214046822742477,"#EF816D"],[0.64548494983277604,"#EF806D"],[0.6488294314381271,"#EF7F6C"],[0.65217391304347827,"#EE7F6B"],[0.65551839464882955,"#EE7E6A"],[0.65886287625418061,"#EE7D6A"],[0.66220735785953189,"#EE7D69"],[0.66555183946488294,"#EE7C68"],[0.66889632107023411,"#EE7B68"],[0.67224080267558539,"#ED7B67"],[0.67558528428093645,"#ED7A66"],[0.67892976588628762,"#ED7966"],[0.6822742474916389,"#ED7965"],[0.68561872909698995,"#ED7864"],[0.68896321070234123,"#EC7864"],[0.6923076923076924,"#EC7763"],[0.69565217391304346,"#EC7662"],[0.69899665551839474,"#EC7662"],[0.70234113712374591,"#EC7561"],[0.70568561872909696,"#EB7460"],[0.70903010033444824,"#EB7460"],[0.7123745819397993,"#EB735F"],[0.71571906354515058,"#EB725E"],[0.71906354515050175,"#EB725E"],[0.72240802675585281,"#EB715D"],[0.72575250836120409,"#EA705C"],[0.72909698996655525,"#EA705C"],[0.73244147157190642,"#EA6F5B"],[0.73578595317725759,"#EA6E5A"],[0.73913043478260876,"#EA6D5A"],[0.74247491638795993,"#E96D59"],[0.7458193979933111,"#E96C58"],[0.74916387959866226,"#E96B58"],[0.75250836120401343,"#E96B57"],[0.7558528428093646,"#E86A56"],[0.75919732441471577,"#E86956"],[0.76254180602006694,"#E86955"],[0.76588628762541811,"#E86854"],[0.76923076923076927,"#E86754"],[0.77257525083612044,"#E76753"],[0.77591973244147172,"#E76652"],[0.77926421404682278,"#E76552"],[0.78260869565217395,"#E76551"],[0.78595317725752523,"#E76450"],[0.78929765886287628,"#E66350"],[0.79264214046822745,"#E6624F"],[0.79598662207357862,"#E6624E"],[0.79933110367892979,"#E6614E"],[0.80267558528428107,"#E6604D"],[0.80602006688963213,"#E5604C"],[0.80936454849498329,"#E55F4C"],[0.81270903010033457,"#E55E4B"],[0.81605351170568563,"#E55E4B"],[0.8193979933110368,"#E45D4A"],[0.82274247491638808,"#E45C49"],[0.82608695652173914,"#E45B49"],[0.82943143812709041,"#E45B48"],[0.83277591973244158,"#E45A47"],[0.83612040133779264,"#E35947"],[0.83946488294314392,"#E35846"],[0.84280936454849498,"#E35845"],[0.84615384615384615,"#E35745"],[0.84949832775919742,"#E25644"],[0.85284280936454848,"#E25643"],[0.85618729096989976,"#E25543"],[0.85953177257525093,"#E25442"],[0.86287625418060199,"#E15341"],[0.86622073578595327,"#E15341"],[0.86956521739130443,"#E15240"],[0.8729096989966556,"#E1513F"],[0.87625418060200677,"#E0503F"],[0.87959866220735783,"#E04F3E"],[0.88294314381270911,"#E04F3E"],[0.88628762541806028,"#E04E3D"],[0.88963210702341133,"#DF4D3C"],[0.89297658862876261,"#DF4C3C"],[0.89632107023411378,"#DF4C3B"],[0.89966555183946495,"#DF4B3A"],[0.90301003344481612,"#DF4A3A"],[0.90635451505016729,"#DE4939"],[0.90969899665551845,"#DE4838"],[0.91304347826086962,"#DE4838"],[0.9163879598662209,"#DE4737"],[0.91973244147157196,"#DD4636"],[0.92307692307692313,"#DD4536"],[0.9264214046822743,"#DD4435"],[0.92976588628762546,"#DD4335"],[0.93311036789297663,"#DC4334"],[0.9364548494983278,"#DC4233"],[0.93979933110367897,"#DC4133"],[0.94314381270903025,"#DB4032"],[0.94648829431438131,"#DB3F31"],[0.94983277591973247,"#DB3E31"],[0.95317725752508375,"#DB3D30"],[0.95652173913043481,"#DA3D2F"],[0.95986622073578598,"#DA3C2F"],[0.96321070234113715,"#DA3B2E"],[0.96655518394648832,"#DA3A2D"],[0.9698996655518396,"#D9392D"],[0.97324414715719065,"#D9382C"],[0.97658862876254182,"#D9372C"],[0.9799331103678931,"#D9362B"],[0.98327759197324416,"#D8352A"],[0.98662207357859544,"#D8342A"],[0.98996655518394661,"#D83329"],[0.99331103678929766,"#D83228"],[0.99665551839464894,"#D73128"],[1,"#D73027"]],"colorbar":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"thickness":23.039999999999996,"title":"Total Accidents","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":13.283520132835205},"tickmode":"array","ticktext":["20000","40000","60000"],"tickvals":[0.32576443201465555,0.64987840306119682,0.97399237410773798],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":10.62681610626816},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":41.90286425902864,"r":7.3059360730593621,"b":116.5543976224195,"l":277.95765877957666},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"<b> Accidents by Weather and Light Conditions <\/b>","font":{"color":"rgba(0,0,0,1)","family":"","size":18.596928185969279},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,9.5999999999999996],"tickmode":"array","ticktext":["Fine with high winds","Fine without high winds","Fog or mist","Other","Raining with high winds","Raining without high winds","Snowing with high winds","Snowing without high winds","Unknown"],"tickvals":[1,2,3,4,5,6,6.9999999999999991,8,9],"categoryorder":"array","categoryarray":["Fine with high winds","Fine without high winds","Fog or mist","Other","Raining with high winds","Raining without high winds","Snowing with high winds","Snowing without high winds","Unknown"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":13.283520132835205},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Weather Conditions","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,5.5999999999999996],"tickmode":"array","ticktext":["Dark (no street lights)","Dark (street lights present and lit)","Dark (street lights present but unlit)","Daylight","Other"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["Dark (no street lights)","Dark (street lights present and lit)","Dark (street lights present but unlit)","Daylight","Other"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":13.283520132835205},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Light Conditions","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":10.62681610626816},"title":{"text":"Total Accidents","font":{"color":"rgba(0,0,0,1)","family":"","size":13.283520132835205}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"16cec60ee1abf":{"x":{},"y":{},"fill":{},"type":"heatmap"},"16cec301e2350":{"x":{},"y":{},"fill":{},"label":{}}},"cur_data":"16cec60ee1abf","visdat":{"16cec60ee1abf":["function (y) ","x"],"16cec301e2350":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>`</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Mapped descriptions:"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Wet or damp  Dry          Unknown      Frost or ice Snow        
+[6] Flood       
+Levels: Dry Flood Frost or ice Snow Unknown Wet or damp</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Aggregated road surface condition data:"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  road_conditions_desc total_accidents
+  &lt;fct&gt;                          &lt;int&gt;
+1 Dry                            72752
+2 Wet or damp                    26944
+3 Unknown                         1617
+4 Frost or ice                    1461
+5 Snow                             241
+6 Flood                            179</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-cb9a9d0fbb7b6785b6ad" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-cb9a9d0fbb7b6785b6ad">{"x":{"data":[{"orientation":"v","width":0.89999999999999991,"base":0,"x":[1],"y":[72752],"text":"Dry: 72752 accidents","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(255,0,0,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Dry","legendgroup":"Dry","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[6],"y":[179],"text":"Flood: 179 accidents","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(117,112,179,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Flood","legendgroup":"Flood","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[4],"y":[1461],"text":"Frost or ice: 1461 accidents","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(217,95,2,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Frost or ice","legendgroup":"Frost or ice","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[5],"y":[241],"text":"Snow: 241 accidents","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(27,158,119,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Snow","legendgroup":"Snow","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000036,"base":0,"x":[3],"y":[1617],"text":"Unknown: 1617 accidents","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(166,118,29,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Unknown","legendgroup":"Unknown","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.90000000000000013,"base":0,"x":[2],"y":[26944],"text":"Wet or damp: 26944 accidents","type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(115,162,198,0.8)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"name":"Wet or damp","legendgroup":"Wet or damp","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":37.260273972602747,"l":54.794520547945211},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Distribution of Accidents by Road Surface Conditions (STATS19)","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,6.5999999999999996],"tickmode":"array","ticktext":["Dry","Wet or damp","Unknown","Frost or ice","Snow","Flood"],"tickvals":[1,2,3,3.9999999999999996,5,6],"categoryorder":"array","categoryarray":["Dry","Wet or damp","Unknown","Frost or ice","Snow","Flood"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Road Surface Conditions","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-3637.6000000000004,76389.600000000006],"tickmode":"array","ticktext":["0","20000","40000","60000"],"tickvals":[4.5474735088646412e-13,20000,40000,60000],"categoryorder":"array","categoryarray":["0","20000","40000","60000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Number of Accidents","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"road_conditions_desc","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"16cec167ed1e8":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"16cec167ed1e8","visdat":{"16cec167ed1e8":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># weights:  9 (4 variable)
+initial  value 91633.053773 
+iter  10 value 50406.679444
+final  value 50392.493956 
+converged</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+multinom(formula = accident_severity ~ weather_conditions, data = train_data)
+
+Coefficients:
+  (Intercept) weather_conditions
+2     2.64414         0.06126746
+3     3.76240         0.12285242
+
+Std. Errors:
+  (Intercept) weather_conditions
+2  0.04240724         0.02156981
+3  0.04154713         0.02120177
+
+Residual Deviance: 100785 
+AIC: 100793 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Confusion Matrix:"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   predictions
+        1     2     3
+  1     0     0   304
+  2     0     0  4687
+  3     0     0 15859</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Accuracy: 0.7606"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># weights:  9 (4 variable)
+initial  value 91633.053773 
+iter  10 value 50406.679444
+final  value 50392.493956 
+converged</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+ randomForest(formula = accident_severity ~ ., data = train_data,      ntree = 100, importance = TRUE) 
+               Type of random forest: classification
+                     Number of trees: 100
+No. of variables tried at each split: 2
+
+        OOB estimate of  error rate: 23.95%
+Confusion matrix:
+  1  2     3  class.error
+1 0  0  1218 1.0000000000
+2 0  6 18745 0.9996800171
+3 0 15 63424 0.0002364476</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "AUC for Class 1 : 0.4996"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-21-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "AUC for Class 2 : 0.5012"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-21-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "AUC for Class 3 : 0.5012"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-21-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="only-logistic-regression-with-2-variables" class="level2">
+<h2 class="anchored" data-anchor-id="only-logistic-regression-with-2-variables">only Logistic regression with 2 variables</h2>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:  glm(formula = binary_severity ~ urban_or_rural_area + weather_conditions, 
+    family = binomial, data = train_data)
+
+Coefficients:
+        (Intercept)  urban_or_rural_area   weather_conditions  
+            1.60582             -0.40781              0.06153  
+
+Degrees of Freedom: 83406 Total (i.e. Null);  83404 Residual
+Null Deviance:      91810 
+Residual Deviance: 91030    AIC: 91040</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "AUC Value: 0.5498"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-22-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="logistic-regression-lasso-wirth-2-combination-variables" class="level2">
+<h2 class="anchored" data-anchor-id="logistic-regression-lasso-wirth-2-combination-variables">Logistic regression Lasso wirth 2 combination variables</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Lasso Logistic Regression AUC: 0.5514"</code></pre>
+</div>
+</div>
+</section>
+<section id="logistic-regression-lasso-wirth-more-variables" class="level2">
+<h2 class="anchored" data-anchor-id="logistic-regression-lasso-wirth-more-variables">Logistic regression Lasso wirth more variables</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_crashclarity_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Lasso Logistic Regression AUC: 0.612"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Selected Features and Coefficients:"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>48 x 1 sparse Matrix of class "dgCMatrix"
+                              lambda.min
+(Intercept)                 -1.159394968
+number_of_vehicles          -0.256295633
+road_surface_conditions1     0.937290733
+road_surface_conditions2     0.925376470
+road_surface_conditions3     0.958261001
+road_surface_conditions4     0.708252313
+road_surface_conditions5     0.944823220
+road_surface_conditions9     0.445159967
+weather_conditions2         -0.069904189
+weather_conditions3         -0.117426522
+weather_conditions4          0.155343359
+weather_conditions5         -0.040067944
+weather_conditions6         -0.075081224
+weather_conditions7         -0.284458507
+weather_conditions8         -0.169295042
+weather_conditions9         -0.383972781
+urban_or_rural_area1        -0.112744643
+urban_or_rural_area2         0.086384660
+urban_or_rural_area3         0.973339463
+special_conditions_at_site0 -0.306314034
+special_conditions_at_site1 -0.507191456
+special_conditions_at_site2  0.314806500
+special_conditions_at_site3 -0.115356865
+special_conditions_at_site4 -0.412954815
+special_conditions_at_site5 -0.116574223
+special_conditions_at_site6 -0.353961785
+special_conditions_at_site7 -0.336745861
+special_conditions_at_site9 -1.031307541
+day_of_week2                -0.136292827
+day_of_week3                -0.175948703
+day_of_week4                -0.120039691
+day_of_week5                -0.124894449
+day_of_week6                -0.104736531
+day_of_week7                -0.002913686
+junction_detail0             0.091600324
+junction_detail1            -0.453624650
+junction_detail2            -0.188097911
+junction_detail3             .          
+junction_detail5            -0.201307564
+junction_detail6             0.008137821
+junction_detail7             .          
+junction_detail8             .          
+junction_detail9             0.001650131
+junction_detail99           -1.819330521
+speed_limit                  0.007150706
+time_of_dayMorning          -0.318457391
+time_of_dayAfternoon        -0.265087170
+time_of_dayEvening          -0.113424581</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 Venkata Lakshmi Parimala Pasupuleti</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

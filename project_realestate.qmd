@@ -1,0 +1,76 @@
+---
+title: "Real Estate vs Socioeconomics"
+subtitle: "Connecticut Sale Price Prediction (2001–2022)"
+toc: true
+---
+
+```{=html}
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem;">
+<span style="background:#e50914;color:#fff;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;">ML</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">Python</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">XGBoost</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">PyTorch</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">Docker</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">Tableau</span>
+</div>
+<a href="https://mason.gmu.edu/~vpasupu2/index.html" target="_blank"
+   style="display:inline-flex;align-items:center;gap:0.5rem;background:#e50914;color:#fff !important;padding:0.6rem 1.4rem;border-radius:4px;font-size:0.82rem;font-weight:700;text-decoration:none !important;letter-spacing:0.06em;margin-bottom:2.5rem;">
+  View Live Project ↗
+</a>
+```
+
+## Overview
+
+An end-to-end ML pipeline exploring how socioeconomic indicators — crime rates, education quality, and healthcare access — affect real estate sale prices across Connecticut from 2001 to 2022. Built to answer the question: **beyond location, what actually drives property values?**
+
+---
+
+## Data & Feature Engineering
+
+Data was merged from multiple public sources including Connecticut real estate transaction records, county-level crime statistics, school performance ratings, and hospital access indices.
+
+**Feature engineering steps:**
+
+- Imputation of missing values using median and KNN strategies
+- Log transformation of skewed price distributions
+- One-hot encoding of categorical variables (town, property type)
+- Interaction features between crime rate and school score
+- Year-over-year growth rate features
+
+---
+
+## Models
+
+### XGBoost & Random Forest
+Ensemble models used for initial benchmarking. XGBoost outperformed Random Forest on RMSE by ~12%, particularly on high-value properties where socioeconomic signals were strongest.
+
+### PyTorch Neural Network
+A custom feed-forward network with 4 hidden layers, batch normalization, and dropout regularization. Trained with GPU acceleration and early stopping. Benchmarked against XGBoost — comparable RMSE with significantly higher training cost.
+
+### Production Deployment
+- Inference-ready models exported and served via **RESTful APIs**
+- Containerized in **Docker** microservice containers
+- Automated retraining pipeline triggered on new quarterly data
+- Model drift detection monitoring RMSE against rolling baseline
+
+---
+
+## Key Findings
+
+- School quality score had the **strongest positive correlation** with sale price (+0.61)
+- Crime rate had a **nonlinear negative effect** — moderate crime showed lower impact than extreme crime
+- Healthcare access became a stronger predictor post-2015, suggesting demographic shifts
+- Year 2020–2022 showed anomalous price behavior uncapturable by socioeconomic features alone (pandemic effect)
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| ML models | XGBoost, Random Forest, PyTorch |
+| Data pipeline | Pandas, Scikit-learn |
+| Visualization | Tableau, Python (Matplotlib) |
+| API | RESTful (Flask) |
+| Deployment | Docker |
+| Data sources | CT Open Data, FBI Crime Stats, NCES |

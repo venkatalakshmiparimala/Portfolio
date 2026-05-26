@@ -1,0 +1,86 @@
+---
+title: "AI on FHIR"
+subtitle: "NLP-Driven Medical Records Query System"
+toc: true
+---
+
+```{=html}
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem;">
+<span style="background:#e50914;color:#fff;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;">Healthcare AI</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">Flask</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">LLMs</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">BERT</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">spaCy</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">React</span>
+<span style="background:#1f1f1f;color:#b3b3b3;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.75rem;border-radius:3px;border:1px solid #333;">Docker</span>
+</div>
+<a href="https://github.com/venkatalakshmiparimala/AI_on_FHIR" target="_blank"
+   style="display:inline-flex;align-items:center;gap:0.5rem;background:#e50914;color:#fff !important;padding:0.6rem 1.4rem;border-radius:4px;font-size:0.82rem;font-weight:700;text-decoration:none !important;letter-spacing:0.06em;margin-bottom:2.5rem;">
+  View on GitHub ↗
+</a>
+```
+
+## Overview
+
+A Flask + React application that lets clinicians and researchers query medical records using **plain English or Spanish** — no query language required. Natural language is mapped to FHIR (Fast Healthcare Interoperability Resources) APIs using a combination of LLMs and classical NLP pipelines.
+
+Reduced manual medical record retrieval time by approximately **60%**.
+
+---
+
+## Key Features
+
+### Multilingual NLP Pipeline
+Accepts queries in **English and Spanish**. A preprocessing pipeline handles language detection, translation, and entity extraction before routing to the FHIR API mapper.
+
+**Pipeline stages:**
+
+1. Language detection & normalization
+2. Medical entity extraction via **spaCy** (conditions, medications, dates, patient identifiers)
+3. Semantic intent classification via **BERT**
+4. LLM-based FHIR query construction
+5. API execution & result formatting
+
+### HIPAA-Compliant RBAC
+Role-Based Access Control ensures users only see records they're authorized for:
+
+- **Admin** — full record access, audit logs
+- **Clinician** — patient records within their care scope
+- **Researcher** — de-identified aggregate data only
+
+All queries are logged with user ID, timestamp, and data accessed for compliance auditing.
+
+### Real-Time Visual Analytics
+Interactive dashboards built in React display query results as charts, timelines, and tables — not raw JSON — making complex medical data immediately interpretable.
+
+---
+
+## Architecture
+
+```
+User Query (EN/ES)
+      ↓
+NLP Pipeline (spaCy + BERT)
+      ↓
+LLM Query Builder → FHIR API
+      ↓
+RBAC Filter
+      ↓
+React Dashboard
+```
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Backend | Flask, Python |
+| NLP | spaCy, BERT, LLMs |
+| Frontend | React |
+| FHIR integration | HL7 FHIR R4 |
+| Auth & compliance | HIPAA RBAC |
+| Containerization | Docker |
+| Languages supported | English, Spanish |
+
+> Full source code available on [GitHub ↗](https://github.com/venkatalakshmiparimala/AI_on_FHIR)

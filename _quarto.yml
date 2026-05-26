@@ -15,10 +15,18 @@ website:
     right:
       - href: about.qmd
         text: "ABOUT"
-      - href: project_details.qmd
-        text: "PROJECTS"
-      - href: project_source_code.qmd
-        text: "SOURCE CODE"
+      - text: "PROJECTS"
+        menu:
+          - href: project_agentprobe.qmd
+            text: "AgentProbe — AI Testing Toolkit"
+          - href: project_aifhir.qmd
+            text: "AI on FHIR — Medical NLP"
+          - href: project_crashclarity.qmd
+            text: "CrashClarity — UK Road Safety"
+          - href: project_suicide_rates.qmd
+            text: "Global Suicide Rates Analysis"
+          - href: project_realestate.qmd
+            text: "Real Estate vs Socioeconomics"
       - href: References.qmd
         text: "REFERENCES"
       - href: contact.qmd

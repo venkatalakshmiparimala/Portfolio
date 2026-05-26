@@ -46,7 +46,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-f359c76eebcb751ca8f6a763dfcaf068.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-d294253de885bf94b7f2c2c4e5a42db8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark-ee1acf71531af147f566b54c1d2030bc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-f359c76eebcb751ca8f6a763dfcaf068.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -267,14 +267,33 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">ABOUT</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./project_details.html"> 
-<span class="menu-text">PROJECTS</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">PROJECTS</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="./project_agentprobe.html">
+ <span class="dropdown-text">AgentProbe — AI Testing Toolkit</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./project_source_code.html"> 
-<span class="menu-text">SOURCE CODE</span></a>
+        <li>
+    <a class="dropdown-item" href="./project_aifhir.html">
+ <span class="dropdown-text">AI on FHIR — Medical NLP</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./project_crashclarity.html">
+ <span class="dropdown-text">CrashClarity — UK Road Safety</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./project_suicide_rates.html">
+ <span class="dropdown-text">Global Suicide Rates Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./project_realestate.html">
+ <span class="dropdown-text">Real Estate vs Socioeconomics</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item">
     <a class="nav-link" href="./References.html"> 
 <span class="menu-text">REFERENCES</span></a>
@@ -304,20 +323,25 @@ ul.task-list li input[type="checkbox"] {
 
 
 <style>
+* { box-sizing: border-box; }
 .hero-wrap {
   min-height: 100vh;
   background: linear-gradient(to right, rgba(0,0,0,0.96) 50%, rgba(0,0,0,0.55) 80%, rgba(0,0,0,0.2) 100%),
               url('images/IMG_0892.jpeg') right center / cover no-repeat;
   display: flex;
   align-items: center;
-  padding: 0 6rem;
-  margin: -6rem -2rem 0;
+  padding: 0 8vw;
+}
+.proj-section {
+  background: #0a0a0a;
+  padding: 4rem 8vw 5rem;
+  width: 100%;
 }
 .proj-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.6rem;
-  margin: 0 -2rem;
+  gap: 0.5rem;
+  width: 100%;
 }
 .proj-card {
   position: relative;
@@ -325,169 +349,153 @@ ul.task-list li input[type="checkbox"] {
   overflow: hidden;
   cursor: pointer;
   background: #1a1a1a;
+  border-radius: 4px;
+  text-decoration: none !important;
+  display: block;
 }
 .proj-card-bg {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
   font-size: 4rem;
-  transition: transform 0.4s ease;
+  transition: transform 0.5s ease;
+  line-height: 1;
 }
-.proj-card:hover .proj-card-bg { transform: scale(1.08); }
+.proj-card:hover .proj-card-bg { transform: scale(1.1); }
 .proj-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+  background: linear-gradient(to top, rgba(0,0,0,0.97) 0%, rgba(0,0,0,0.4) 55%, transparent 100%);
   display: flex; flex-direction: column; justify-content: flex-end;
   padding: 1.25rem;
-  opacity: 0.85;
-  transition: opacity 0.3s;
+  transition: background 0.3s;
 }
-.proj-card:hover .proj-overlay { opacity: 1; }
+.proj-card:hover .proj-overlay {
+  background: linear-gradient(to top, rgba(229,9,20,0.25) 0%, rgba(0,0,0,0.85) 100%);
+}
 .proj-tag {
-  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em;
-  text-transform: uppercase; color: #e50914; margin-bottom: 0.35rem;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #e50914; margin-bottom: 0.3rem;
 }
 .proj-title {
   font-family: 'Bebas Neue', Impact, sans-serif;
-  font-size: 1.3rem; letter-spacing: 0.04em; color: #fff;
-  line-height: 1.1; margin-bottom: 0.4rem;
+  font-size: 1.35rem; letter-spacing: 0.04em; color: #fff;
+  line-height: 1.1; margin-bottom: 0;
+  transition: margin-bottom 0.3s;
 }
 .proj-desc {
-  font-size: 0.75rem; color: #b3b3b3; line-height: 1.5;
+  font-size: 0.74rem; color: #ccc; line-height: 1.55;
   max-height: 0; overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.3s;
-  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.3s, margin 0.3s;
+  opacity: 0; margin-top: 0;
 }
-.proj-card:hover .proj-desc { max-height: 80px; opacity: 1; }
+.proj-card:hover .proj-title { margin-bottom: 0.5rem; }
+.proj-card:hover .proj-desc { max-height: 80px; opacity: 1; margin-top: 0; }
 .proj-link {
   display: inline-block; margin-top: 0.5rem;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
-  text-transform: uppercase; color: #e50914 !important;
-  text-decoration: none !important;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #e50914;
   max-height: 0; overflow: hidden; opacity: 0;
   transition: max-height 0.4s ease, opacity 0.3s 0.1s;
 }
 .proj-card:hover .proj-link { max-height: 30px; opacity: 1; }
-@media(max-width:768px){
-  .hero-wrap { padding: 0 1.5rem; margin: -5rem -1.25rem 0; }
-  .proj-grid { grid-template-columns: 1fr 1fr; margin: 0 -1.25rem; }
-}
-@media(max-width:500px){
-  .proj-grid { grid-template-columns: 1fr; }
-}
+@media(max-width:900px){ .proj-grid { grid-template-columns: 1fr 1fr; } .hero-wrap { padding: 0 6vw; } }
+@media(max-width:540px){ .proj-grid { grid-template-columns: 1fr; } }
 </style>
 
-<!-- HERO -->
+<!-- ── HERO ── -->
 <div class="hero-wrap">
-<div style="max-width:620px;">
+<div style="max-width:620px; padding: 7rem 0 4rem;">
 
-  <p style="font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase; color:#e50914; font-weight:700; margin-bottom:1.25rem;">
+  <p style="font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:#e50914;font-weight:700;margin-bottom:1.25rem;">
     Software Engineer &nbsp;·&nbsp; AI Builder
   </p>
 
-  <h1 style="font-family:'Bebas Neue',Impact,sans-serif; font-size:clamp(4rem,10vw,8rem); line-height:0.93; letter-spacing:0.04em; color:#fff; margin:0 0 1.5rem; text-shadow:0 0 60px rgba(229,9,20,0.2);">
-    VENKATA<br>LAKSHMI<br><span style="color:#e50914;">PARIMALA</span>
+  <h1 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(3.5rem,9vw,7.5rem);line-height:0.93;letter-spacing:0.04em;color:#fff;margin:0 0 1.5rem;text-shadow:0 0 60px rgba(229,9,20,0.2);">
+    PASUPULETI<br>VENKATA<br>LAKSHMI<br><span style="color:#e50914;">PARIMALA</span>
   </h1>
 
-  <p style="font-size:1rem; color:#b3b3b3; max-width:44ch; line-height:1.85; margin-bottom:1.25rem;">
-    Software engineer with <strong style="color:#fff;">8+ years</strong> building systems at scale —
-    database architecture, microservices, cloud migration, and performance optimization
-    at <strong style="color:#fff;">Entrata India</strong>, handling 1M+ property records.
+  <p style="font-size:0.98rem;color:#b3b3b3;max-width:44ch;line-height:1.85;margin-bottom:1.1rem;">
+    Software engineer with <strong style="color:#fff;">8+ years</strong> building systems at scale — database architecture, microservices, cloud migration, and performance optimization at <strong style="color:#fff;">Entrata India</strong>, handling 1M+ property records.
   </p>
-  <p style="font-size:1rem; color:#b3b3b3; max-width:44ch; line-height:1.85; margin-bottom:2rem;">
-    Recently completed an <strong style="color:#fff;">MS in Data Analytics Engineering</strong>
-    at George Mason University (GPA 3.87) and built <strong style="color:#fff;">AgentProbe</strong> —
-    an open-source toolkit for testing LLM, RAG, and multi-agent AI systems.
+  <p style="font-size:0.98rem;color:#b3b3b3;max-width:44ch;line-height:1.85;margin-bottom:2rem;">
+    Recently completed an <strong style="color:#fff;">MS in Data Analytics Engineering</strong> at George Mason University (GPA&nbsp;3.87) and built <strong style="color:#fff;">AgentProbe</strong> — an open-source toolkit for testing LLM, RAG, and multi-agent AI systems.
   </p>
 
-  <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-    <a href="about.html" style="display:inline-flex;align-items:center;gap:0.5rem;background:#e50914;color:#fff !important;padding:0.75rem 1.75rem;border-radius:4px;font-size:0.85rem;font-weight:700;text-decoration:none !important;letter-spacing:0.06em;">
-      ▶ &nbsp;VIEW MY WORK
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+    <a href="about.html" style="display:inline-flex;align-items:center;gap:0.5rem;background:#e50914;color:#fff !important;padding:0.75rem 1.75rem;border-radius:4px;font-size:0.85rem;font-weight:700;text-decoration:none !important;letter-spacing:0.06em;">▶ &nbsp;VIEW MY WORK</a>
+    <a href="contact.html" style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(109,109,109,0.6);color:#fff !important;padding:0.75rem 1.75rem;border-radius:4px;font-size:0.85rem;font-weight:700;text-decoration:none !important;letter-spacing:0.06em;backdrop-filter:blur(4px);">ℹ &nbsp;GET IN TOUCH</a>
+  </div>
+</div>
+</div>
+
+<!-- ── PROJECTS ── -->
+<div class="proj-section">
+  <p style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:#e50914;font-weight:700;margin-bottom:0.4rem;">Featured Work</p>
+  <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:2.4rem;letter-spacing:0.05em;color:#fff;margin:0 0 1.5rem;border:none !important;padding:0 !important;" class="anchored">PROJECTS</h2>
+
+  <div class="proj-grid">
+
+    <a class="proj-card" href="project_agentprobe.html">
+      <div class="proj-card-bg" style="background:linear-gradient(135deg,#1a0000,#3d0000,#1a0000);">🤖</div>
+      <div class="proj-overlay">
+        <div class="proj-tag">AI · LangGraph · Open Source</div>
+        <div class="proj-title">AgentProbe</div>
+        <div class="proj-desc">Pre-deployment testing toolkit for LLM, RAG, and multi-agent systems. Three adaptive agents. Runs 100% locally.</div>
+        <span class="proj-link">View Project ↗</span>
+      </div>
     </a>
-    <a href="contact.html" style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(109,109,109,0.6);color:#fff !important;padding:0.75rem 1.75rem;border-radius:4px;font-size:0.85rem;font-weight:700;text-decoration:none !important;letter-spacing:0.06em;backdrop-filter:blur(4px);">
-      ℹ &nbsp;GET IN TOUCH
+
+    <a class="proj-card" href="project_aifhir.html">
+      <div class="proj-card-bg" style="background:linear-gradient(135deg,#001a1a,#003d3d,#001a1a);">🏥</div>
+      <div class="proj-overlay">
+        <div class="proj-tag">NLP · Healthcare · Flask</div>
+        <div class="proj-title">AI on FHIR</div>
+        <div class="proj-desc">Natural language queries mapped to FHIR medical APIs using LLMs and BERT. HIPAA-compliant. 60% faster retrieval.</div>
+        <span class="proj-link">View Project ↗</span>
+      </div>
     </a>
-  </div>
 
+    <a class="proj-card" href="project_crashclarity.html">
+      <div class="proj-card-bg" style="background:linear-gradient(135deg,#0a0a1a,#1a1a3d,#0a0a1a);">🚗</div>
+      <div class="proj-overlay">
+        <div class="proj-tag">R · Random Forest · Analytics</div>
+        <div class="proj-title">CrashClarity</div>
+        <div class="proj-desc">UK road accident analysis. Random Forest &amp; Logistic Regression with 85%+ accuracy. Interactive dashboards.</div>
+        <span class="proj-link">View Project ↗</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project_realestate.html">
+      <div class="proj-card-bg" style="background:linear-gradient(135deg,#0a1a00,#1a3d00,#0a1a00);">🏡</div>
+      <div class="proj-overlay">
+        <div class="proj-tag">Python · XGBoost · Docker</div>
+        <div class="proj-title">Real Estate vs Socioeconomics</div>
+        <div class="proj-desc">XGBoost &amp; PyTorch models on Connecticut real estate vs crime, education &amp; healthcare access (2001–2022).</div>
+        <span class="proj-link">View Project ↗</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project_suicide_rates.html">
+      <div class="proj-card-bg" style="background:linear-gradient(135deg,#1a001a,#3d003d,#1a001a);">🌍</div>
+      <div class="proj-overlay">
+        <div class="proj-tag">R · ggplot2 · WHO Data</div>
+        <div class="proj-title">Global Suicide Rates</div>
+        <div class="proj-desc">WHO suicide rate visualization across 190+ countries (1950–2022). Interactive maps, age group breakdowns.</div>
+        <span class="proj-link">View Project ↗</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="about.html">
+      <div class="proj-card-bg" style="background:linear-gradient(135deg,#1a1000,#3d2800,#1a1000);">🎬</div>
+      <div class="proj-overlay">
+        <div class="proj-tag">Python · KNN · Power BI</div>
+        <div class="proj-title">Movie Recommendation</div>
+        <div class="proj-desc">KNN and collaborative filtering on MovieLens. Weighted vs unweighted similarity benchmarking with Power BI dashboards.</div>
+        <span class="proj-link">View More ↗</span>
+      </div>
+    </a>
+
+  </div>
 </div>
-</div>
-
-<!-- PROJECTS SECTION -->
-<div style="padding:4rem 2rem 1rem; background:#0a0a0a;">
-  <p style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:#e50914;font-weight:700;margin-bottom:0.5rem;">Featured Work</p>
-  <h2 style="font-family:'Bebas Neue',Impact,sans-serif;font-size:2.5rem;letter-spacing:0.05em;color:#fff;margin:0 0 1.5rem;border:none !important;" class="anchored">PROJECTS</h2>
-</div>
-
-<div class="proj-grid">
-
-  <!-- AgentProbe -->
-  <div class="proj-card">
-    <div class="proj-card-bg" style="background:linear-gradient(135deg,#1a0000,#3d0000,#1a0000);">🤖</div>
-    <div class="proj-overlay">
-      <div class="proj-tag">AI · LLM · Open Source</div>
-      <div class="proj-title">AgentProbe</div>
-      <div class="proj-desc">Pre-deployment testing toolkit for LLM, RAG, and multi-agent systems. Three LangGraph agents: orchestrator, RAG tracer, auto-fix. Runs 100% locally.</div>
-      <a class="proj-link" href="https://github.com/venkatalakshmiparimala/AgentProbe" target="_blank">View on GitHub ↗</a>
-    </div>
-  </div>
-
-  <!-- AI on FHIR -->
-  <div class="proj-card">
-    <div class="proj-card-bg" style="background:linear-gradient(135deg,#001a1a,#003d3d,#001a1a);">🏥</div>
-    <div class="proj-overlay">
-      <div class="proj-tag">NLP · Healthcare · Flask</div>
-      <div class="proj-title">AI on FHIR</div>
-      <div class="proj-desc">Natural language queries mapped to FHIR medical APIs using LLMs and BERT pipelines. HIPAA-compliant RBAC. Reduced retrieval time by ~60%.</div>
-      <a class="proj-link" href="https://github.com/venkatalakshmiparimala/AI_on_FHIR" target="_blank">View on GitHub ↗</a>
-    </div>
-  </div>
-
-  <!-- CrashClarity -->
-  <div class="proj-card">
-    <div class="proj-card-bg" style="background:linear-gradient(135deg,#0a0a1a,#1a1a3d,#0a0a1a);">🚗</div>
-    <div class="proj-overlay">
-      <div class="proj-tag">R · Random Forest · Analytics</div>
-      <div class="proj-title">CrashClarity</div>
-      <div class="proj-desc">UK road accident analysis using R. Random Forest &amp; Logistic Regression with 85%+ accuracy. Interactive dashboards for stakeholders.</div>
-      <a class="proj-link" href="project_details.html" target="_blank">View Project ↗</a>
-    </div>
-  </div>
-
-  <!-- Real Estate -->
-  <div class="proj-card">
-    <div class="proj-card-bg" style="background:linear-gradient(135deg,#0a1a00,#1a3d00,#0a1a00);">🏡</div>
-    <div class="proj-overlay">
-      <div class="proj-tag">Python · XGBoost · Docker</div>
-      <div class="proj-title">Real Estate vs Socioeconomics</div>
-      <div class="proj-desc">XGBoost &amp; PyTorch models exploring crime, education, and healthcare effects on Connecticut real estate prices (2001–2022). Deployed via Docker APIs.</div>
-      <a class="proj-link" href="https://mason.gmu.edu/~vpasupu2/index.html" target="_blank">View Project ↗</a>
-    </div>
-  </div>
-
-  <!-- Movie Rec -->
-  <div class="proj-card">
-    <div class="proj-card-bg" style="background:linear-gradient(135deg,#1a001a,#3d003d,#1a001a);">🎬</div>
-    <div class="proj-overlay">
-      <div class="proj-tag">Python · KNN · Power BI</div>
-      <div class="proj-title">Movie Recommendation System</div>
-      <div class="proj-desc">KNN and collaborative filtering on MovieLens dataset. Weighted vs unweighted similarity benchmarking. Results visualized in Power BI.</div>
-      <a class="proj-link" href="about.html">Learn More ↗</a>
-    </div>
-  </div>
-
-  <!-- Life Expectancy -->
-  <div class="proj-card">
-    <div class="proj-card-bg" style="background:linear-gradient(135deg,#1a1000,#3d2800,#1a1000);">🌍</div>
-    <div class="proj-overlay">
-      <div class="proj-tag">Python · PCA · WHO Data</div>
-      <div class="proj-title">Life Expectancy 360</div>
-      <div class="proj-desc">WHO life expectancy analysis across 190+ countries. PCA dimensionality reduction, multiple linear regression, feature engineering and health trend insights.</div>
-      <a class="proj-link" href="about.html">Learn More ↗</a>
-    </div>
-  </div>
-
-</div>
-
-<div style="height:4rem; background:#0a0a0a;"></div>
 
 
 
